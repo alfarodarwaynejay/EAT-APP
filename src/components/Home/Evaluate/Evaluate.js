@@ -13,8 +13,6 @@ const mapStateToProps = state => {
 	return {
 		team: state.setHomeState.team,
 		evaluateRoute: state.setEvaluateState.evaluateRoute,
-		evaluateTeamMate: state.setEvaluateState.evaluateTeamMate,
-		questionaire: state.setEvaluateState.questionaire
 	};
 }
 
@@ -38,7 +36,6 @@ class Evaluate extends React.Component {
 		const {
 			evaluateRoute, 
 			evaluateTeamMate, 
-			questionaire, 
 			team, 
 			setEvalTeammate, 
 			setEvalRoute 
@@ -66,7 +63,7 @@ class Evaluate extends React.Component {
 				);
 				break;
 			case 'evaluatePerson':
-				disp = <EvaluatePerson evaluateTeamMate={evaluateTeamMate} questions={questionaire}/>;
+				disp = <EvaluatePerson />;
 				break;
 			default:
 				disp = <h1>React Wants a Default Case. Pffff!</h1>
