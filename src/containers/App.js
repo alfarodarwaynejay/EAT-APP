@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => {
 const particleOptions = {
   particles: {
     number: {
-      value: 100,
+      value: 35,
       density: {
         enable: true,
         value_area: 800
@@ -70,5 +70,7 @@ class App extends Component {
     );
   }
 }
+
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
