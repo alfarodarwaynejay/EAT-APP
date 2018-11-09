@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Success from './Success.js';
  
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -37,18 +38,7 @@ class Schedule extends React.Component {
 		this.setState({openEnd: !this.state.openEnd})
 	};
 
-	cancelButton = (value) => {
-		return (
-			<div>
-				<h1 
-					className='w-25 f5 f6-ns grow pv3 ph5 center mh4 mv3 bg-orange br-pill grow shadow-5 pointer' 
-			      	onClick={value === 'start' ? this.toggleStart: this.toggleEnd}
-			      	>
-			      	CANCEL
-				</h1>
-			</div>
-		);
-	}
+	
 
 	submitSchedule = () => {
 		const start = this.state.startDate.format('DD-MM-YYYY');
@@ -57,6 +47,8 @@ class Schedule extends React.Component {
 	}
 
 	render() {
+		const { startDate, endDate, openStart, openEnd } = this.state;
+
 		return (
 			<div className='w-80'>
 				<div 
@@ -69,9 +61,10 @@ class Schedule extends React.Component {
 					<h1>Select Dates</h1>
 					<div className='flex-wrap flex center'>
 						{
+							//this will make buttons for setting Start and End dates
 							[
-								['START', this.toggleStart, this.state.startDate],
-								['END', this.toggleEnd, this.state.endDate]
+								['START', this.toggleStart, startDate],
+								['END', this.toggleEnd, endDate]
 							].map(item => {
 								return (<div key={item[0]} className='mh3'>
 											<h1 
@@ -87,39 +80,37 @@ class Schedule extends React.Component {
 							})
 						}
 
-						{	this.state.openStart &&
-							(<DatePicker
-								inline
-								withPortal
-							    selected={this.state.startDate}
-							    selectsStart
-							    startDate={this.state.startDate}
-							    endDate={this.state.endDate}
-							    onChange={this.changeStart}
-							    showMonthDropdown
-							>
-								{
-									this.cancelButton('start')
-								}
-							</DatePicker>)
+						{	//this toggles the Start Date Modal
+							openStart &&
+							
+							<DatePickStartEnd 
+								selected={startDate}
+								selects='selectsStart'
+								point='start'
+								startDate={startDate}
+								endDate={endDate}
+								onChange={this.changeStart}
+								toggleStart={this.toggleStart}
+								toggleEnd={this.toggleEnd}
+							/>
 						}
 						
-						{	this.state.openEnd &&
-							(<DatePicker
-								inline
-								withPortal
-							    selected={this.state.endDate}
-							    selectsEnd
-							    startDate={this.state.startDate}
-							    endDate={this.state.endDate}
-							    onChange={this.changeEnd}
-							    showMonthDropdown
-							>
-								{
-									this.cancelButton('end')
-								}
-							</DatePicker>)
+						{	//this toggles the End Date Modal
+							openEnd &&
+
+							<DatePickStartEnd 
+								selected={endDate}
+								selects='selectsEnd'
+								point='end'
+								startDate={startDate}
+								endDate={endDate}
+								onChange={this.changeEnd}
+								toggleStart={this.toggleStart}
+								toggleEnd={this.toggleEnd}
+							/>
+
 						}
+
 					</div>
 				</div>
 				<h1 
@@ -132,6 +123,54 @@ class Schedule extends React.Component {
 		);
 	}
 	
+}
+
+//dumb components
+const CancelButton = ( { value, toggleStart, toggleEnd }) => {
+	return (
+		<div>
+			<h1 
+				className='w-25 f5 f6-ns grow pv3 ph5 center mh4 mv3 bg-orange br-pill grow shadow-5 pointer' 
+		      	onClick={value === 'start' ? toggleStart: toggleEnd}
+		      	>
+		      	CANCEL
+			</h1>
+		</div>
+	);
+}
+
+
+const DatePickStartEnd = (props) => {
+	const { 
+		selected,
+		selects, 
+		point, 
+		startDate, 
+		endDate, 
+		onChange, 
+		toggleStart, 
+		toggleEnd 
+	} = props;
+
+	const select = selects === 'selectsStart' ? {selectsStart: true} : {selectsEnd: true};
+
+
+	return (
+		<DatePicker
+			inline
+			withPortal
+		    selected={selected}
+		    startDate={startDate}
+		    endDate={endDate}
+		    onChange={onChange}
+		    showMonthDropdown
+		    { ...select }
+		>
+			{
+				<CancelButton value={point} toggleStart={toggleStart} toggleEnd={toggleEnd} />
+			}
+		</DatePicker>
+	);
 }
 
 export default Schedule;
