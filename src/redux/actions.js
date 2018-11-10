@@ -263,7 +263,7 @@ export const setEndVisibility = visibility => ({
 //need to fetch server here--------------------------------------------
 export const submitSchedule = sched => ({
 	type: SUBMIT_SCHEDULE,
-	payload: sched
+	payload: { ...sched}
 });
 
 

@@ -1,23 +1,52 @@
 import React from 'react';
-import moment from 'moment';
+import { connect } from 'react-redux'
 import ButtonMaker from '../../utilities/ButtonMaker.js'
 import DatePickStartEnd from '../../utilities/DatePickStartEnd.js'
 import Headline from '../../utilities/Headline.js'
  
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { 
+	setStart,
+	setEnd,
+	setStartVisibility,
+	setEndVisibility,
+	submitSchedule
+} from '../../../redux/actions.js';
+
+const mapStateToProps = state => {
+	return {
+		startDate: state.setScheduleState.startDate,
+		endDate: state.setScheduleState.endDate,
+		openStart: state.setScheduleState.openStart,
+		openEnd: state.setScheduleState.openEnd
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		changeStart: togStart => date => {
+			dispatch(setStart(date));
+			togStart();
+		},
+		changeEnd: togEnd => date => {
+			dispatch(setEnd(date));
+			togEnd();
+		},
+		toggleStart: vis => event => {
+			event && event.preventDefault();
+			dispatch(setStartVisibility(!vis));
+		},
+		toggleEnd: vis => event => {
+			event && event.preventDefault();
+			dispatch(setEndVisibility(!vis));
+		},
+		submitSched: sched => dispatch(submitSchedule(sched))
+	};
+}
 
 
 class Schedule extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			startDate: moment(),
-			endDate: moment().add(7, 'days'),
-			openStart: false,
-			openEnd: false
-		}
-	}
 
 	changeStart = (date) => {
 		this.setState({startDate: date})
@@ -39,16 +68,19 @@ class Schedule extends React.Component {
 		this.setState({openEnd: !this.state.openEnd})
 	};
 
-	
-
-	submitSchedule = () => {
-		const start = this.state.startDate.format('DD-MM-YYYY');
-		const end = this.state.endDate.format('DD-MM-YYYY');
-		return { start, end };
-	}
-
 	render() {
-		const { startDate, endDate, openStart, openEnd } = this.state;
+		const { 
+			startDate, 
+			endDate, 
+			openStart, 
+			openEnd,
+			changeStart,
+			changeEnd,
+			submitSchedule,
+			toggleStart,
+			toggleEnd,
+			submitSched 
+		} = this.props;
 
 		return (
 			<div className='w-80'>
@@ -59,8 +91,8 @@ class Schedule extends React.Component {
 						{
 							//this will make buttons for setting Start and End dates
 							[
-								['START', this.toggleStart, startDate],
-								['END', this.toggleEnd, endDate]
+								['START', toggleStart(openStart), startDate],
+								['END', toggleEnd(openEnd), endDate]
 							].map(item => {
 								return (<div key={item[0]} className='mh3'>
 											<ButtonMaker text={item[0]} onClick={item[1]} className='f4 f5-ns bg-orange pv3 ph5' />
@@ -75,22 +107,32 @@ class Schedule extends React.Component {
 							endDate={endDate}
 							openStart={openStart}
 							openEnd={openEnd}
-							changeStart={this.changeStart}
-							changeEnd={this.changeEnd}
-							toggleStart={this.toggleStart}
-							toggleEnd={this.toggleEnd}
+							changeStart={changeStart(toggleStart(openStart))}
+							changeEnd={changeEnd(toggleEnd(openEnd))}
+							toggleStart={toggleStart(openStart)}
+							toggleEnd={toggleEnd(openEnd)}
 						/>
 
 					</div>
 				</div>
-				<ButtonMaker text='SUBMIT' onClick={() => console.log(this.submitSchedule())} className='f3 f4-ns w-50 bg-red pv3 ph5' />
+				<ButtonMaker 
+					text='SUBMIT' 
+					onClick={() => {
+						let start = startDate.format('DD-MM-YYYY');
+						let end = endDate.format('DD-MM-YYYY');
+						submitSched({ start, end });
+						console.log({start,end});
+					}} 
+					className='f3 f4-ns w-50 bg-red pv3 ph5' 
+				/>
 			</div>
 		);
 	}
 	
 }
 
+export default connect(mapStateToProps, mapDispatchToProps)(Schedule);
 
 
 
-export default Schedule;
+
