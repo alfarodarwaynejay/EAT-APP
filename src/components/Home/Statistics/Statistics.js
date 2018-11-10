@@ -1,16 +1,13 @@
 import React from 'react';
-import Card from '../Cards/Card.js'
+import Card from '../../utilities/Card.js'
+import Headline from '../../utilities/Headline.js'
 
 
 
 const Statistics = ({ stats }) => {
 	return (
 		<div className='dib w-90'>
-			<div 
-				className='pa2 bg-washed-blue br4 mt0 mb4 mr2 ml2 shadow-5'
-			>
-				<h1 className='f4-l f4-m f4-ns'>Personal Statistics</h1>
-			</div>
+			<Headline text='Personal Statistics' />
 			<div>
 				<Card
 					name={stats[0].hype_best} 

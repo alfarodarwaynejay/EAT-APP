@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonMaker from '../utilities/ButtonMaker.js'
 
 const DefaultHome = ({ evaluate, setHomeDisplay}) => {
 
@@ -12,24 +13,20 @@ const DefaultHome = ({ evaluate, setHomeDisplay}) => {
 	      	</div>
 	      	<div className='center flex-wrap w-70'>
 	      		{ evaluate && 
-		      		<div style={{width: '300px'}}>
-		      			<h1 
-		      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-		      				onClick={() => setHomeDisplay('evaluateDefault')}
-		      			>
-		      				Evaluate
-		      			</h1>
-
-		      		</div>
+		      		<ButtonMaker 
+						style={{width: '450px'}}
+						text='Evaluate' 
+						onClick={() => setHomeDisplay('evaluateDefault')} 
+						className='f3 f4-ns w-50 bg-orange pa3' 
+					/>	
 	      		}
-	      		<div style={{width: '300px'}}>
-	      			<h1 
-	      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-	      				onClick={() => setHomeDisplay('statistics')}
-	      			>
-	      				Statistics
-	      			</h1>
-	      		</div>	
+	      		
+				<ButtonMaker 
+					style={{width: '450px'}}
+					text='Statistics' 
+					onClick={() => setHomeDisplay('statistics')} 
+					className='f3 f4-ns w-50 bg-orange pa3' 
+				/>	
 	      	</div>
       	</div>	
 	);

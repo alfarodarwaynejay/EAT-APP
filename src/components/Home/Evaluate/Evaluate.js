@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Deck from '../Cards/Deck.js'
+import Deck from '../../utilities/Deck.js'
 import EvaluatePerson from './EvaluatePerson';
+import Headline from '../../utilities/Headline.js'
 
 import { 
 	setEvaluateRoute,
@@ -47,9 +48,7 @@ class Evaluate extends React.Component {
 			case 'evaluate':
 				disp = (
 					<div className='dib w-80'>
-						<div className='pa2 bg-washed-blue br4 mt0 mb4 mr3 ml3 shadow-5'>
-							<h1 className='f4-l f4-m f4-ns'>Evaluate your team!</h1>
-						</div>
+						<Headline text='Evaluate your team!' />
 						<div>
 							<Deck 
 								employee={team} 

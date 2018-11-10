@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { 
 	ROUTE,
 	EVALUATE,
@@ -24,7 +26,28 @@ import {
 
 	SCORE,
 
-	EMPLOYEE 
+	EMPLOYEE,
+
+	VISIBILITY1,
+	VISIBILITY2,
+	VISIBILITY3,
+	POSITION,
+	SUBMITVALUE,
+	SUBMITEMPLOYEEUPDATETOSERVER ,
+
+	EMPLOYEE_ID,
+	CONFIRM_VISIBILITY,
+	SUBMITNEWHIRE,
+
+	NEWS,
+	NEWS_VISIBILITY,
+	SUBMITNEWS,
+
+	START_DATE,
+	END_DATE,
+	OPEN_START,
+	OPEN_END,
+	SUBMIT_SCHEDULE
 } from './constants.js'
 
 //Signin.js reducer
@@ -178,7 +201,7 @@ const initialEvaluatePersonState = {
 		7 : 75,
 		8 : 75
 	}
-}
+};
 
 export const setEvaluatePersonState = (state=initialEvaluatePersonState, action={}) => {
 	switch(action.type) {
@@ -202,5 +225,94 @@ export const setAdminPanelState = (state=initialAdminPanelState, action={}) => {
 			return state;
 	}
 }
+
+
+//EmployeeStatus.js reducer
+const initialEmployeeStatusState = {
+	visibility1: false,
+	visibility2: false,
+	visibility3: false,
+	updateSuccess: false,//need to update this once request is successful
+	position: '',
+	submitValue: {}
+};
+
+export const setEmployeeStatusState = (state=initialEmployeeStatusState, action={}) => {
+	switch(action.type) {
+		case VISIBILITY1:
+			return { ...state, visibility1: action.payload }
+		case VISIBILITY2:
+			return { ...state, visibility2: action.payload }
+		case VISIBILITY3:
+			return { ...state, visibility3: action.payload }
+		case SUBMITVALUE:
+			return { ...state, submitValue: { ...state.submitValue, ...action.payload } }
+		case SUBMITEMPLOYEEUPDATETOSERVER:
+			return { ...state, updateSuccess: action.payload}
+		default:
+			return state;
+	}
+}
+
+//NewHire.js reducer
+const initialNewHireState = {
+	employee_id: '',
+	confirmVisibility: false
+
+};
+
+export const setNewHireState = (state=initialNewHireState, action={}) => {
+	switch(action.type) {
+		case EMPLOYEE_ID:
+			return { ...state, employee_id: action.payload };
+		case CONFIRM_VISIBILITY:
+			return { ...state, confirmVisibility: action.payload };
+		default:
+			return state;
+	}
+}
+
+//News.js reducer
+const initialNewsState = {
+	news: '',
+	newsVisibility: false
+}
+
+export const setNewsState = (state=initialNewsState, action={}) => {
+	switch(action.type) {
+		case NEWS:
+			return { ...state, news: action.payload }
+		case NEWS_VISIBILITY:
+			return { ...state, newsVisibility: action.payload}
+		default:
+			return state;
+	}
+}
+
+//Schedule.js reducer
+const initialScheduleState = {
+	startDate: moment(),
+	endDate: moment().add(7, 'days'),
+	openStart: false,
+	openEnd: false
+}
+
+export const setScheduleState = (state=initialScheduleState, action={}) => {
+	switch(action.type) {
+		case START_DATE:
+			return { ...state, startDate: action.payload };
+		case END_DATE:
+			return { ...state, endDate: action.payload };
+		case OPEN_START:
+			return { ...state, openStart: action.payload };
+		case OPEN_END:
+			return { ...state, openEnd: action.payload };
+		default:
+			return state;
+	}
+}
+
+
+
 
 

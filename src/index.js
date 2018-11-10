@@ -4,6 +4,10 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
+import App from './master/App';
+
+import './index.css';
+import 'tachyons';
 
 //importing reducers here-------
 import { 
@@ -13,16 +17,13 @@ import {
 	setHomeState,
 	setEvaluateState,
 	setEvaluatePersonState,
-	setAdminPanelState 
+	setAdminPanelState,
+	setEmployeeStatusState,
+	setNewHireState,
+	setNewsState,
+	setScheduleState 
 } from './redux/reducers.js'
 
-
-import App from './containers/App';
-
-import './index.css';
-import 'tachyons';
-
-const logger = createLogger();
 const rootReducer = combineReducers({ 
 	setAppState, 
 	setSigninState,
@@ -30,10 +31,14 @@ const rootReducer = combineReducers({
 	setHomeState,
 	setEvaluateState,
 	setEvaluatePersonState,
-	setAdminPanelState 
+	setAdminPanelState,
+	setEmployeeStatusState,
+	setNewHireState,
+	setNewsState,
+	setScheduleState 
 });
 
-
+const logger = createLogger();
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
 
 ReactDOM.render(

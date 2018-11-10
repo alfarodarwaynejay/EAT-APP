@@ -1,4 +1,5 @@
 import React from 'react';
+import ButtonMaker from '../../utilities/ButtonMaker.js'
 
 const DefaultAdminHome = ({ setAdminRoute, setHomeDisplay }) => {
 
@@ -8,39 +9,33 @@ const DefaultAdminHome = ({ setAdminRoute, setHomeDisplay }) => {
 	      			<h1 className='f1-l f1-m f1-ns'>Admin Panel</h1>
 	      			<h2 className='f2-l f2-m f2-ns'>Manage Aplication</h2>
 	      		</div>
+
 		      	<div className='center flex-wrap'>
-		      		<div style={{width: '250px'}}>
-		      			<h1 
-		      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer'
-		      				onClick={() => setAdminRoute('employees')}
-		      			>
-		      				Employees
-		      			</h1>
-		      		</div>
-		      		<div style={{width: '250px'}}>
-		      			<h1 
-		      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-		      				onClick={() => setAdminRoute('schedule')}
-		      			>
-		      				Schedule
-		      			</h1>
-		      		</div>
-		      		<div style={{width: '250px'}}>
-		      			<h1 
-		      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-		      				onClick={() => setAdminRoute('news')}
-		      			>
-		      				News
-		      			</h1>
-		      		</div>
-		      		<div style={{width: '250px'}}>
-		      			<h1 
-		      				className='f4-l f4-m f4-ns pa3 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-		      				onClick={() => setHomeDisplay('evaluateDefault')}
-		      			>
-		      				Evaluate
-		      			</h1>
-		      		</div>
+		      		
+		      		<ButtonMaker 
+		      			style={{width: '250px'}}
+		      			text='Employees' 
+		      			onClick={() => setAdminRoute('employees')} 
+		      			className='f5 f3-ns grow pv3 ph5 bg-orange w-70' 
+		      		/>
+		      		<ButtonMaker 
+		      			style={{width: '250px'}}
+		      			text='Schedule' 
+		      			onClick={() => setAdminRoute('schedule')} 
+		      			className='f5 f3-ns grow pv3 ph5 bg-orange w-70' 
+		      		/>
+		      		<ButtonMaker 
+		      			style={{width: '250px'}}
+		      			text='News' 
+		      			onClick={() => setAdminRoute('news')} 
+		      			className='f5 f3-ns grow pv3 ph5 bg-orange w-70' 
+		      		/>
+		      		<ButtonMaker 
+		      			style={{width: '250px'}}
+		      			text='Evaluate' 
+		      			onClick={() => setHomeDisplay('evaluateDefault')} 
+		      			className='f5 f3-ns grow pv3 ph5 bg-orange w-70' 
+		      		/>
 		      	</div>
 			</div>
 	);

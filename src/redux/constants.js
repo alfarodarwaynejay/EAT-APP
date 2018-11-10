@@ -31,3 +31,28 @@ export const SCORE = 'SCORE';
 
 //AdminPanel.js states
 export const EMPLOYEE = 'EMPLOYEE';
+
+//EmployeeStatus states
+export const VISIBILITY1 = 'VISIBILITY1';
+export const VISIBILITY2 = 'VISIBILITY2';
+export const VISIBILITY3 = 'VISIBILITY3';
+export const POSITION = 'POSITION';
+export const SUBMITVALUE = 'SUBMITVALUE';
+export const SUBMITEMPLOYEEUPDATETOSERVER = 'SUBMITEMPLOYEEUPDATETOSERVER';
+
+//NewHire.js state
+export const EMPLOYEE_ID = 'EMPLOYEE_ID';
+export const CONFIRM_VISIBILITY = 'CONFIRM_VISIBILITY';
+export const SUBMITNEWHIRE = 'SUBMITNEWHIRE';
+
+//News.js state
+export const NEWS = 'NEWS';
+export const NEWS_VISIBILITY = 'NEWS_VISIBILITY';
+export const SUBMITNEWS ='SUBMITNEWS';
+
+//Schedule.js state
+export const START_DATE = 'START_DATE';
+export const END_DATE = 'END_DATE';
+export const OPEN_START = 'OPEN_START';
+export const OPEN_END = 'OPEN_END';
+export const SUBMIT_SCHEDULE = 'SUBMIT_SCHEDULE';

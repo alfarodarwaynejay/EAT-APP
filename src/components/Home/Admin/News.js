@@ -1,82 +1,85 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Modal from 'react-awesome-modal';
+import Headline from '../../utilities/Headline.js'
+import ButtonMaker from '../../utilities/ButtonMaker.js'
+
+import { 
+	setNewsText,
+	setNewsVisible,
+	submitNews
+} from '../../../redux/actions.js';
+
+const mapStateToProps = state => {
+	return {
+		news: state.setNewsState.news,
+		newsVisibility: state.setNewsState.newsVisibility,
+	};
+}
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setNews: value => dispatch(setNewsText(value)),
+		toggleNewsVisibility: visible => dispatch(setNewsVisible(!visible))
+
+	}
+}
 
 class News extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			news: 'ENTER NEWS HERE: ',
-			newsVisibility: false
-		}
-	}
-
-	setNews = (event) => {
-		this.setState({news: event.target.value});
-		console.log(this.state.news);
-
-	}
-
-	toggleNewsVisibility = () => {
-		this.setState({newsVisibility: !this.state.newsVisibility});
-	}
 
 	render() {
+		const { news, newsVisibility, setNews, toggleNewsVisibility } = this.props;
+
 		return (
 			<div className='w-80'>
 				<Modal
-					visible={this.state.newsVisibility}
+					visible={newsVisibility}
 					effect={'fadeInUp'}
 					width={'80%'}
 				>
 					<h2>---CONFIRM DATABASE UDATE---</h2>
-					<h1 className='w-80 center'><span className='red'>INSERTING: </span>{this.state.news}</h1>
-					<div className='flex flex-wrap'>
-						<button
-							className='center link f6 f4-ns b grow pa3
-									   mv2 mh4 bg-orange br-pill hover-bg-red 
-									   grow shadow-5 pointer' 
-					      	onClick={() => this.toggleNewsVisibility()}
-				      	>
-				      		CONFIRM
-				      	</button>
-				      	<button
-							className='center link f6 f4-ns b grow pa3
-									   mv2 mh4 bg-orange br-pill hover-bg-red 
-									   grow shadow-5 pointer' 
-					      	onClick={() => { 
-					      		this.toggleNewsVisibility();
-					      		this.setState({news: ''});
-					      	}}
-				      	>
-				      		CANCEL
-				      	</button>
+					<h1 className='w-80 center'><span className='red'>INSERTING: </span>{news}</h1>
+					<div className='center flex flex-wrap w-80 justify-between'>
+						
+				      	<ButtonMaker 
+				      		text='CONFIRM' 
+				      		onClick={() => {
+				      			toggleNewsVisibility(newsVisibility);
+				      			console.log(news);
+				      		}} 
+				      		className='b link f6 f4-ns grow pa3 bg-orange hover-bg-red' 
+				      	/>
+				      	
+				      	<ButtonMaker 
+				      		text='CANCEL' 
+				      		onClick={() => { 
+					      		toggleNewsVisibility(newsVisibility);
+					      		setNews('');
+					      	}} 
+				      		className='b link f6 f4-ns grow pa3 bg-orange hover-bg-red' 
+				      	/>
 					</div>
 				</Modal>
-				<div 
-					className='center pa3 bg-washed-blue br4 mt0 mb4 shadow-5' 
-					style={{background:'rgb(228, 241, 254)'}}
-				>
-					<h1 className='f4-l f4m f4-ns'>Manage News</h1>
-				</div>
+				<Headline text='Manage News' />
 				<div className='db pa2 shadow-5  ma5 br4 bg-green center'>
-					<h1>Adding News to Database </h1>
+					<h1>Add News to Database </h1>
 					<textarea 
-						className='f6 f4-ns b pa3 ma3 ba b--green bg-lightest-blue br3'
+						className='f6 f4-ns b pa3 ma3 ba b--green bg-lightest-blue br3 w-80'
 						type='text'
-						onChange={ this.setNews }
-						defaultValue={this.state.news}
+						onChange={ (event) => setNews(event.target.value) }
+						placeholder='ENTER NEWS HERE:'
+						value={news}
 					/>
 				</div>
-				<h1 
-						className='f3 f4-ns grow pv3 ph5 w-50 center mv2 mh4 bg-red br-pill grow shadow-5 pointer' 
-				      	onClick={() => this.toggleNewsVisibility()}
-				      	>
-				      	SUBMIT
-				</h1>
+				<ButtonMaker 
+		      		text='SUBMIT' 
+		      		onClick={() => toggleNewsVisibility(newsVisibility)} 
+		      		className='f3 f4-ns pv3 ph5 w-50 bg-red' 
+		      	/>
 			</div>
 		);
 
 	}
 }
 
-export default News;
+export default connect(mapStateToProps, mapDispatchToProps)(News);

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Card from '../Cards/Card.js'
-import SliderWithTooltip from './SliderWithTooltip.js'
+import Card from '../../utilities/Card.js'
+import SliderWithTooltip from '../../utilities/SliderWithTooltip.js'
+import ButtonMaker from '../../utilities/ButtonMaker.js'
 
 import { 
 	toggleScore
@@ -62,12 +63,11 @@ class EvaluatePerson extends React.Component {
 					
 				}
 				<div className='pa3 ma3 br4 center'>
-					<h1 
-					className='f4 grow pv3 ph5 mt2 mb2 ma4 bg-orange br-pill grow shadow-5 pointer' 
-			      	onClick={() => console.log({[evaluateTeamMate.employee_id]: score})}
-			      	>
-			      	SUBMIT
-			      	</h1>
+			      	<ButtonMaker 
+			      		text='SUBMIT' 
+			      		onClick={() => console.log({[evaluateTeamMate.employee_id]: score})} 
+			      		className='f3 f4-ns w-50 bg-orange pv3 ph5' 
+			      	/>
 				</div>
 			</div>
 

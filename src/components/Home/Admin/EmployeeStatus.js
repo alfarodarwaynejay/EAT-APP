@@ -1,133 +1,111 @@
 import React from 'react';
-import Card from '../Cards/Card.js'
+import { connect } from 'react-redux';
+import Card from '../../utilities/Card.js'
 import Modal from 'react-awesome-modal';
+import ButtonMaker from '../../utilities/ButtonMaker.js'
+import PositionLegend from '../../utilities/PositionLegend.js'
+import EmployeeDescript from '../../utilities/EmployeeDescript.js'
+import Headline from '../../utilities/Headline.js'
+
+
+import { 
+	setVisibility1,
+	setVisibility2,
+	setVisibility3,
+	setPosixon,
+	setSubValue,
+	submitEmployeeUpdateToServer
+} from '../../../redux/actions.js';
+
+const mapStateToProps = state => {
+	return {
+		visibility1: state.setEmployeeStatusState.visibility1,
+		visibility2: state.setEmployeeStatusState.visibility2,
+		visibility3: state.setEmployeeStatusState.visibility3,
+		position: state.setEmployeeStatusState.position,
+		submitValue: state.setEmployeeStatusState.submitValue
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		toggleModal1: vis => dispatch(setVisibility1(!vis)),
+		toggleModal2: vis => dispatch(setVisibility2(!vis)),
+		toggleModal3: vis => dispatch(setVisibility3(!vis)),
+		setPosition: value => dispatch(setPosixon(value)),
+		setSubmitValue: value => dispatch(setSubValue(value)),
+		submitToServer: value => dispatch(submitEmployeeUpdateToServer(value)) 
+	};
+};
 
 const positionList = ['SD', 'TL', 'SM', 'IA', 'UX', 'UI', 'QA', 'BE', 'PM', 'JD'];
 
 class EmployeeStatus extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state ={
-			visibility1: false,
-			visibility2: false,
-			visibility3: false,
-			position: '',
-			deleteColor:'',
-			submitValue: {}
-		}
-	}
 
-	toggleModal1 = () => {
-		this.setState({ visibility1: !this.state.visibility1 })
-		
-	}
-
-	toggleModal2 = () => {
-		this.setState({ visibility2: !this.state.visibility2 })
-		
-	}
-
-	toggleModal3 = () => {
-		this.setState({ visibility3: !this.state.visibility3 })
-		
-	}
-
-	setPosition = (value) => {
-		this.setState({position: value});
-	}
-
-	setSubmitValue = (value) => {
-		this.setState({submitValue:
-			{
-				...value
-			}
-		});
-	}
-
-	submitToServer = () => {
-		console.log(this.state.submitValue);
-	}
 	
 	render() {
-		const { employeeStatus } = this.props
+		const { 
+			employeeStatus, 
+			visibility1, 
+			visibility2, 
+			visibility3, 
+			position, 
+			submitValue,
+			toggleModal1,
+			toggleModal2,
+			toggleModal3,
+			setPosition,
+			setSubmitValue 
+		} = this.props
 		
 
 		return (
-			<div className='flex-wrap w-80 center'>
+			<div className='dib w-80 center'>
 				<Modal
-					visible={this.state.visibility1}
+					visible={visibility1}
 					effect={'fadeInUp'}
 					width={'80%'}
 					
-					onClickAway={() => this.toggleModal1()}
+					onClickAway={() => toggleModal1()}
 				>
 					<h1>CHANGE EMPLOYEE ROLE</h1>
-					<div className='b center pv1 bg-red flex'>
-						<div className='tl w-40 bg-yellow'>
-							<ul>
-								<li>SD: Senior Developer</li>
-								<li>Tl: Team Lead</li>
-								<li>SM: Scrum Master</li>
-								<li>IA: Information Architect</li>
-								<li>UX: User Experience</li>
-							</ul>
-						</div>
-						<div className='tl pa2 w-40 bg-yellow'>
-							<ul >
-								<li>UI: User Interface</li>
-								<li>QA: QA Tester</li>
-								<li>BE: Back-end Engineer</li>
-								<li>PM: Project Manager</li>
-								<li>JD: Juinor Developer</li>
-							</ul>
-						</div>
-					</div>
-					<div className='center flex-wrap f4 pa4'>
+					<PositionLegend />
+					<div className='center flex-wrap f4 pa4 justify-between'>
 
-						{
+						{	//creating buttons for position list
 							positionList.map( (position, i) => {
 								return (
-									<button
-										key={i}
-										className='center link f6 f4-ns b grow pa3
-												   mv2 mh4 bg-orange br-pill hover-bg-red 
-												   grow shadow-5 pointer' 
-								      	onClick={() => {
+									<ButtonMaker 
+										key={i} 
+										text={position} 
+										className='b link f6 f4-ns bg-orange hover-bg-red pa3'
+										onClick={
+											() => {
 								      		if (position === employeeStatus.position) {
-								      			this.setPosition('');
-								      			this.setSubmitValue({});
-								      			this.toggleModal1();
+								      			setPosition('');
+								      			setSubmitValue({});
+								      			toggleModal1(visibility1);
 								      		} else {
-								      			this.setPosition(position);
-								      			this.setSubmitValue({id: employeeStatus.employee_id, position: position, flag: 'pos'});
-								      			this.toggleModal1();
+								      			setPosition(position);
+								      			setSubmitValue({id: employeeStatus.employee_id, position: position, flag: 'pos'});
+								      			toggleModal1(visibility1);
 								      		}
-								      	}}
-							      	>
-							      		{position}
-							      	</button>);
+										}}
+									/>);
 							})
 						}
 					</div>
 					<div>
-						<button
-							className='center link f6 f4-ns b grow pa3
-									   mv2 mh4 bg-orange br-pill hover-bg-red 
-									   grow shadow-5 pointer' 
-					      	onClick={() => this.toggleModal1()}
-				      	>
-				      		CANCEL
-				      	</button>
+				      	<ButtonMaker //cancel button within promote modal
+				      		text='CANCEL' 
+				      		onClick={() => toggleModal1(visibility1)} 
+				      		className='w-25 link f6 f4-ns bg-orange hover-bg-red pa3' 
+				      	/>
 					</div>
 				</Modal>
 
-
-				<div 
-					className='center w-80 pa2 bg-washed-blue br4 mt0 mb4 shadow-5' 
-					style={{background:'rgb(228, 241, 254)'}}
-				>
-					<h1 className='f4 f3-ns'>Managing Employee Status</h1>
-				</div>
+				<Headline text='Managing Employee Status' />
+				
 				<div>
 
 					<Card
@@ -135,45 +113,39 @@ class EmployeeStatus extends React.Component {
 						name={employeeStatus.name} 
 						jsx={
 							<div>
-								<h2>Name: {employeeStatus.name}</h2>
-								<h2>Employee ID: {employeeStatus.employee_id}</h2>
-								<h2> Position:
-									<span className={this.state.position && 'red'}>
-									 	{this.state.position || employeeStatus.position}
-									</span>
-								</h2> 
+								<EmployeeDescript 
+									name={employeeStatus.name} 
+									empId={employeeStatus.employee_id} 
+									position={employeeStatus.position} 
+									statePosition={position} 
+								/>
 								<Modal
-									visible={this.state.visibility2}
+									visible={visibility2}
 									effect={'fadeInUp'}
 									width={'80%'}
 								>
 									<h1 className='red f4 f3-ns'>REMOVING EMPLOYEE</h1>
-									<button
-										className='center link f6 f4-ns b grow pa3
-												   mv2 mh4 bg-orange br-pill hover-bg-red 
-												   grow shadow-5 pointer' 
-								      	onClick={() => {
-								      		this.setSubmitValue({id: employeeStatus.employee_id, flag:'del'});
-								      		this.toggleModal2();
-								      		this.toggleModal3();
-								      	}}
-							      	>
-							      		CONFIRM
-							      	</button>
-							      	<button
-										className='center link f6 f4-ns b grow pa3
-												   mv2 mh4 bg-orange br-pill hover-bg-red 
-												   grow shadow-5 pointer' 
-								      	onClick={() => {
-								      		this.toggleModal2();
-								      		this.setSubmitValue({});
-								      	}}
-							      	>
-							      		CANCEL
-							      	</button>
+									
+							      	<ButtonMaker 
+							      		text='CONFIRM'
+							      		className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
+							      		onClick={() => {
+								      		setSubmitValue({id: employeeStatus.employee_id, flag:'del'});
+								      		toggleModal2(visibility2);
+								      		toggleModal3(visibility3);
+								      	}}  
+							      	/>
+							      	<ButtonMaker 
+							      		text='CANCEL'
+							      		className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
+							      		onClick={() => {
+								      		toggleModal2(visibility2);
+								      		setSubmitValue({});
+								      	}}  
+							      	/>
 								</Modal>
 								<Modal
-									visible={this.state.visibility3}
+									visible={visibility3}
 									effect={'fadeInUp'}
 									width={'80%'}
 								>
@@ -184,32 +156,30 @@ class EmployeeStatus extends React.Component {
 					/>
 				</div>
 				
-				<div className='flex-wrap pa3 ma3 br4 center' >
-					<h1 
-					className='f4 f3-ns grow pv3 ph5 mv2 mh4 bg-orange br-pill grow shadow-5 pointer' 
-			      	onClick={() => this.toggleModal1()}
-			      	>
-			      	PROMOTE
-			      	</h1>
-			      	<h1
-					className='f4 f3-ns grow pv3 ph5 mv2 mh4 bg-orange br-pill grow shadow-5 pointer' 
-			      	onClick={() => {
-			      		if (this.state.visibility3) {
-			      			this.toggleModal3();
-			      		} else {
-			      			this.toggleModal2();
-			      		}
-			      	}}
-			      	>
-			      	{this.state.visibility3 || this.state.visibility2 ? 'CANCEL': 'DELETE'}
-			      	</h1>
-
-					<h1 
-					className='f3 f4-ns grow pv3 ph5 mv2 mh4 bg-red br-pill grow shadow-5 pointer' 
-			      	onClick={() => this.submitToServer()}
-			      	>
-			      	SUBMIT
-			      	</h1>
+				<div className='flex flex-wrap pa3 ma3 br4 center' >
+			      	<ButtonMaker 
+			      		text='PROMOTE' 
+			      		onClick={() => toggleModal1(visibility1)} 
+			      		className='f4 f3-ns grow pv3 ph5 bg-orange' 
+			      	/>
+			      	<ButtonMaker 
+			      		text={visibility3 || visibility2 ? 'CANCEL': 'DELETE'} 
+			      		onClick={() => {
+			      			//need to pass this logic else when clicking CANCEL modal2 will show up
+			      			toggleModal2((!visibility2 && !visibility3) ? visibility2: true);
+			      			//this will always close modal3
+			      			toggleModal3(true); 
+			      		}} 
+			      		className='f4 f3-ns grow pv3 ph5 bg-orange' 
+			      	/>
+			      	<ButtonMaker 
+			      		text='SUBMIT' 
+			      		onClick={() => {
+			      			//submitToServer()
+			      			console.log(submitValue, visibility3);
+			      		}} 
+			      		className='f4 f3-ns grow pv3 ph5 bg-red' 
+			      	/>
 				</div>
 			</div>
 
@@ -217,6 +187,10 @@ class EmployeeStatus extends React.Component {
 	}
 }
 
-export default EmployeeStatus;
+
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeStatus);
 
 

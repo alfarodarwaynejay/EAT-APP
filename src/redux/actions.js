@@ -25,7 +25,28 @@ import {
 
 	SCORE,
 
-	EMPLOYEE 
+	EMPLOYEE,
+
+	VISIBILITY1,
+	VISIBILITY2,
+	VISIBILITY3,
+	POSITION,
+	SUBMITVALUE,
+	SUBMITEMPLOYEEUPDATETOSERVER,
+
+	EMPLOYEE_ID,
+	CONFIRM_VISIBILITY,
+	SUBMITNEWHIRE,
+
+	NEWS,
+	NEWS_VISIBILITY,
+	SUBMITNEWS,
+
+	START_DATE,
+	END_DATE,
+	OPEN_START,
+	OPEN_END,
+	SUBMIT_SCHEDULE
 } from './constants.js'
 
 //ACTIONS APP.JS
@@ -55,7 +76,7 @@ export const setPassword = password => ({
 	payload: password
 });
 
-//need to fetch to server
+//need to fetch to server-----------------------------------------------------
 export const onSubmitSignin = value => ({
 	type: ON_SIGNIN_SUBMIT,
 	payload: value
@@ -82,7 +103,7 @@ export const setRegisterEmployeeId = id => ({
 	payload: id
 });
 
-//need to fetch to server
+//need to fetch to server---------------------------------------------------
 export const onSubmitRegister = value => ({
 	type: ON_REGISTER_SUBMIT,
 	payload: value
@@ -131,6 +152,13 @@ export const toggleScore = score => ({
 	payload: { ...score }
 });
 
+//need to fetch to server---------------------------------------------------
+export const onSubmitEvaluatePerson = value => ({
+	type: ON_REGISTER_SUBMIT,
+	payload: value
+});
+
+
 //ACTIONS ADMINPANEL.JS
 export const setEmployeeStatus = person => ({
 	type: EMPLOYEE,
@@ -140,6 +168,113 @@ export const setEmployeeStatus = person => ({
 	    position: person.position
 	}
 });
+
+//ACTIONS EMPLOYEESTATUS.JS
+export const setVisibility1 = visibility => ({
+	type: VISIBILITY1,
+	payload: visibility
+});
+
+export const setVisibility2 = visibility => ({
+	type: VISIBILITY2,
+	payload: visibility
+});
+
+export const setVisibility3 = visibility => ({
+	type: VISIBILITY3,
+	payload: visibility
+});
+
+export const setPosixon = pos => ({
+	type: POSITION,
+	payload: pos
+});
+
+export const setSubValue = value => ({
+	type: SUBMITVALUE,
+	payload: {
+		...value
+	}
+});
+
+//need to fetch server here--------------------------------------------
+export const submitEmployeeUpdateToServer = value => ({
+	type: SUBMITEMPLOYEEUPDATETOSERVER,
+	payload: {
+		...value
+	}
+});
+
+//ACTIONS NEWHIRE.JS
+export const setEmployID = value => ({
+	type:EMPLOYEE_ID,
+	payload: value
+});
+
+export const setConfirmVis = visibility => ({
+	type: CONFIRM_VISIBILITY,
+	payload: visibility
+});
+
+//need to fetch server here--------------------------------------------
+export const submitNewHire = empId => ({
+	type: SUBMITNEWHIRE,
+	payload: empId
+});
+
+//ACTIONS NEWS.JS
+export const setNewsText = news => ({
+	type: NEWS,
+	payload: news
+});
+
+export const setNewsVisible = visibility => ({
+	type: NEWS_VISIBILITY,
+	payload: visibility
+});
+
+//need to fetch server here--------------------------------------------
+export const submitNews = news => ({
+	type: SUBMITNEWS,
+	payload: news
+});
+
+//ACTIONS SCHEDULE.JS
+export const setStart = start => ({
+	type: START_DATE,
+	payload: start
+});
+
+export const setEnd = end => ({
+	type: END_DATE,
+	payload: end
+});
+
+export const setStartVisibility = visibility => ({
+	type: OPEN_START,
+	payload: visibility
+});
+
+export const setEndVisibility = visibility => ({
+	type: OPEN_END,
+	payload: visibility
+});
+
+//need to fetch server here--------------------------------------------
+export const submitSchedule = sched => ({
+	type: SUBMIT_SCHEDULE,
+	payload: sched
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
