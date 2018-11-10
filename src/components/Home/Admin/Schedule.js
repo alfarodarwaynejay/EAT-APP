@@ -25,6 +25,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
+		//I used currying because the original methods was complicated...
 		changeStart: togStart => date => {
 			dispatch(setStart(date));
 			togStart();
@@ -48,25 +49,25 @@ const mapDispatchToProps = dispatch => {
 
 class Schedule extends React.Component {
 
-	changeStart = (date) => {
-		this.setState({startDate: date})
-		this.toggleStart();
-	};
+	// changeStart = (date) => {
+	// 	this.setState({startDate: date})
+	// 	this.toggleStart();
+	// };
 
-	changeEnd = (date) => {
-		this.setState({endDate: date})
-		this.toggleEnd();
-	};
+	// changeEnd = (date) => {
+	// 	this.setState({endDate: date})
+	// 	this.toggleEnd();
+	// };
 
-	toggleStart = (event) => {
-		event && event.preventDefault();
-		this.setState({openStart: !this.state.openStart})
-	};
+	// toggleStart = (event) => {
+	// 	event && event.preventDefault();
+	// 	this.setState({openStart: !this.state.openStart})
+	// };
 
-	toggleEnd = (event) => {
-		event && event.preventDefault();
-		this.setState({openEnd: !this.state.openEnd})
-	};
+	// toggleEnd = (event) => {
+	// 	event && event.preventDefault();
+	// 	this.setState({openEnd: !this.state.openEnd})
+	// };
 
 	render() {
 		const { 
