@@ -1,4 +1,3 @@
-
 import { 
 	ROUTE,
 	EVALUATE,
@@ -46,8 +45,18 @@ import {
 	END_DATE,
 	OPEN_START,
 	OPEN_END,
-	SUBMIT_SCHEDULE
+	SUBMIT_SCHEDULE,
+
+	//for thunks
+	SIGNIN_IS_PENDING,
+	SIGNIN_ERROR,
+	TEAM_IS_PENDING,
+	TEAM_ERROR,
+	STATS_IS_PENDING,
+	STATS_ERROR
 } from './constants.js'
+
+const HOST = 'http://localhost:3000';
 
 //ACTIONS APP.JS
 export const setRoute = route => ({
@@ -77,10 +86,38 @@ export const setPassword = password => ({
 });
 
 //need to fetch to server-----------------------------------------------------
-export const onSubmitSignin = value => ({
-	type: ON_SIGNIN_SUBMIT,
-	payload: value
-});
+export const onSubmitSignin = signinValue => dispatch => {
+	console.log(signinValue);
+
+	dispatch({ type: SIGNIN_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/signin`, {
+		method: 'post',
+		headers: { 'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			email: signinValue.email,
+			password: signinValue.password
+		})
+	}).then(response => response.json())
+		.then(data => {
+			if(data === 'correct') {
+				//fetching 
+				// fetch()
+				// 	.catch(error => dispatch({type: TEAM_ERROR, payload: error}))
+
+
+				//reset requests status
+				dispatch({ type: SIGNIN_IS_PENDING, payload: false });
+				//this will route the user to home...
+				dispatch({ type: ROUTE, payload: 'home'});
+			} else {
+				throw Error(`Login failed: response: ${data}...`)
+			}
+
+		})
+	 	.catch(error => dispatch({ type: SIGNIN_ERROR, payload: error}));
+
+};
 
 //ACTIONS REGISTER.JS
 export const setRegisterEmail = email => ({
@@ -130,6 +167,9 @@ export const setTeam =  team => ({
 	payload: team
 });
 
+export const onHomeMount = () => dispatch => {
+	
+}
 
 //ACTIONS EVALUATE.JS
 export const setEvaluateRoute = route => ({

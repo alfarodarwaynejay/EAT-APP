@@ -39,6 +39,10 @@ const mapDispatchToProps = dispatch => {
 
 class Home extends React.Component {
 
+	componentDidMount() {
+		
+	}
+
 	//do render logic here
 	displayer = () => {
 		const { 

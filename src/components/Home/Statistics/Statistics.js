@@ -4,7 +4,9 @@ import Headline from '../../utilities/Headline.js'
 
 
 
-const Statistics = ({ stats }) => {
+const Statistics = (props) => {
+	const { name, id, position, stats } = props;
+	
 	return (
 		<div className='dib w-90'>
 			<Headline text='Personal Statistics' />

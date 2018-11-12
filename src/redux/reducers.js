@@ -15,6 +15,7 @@ import {
 	REGISTER_EMPLOYEE_ID,
 	ON_REGISTER_SUBMIT,
 
+
 	HOME_DISPLAY,
 	ADMIN_ROUTE,
 	STATS,
@@ -47,7 +48,15 @@ import {
 	END_DATE,
 	OPEN_START,
 	OPEN_END,
-	SUBMIT_SCHEDULE
+	SUBMIT_SCHEDULE,
+
+	//for thunks
+	SIGNIN_IS_PENDING,
+	SIGNIN_ERROR,
+	TEAM_IS_PENDING,
+	TEAM_ERROR,
+	STATS_IS_PENDING,
+	STATS_ERROR
 } from './constants.js'
 
 //Signin.js reducer
@@ -115,6 +124,7 @@ export const setRegisterState = (state=initialRegisterState, action={}) => {
 const initialHomeState = {
 	homeDisplay: 'defaultHome',
 	adminRoute: 'adminHome',
+	news: [],
 	stats: [
 	  {
 	    name: 'Ovuvwevwevwe Onyentenyevwe Ugwemubwem Ossas',
@@ -142,7 +152,13 @@ const initialHomeState = {
 	  {name: 'goku', email: 'sangoku@gmail.com', position: 'BE', employee_id: 1234564},
 	  {name: 'naruto', email: 'naruto@gmail.com', position: 'PM', employee_id: 1234565},
 	  {name: 'neo anderson', email: 'matrix@gmail.com', position: 'JD', employee_id: 1234566},
-	]
+	],
+	signinIsPending: false,
+	signinError: '',
+	teamIsPending: false,
+	teamError: '',
+	statsIsPending: false,
+	statsError:''
 };
 
 export const setHomeState = (state=initialHomeState, action={}) => {
@@ -155,6 +171,18 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, stats: action.payload };
 		case TEAM:
 			return { ...state, team: action.payload };
+		case SIGNIN_IS_PENDING: 
+			return { ...state, signinIsPending: action.payload };
+		case SIGNIN_ERROR:
+			return { ...state, signinError: action.payload };
+		case TEAM_IS_PENDING:
+			return { ...state, teamIsPending: action.payload };
+		case TEAM_ERROR: 
+			return { ...state, teamError: action.payload };
+		case STATS_IS_PENDING:
+			return { ...state, statsIsPending: action.payload };
+		case STATS_ERROR:
+			return { ...state, statsError: action.payload };
 		default:
 			return state;
 	}

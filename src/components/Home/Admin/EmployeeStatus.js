@@ -168,15 +168,17 @@ class EmployeeStatus extends React.Component {
 			      			//need to pass this logic else when clicking CANCEL modal2 will show up
 			      			toggleModal2((!visibility2 && !visibility3) ? visibility2: true);
 			      			//this will always close modal3
-			      			toggleModal3(true); 
+			      			toggleModal3(true);
+			      			//will clear submitValue data when canceled
+			      			setSubmitValue({});
 			      		}} 
 			      		className='f4 f3-ns grow pv3 ph5 bg-orange' 
 			      	/>
 			      	<ButtonMaker 
 			      		text='SUBMIT' 
 			      		onClick={() => {
-			      			//submitToServer()
-			      			console.log(submitValue, visibility3);
+			      			//submitToServer() & change the route when clicked
+			      			console.log(submitValue);
 			      		}} 
 			      		className='f4 f3-ns grow pv3 ph5 bg-red' 
 			      	/>

@@ -19,7 +19,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onEmailChange: event => dispatch(setEmail(event.target.value)),
 		onPasswordChange: event => dispatch(setPassword(event.target.value)),
-		setRoute: route => dispatch(setRoute(route))
+		setRoute: route => dispatch(setRoute(route)),
+		onSigninSubmit: creds => dispatch(onSubmitSignin(creds))
 	};
 };
 
@@ -27,7 +28,16 @@ class Signin extends React.Component {
 
 	render(){
 
-		const { setRoute, setSubmit, onEmailChange, onPasswordChange, signInEmail, signInPassword, signInSubmit } = this.props;
+		const { 
+			setRoute, 
+			setSubmit, 
+			onEmailChange, 
+			onPasswordChange, 
+			signInEmail, 
+			signInPassword, 
+			signInSubmit, 
+			onSigninSubmit 
+		} = this.props;
 
 		return (
 
@@ -36,7 +46,13 @@ class Signin extends React.Component {
 			      <InputLabel key='email' label='Email' type='email' name='email-address'func={onEmailChange} />
 			      <InputLabel key='password' label='Password' type='password' name='password' func={onPasswordChange} />
 			    </Fieldset>
-			    <InputButton value='Sign In' onClick={() => {setRoute('home');console.log(signInSubmit);}} />
+			    <InputButton 
+			    	value='Sign In' 
+			    	onClick={() => {
+			    		onSigninSubmit(signInSubmit);
+			    		// setRoute('home');
+			    		console.log(signInSubmit);
+			    }} />
 			    <div className="lh-copy mt3">
 			      <a href="#0" className="f6 link dim b black grow db"
 			      	onClick={()=> setRoute('register')}>New Employee: Register Here</a>
