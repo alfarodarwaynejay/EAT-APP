@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEvalRoute }) => {
+const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEvalRoute, userName }) => {
 
 	return (
 		<div className='flex center mt5 justify-between w-70 black link pointer'>
@@ -20,7 +20,7 @@ const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEval
 	      			<span className='underline dim'
 	      				onClick={() => setHomeDisplay('profile')}
 	      			>
-	      				Profile{god ? `(${'admin'})` : `(${'User'})`}
+	      				Profile{`(${userName})`}
 	      			</span>
 	      		</h3>
 			</div>

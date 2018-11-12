@@ -6,13 +6,18 @@ import {
 	SIGNIN_EMAIL,
 	SIGNIN_PASSWORD,
 	ON_SIGNIN_SUBMIT,
+	LOGIN_FAILED,
 
 	REGISTER_EMAIL,
 	REGISTER_PASSWORD,
 	REGISTER_NAME,
 	REGISTER_EMPLOYEE_ID,
 	ON_REGISTER_SUBMIT,
+	REGISTER_FAILED,
 
+	USER_NAME,
+	USER_ID,
+	USER_EMAIL,
 	HOME_DISPLAY,
 	ADMIN_ROUTE,
 	STATS,
@@ -50,6 +55,8 @@ import {
 	//for thunks
 	SIGNIN_IS_PENDING,
 	SIGNIN_ERROR,
+	REGISTER_IS_PENDING,
+	REGISTER_ERROR,
 	TEAM_IS_PENDING,
 	TEAM_ERROR,
 	STATS_IS_PENDING,
@@ -85,9 +92,13 @@ export const setPassword = password => ({
 	payload: password
 });
 
+export const setLoginFailed = bool => ({
+	type: LOGIN_FAILED,
+	payload: bool
+})
+
 //need to fetch to server-----------------------------------------------------
 export const onSubmitSignin = signinValue => dispatch => {
-	console.log(signinValue);
 
 	dispatch({ type: SIGNIN_IS_PENDING, payload: true });
 
@@ -100,23 +111,26 @@ export const onSubmitSignin = signinValue => dispatch => {
 		})
 	}).then(response => response.json())
 		.then(data => {
-			if(data === 'correct') {
-				//fetching 
-				// fetch()
-				// 	.catch(error => dispatch({type: TEAM_ERROR, payload: error}))
+			if(data.status === 'correct') {
+				//setting user data here:
+				dispatch({type: USER_NAME, payload: data.name});
+				dispatch({type: USER_ID, payload: data.employee_id});
+				dispatch({type: USER_EMAIL, payload: data.email});
+				dispatch({type: IS_GOD, payload: data.isGod})
 
-
-				//reset requests status
-				dispatch({ type: SIGNIN_IS_PENDING, payload: false });
 				//this will route the user to home...
 				dispatch({ type: ROUTE, payload: 'home'});
 			} else {
 				throw Error(`Login failed: response: ${data}...`)
 			}
-
+			//cleaning pending status
+			dispatch({ type: SIGNIN_IS_PENDING, payload: false});
 		})
-	 	.catch(error => dispatch({ type: SIGNIN_ERROR, payload: error}));
-
+	 	.catch(error => {
+	 		dispatch({ type: SIGNIN_ERROR, payload: error});
+	 		dispatch({type: LOGIN_FAILED, payload: true});
+	 		dispatch({ type: SIGNIN_IS_PENDING, payload: false});
+	 	});
 };
 
 //ACTIONS REGISTER.JS
@@ -128,7 +142,7 @@ export const setRegisterEmail = email => ({
 export const setRegisterPassword = password => ({
 	type: REGISTER_PASSWORD,
 	payload: password
-})
+});
 
 export const setRegisterName = name => ({
 	type: REGISTER_NAME,
@@ -140,11 +154,41 @@ export const setRegisterEmployeeId = id => ({
 	payload: id
 });
 
-//need to fetch to server---------------------------------------------------
-export const onSubmitRegister = value => ({
-	type: ON_REGISTER_SUBMIT,
-	payload: value
+export const setRegisterFailed = bool => ({
+	type: REGISTER_FAILED,
+	payload: bool
 });
+
+//need to fetch to server---------------------------------------------------
+export const onSubmitRegister = registerValue => dispatch => {
+	dispatch({ type: REGISTER_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/register`, {
+		method: 'put',
+		headers: { 'Content-Type': 'application/json'},
+		body: JSON.stringify({
+			name: registerValue.name,
+			employee_id: registerValue.id,
+			email: registerValue.email,
+			password: registerValue.password
+		})
+	}).then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				//re-route user to login page
+				dispatch({ type: ROUTE, payload: 'signin' });
+			} else {
+				throw Error(`Unable to register user: Server Responded with ${data}`);
+			}
+			//cleaning pending status
+			dispatch({ type: REGISTER_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: REGISTER_ERROR, payload: err });
+			dispatch({ type: REGISTER_FAILED, payload: true });
+			dispatch({ type: REGISTER_IS_PENDING, payload: false });
+		});
+};
 
 //ACTIONS HOME.JS
 export const setHomeDisplay = route => ({ 
@@ -168,7 +212,7 @@ export const setTeam =  team => ({
 });
 
 export const onHomeMount = () => dispatch => {
-	
+	//------------------------------------------------------------------------
 }
 
 //ACTIONS EVALUATE.JS

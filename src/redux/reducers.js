@@ -8,14 +8,18 @@ import {
 	SIGNIN_EMAIL,
 	SIGNIN_PASSWORD,
 	ON_SIGNIN_SUBMIT,
+	LOGIN_FAILED,
 
 	REGISTER_EMAIL,
 	REGISTER_PASSWORD,
 	REGISTER_NAME,
 	REGISTER_EMPLOYEE_ID,
 	ON_REGISTER_SUBMIT,
+	REGISTER_FAILED,
 
-
+	USER_NAME,
+	USER_ID,
+	USER_EMAIL,
 	HOME_DISPLAY,
 	ADMIN_ROUTE,
 	STATS,
@@ -53,6 +57,8 @@ import {
 	//for thunks
 	SIGNIN_IS_PENDING,
 	SIGNIN_ERROR,
+	REGISTER_IS_PENDING,
+	REGISTER_ERROR,
 	TEAM_IS_PENDING,
 	TEAM_ERROR,
 	STATS_IS_PENDING,
@@ -63,7 +69,13 @@ import {
 const initialStateAppJs = {
 	route: 'signin',
 	evaluate: true,
-	isGod: true
+	isGod: true,
+	loginFailed: false,
+	signinIsPending: false,
+	signinError: '',
+	registerIsPending: false,
+	registerError: '',
+	registerFailed: false
 }
 
 export const setAppState = (state = initialStateAppJs, action = {}) => {
@@ -74,6 +86,18 @@ export const setAppState = (state = initialStateAppJs, action = {}) => {
 			return { ...state, evaluate: action.payload };
 		case IS_GOD:
 			return { ...state, isGod: action.payload };
+		case LOGIN_FAILED:
+			return { ...state, loginFailed: action.payload };
+		case SIGNIN_IS_PENDING: 
+			return { ...state, signinIsPending: action.payload };
+		case SIGNIN_ERROR:
+			return { ...state, signinError: action.payload };
+		case REGISTER_IS_PENDING:
+			return { ...state, registerIsPending: action.payload };
+		case REGISTER_ERROR:
+			return { ...state, registerError: action.payload };
+		case REGISTER_FAILED:
+			return { ...state, registerFailed: action.payload };
 		default:
 			return state;
 	}
@@ -122,6 +146,9 @@ export const setRegisterState = (state=initialRegisterState, action={}) => {
 
 //Home.js reducer
 const initialHomeState = {
+	user_name: '',
+	user_id: '',
+	user_email: '',
 	homeDisplay: 'defaultHome',
 	adminRoute: 'adminHome',
 	news: [],
@@ -153,8 +180,6 @@ const initialHomeState = {
 	  {name: 'naruto', email: 'naruto@gmail.com', position: 'PM', employee_id: 1234565},
 	  {name: 'neo anderson', email: 'matrix@gmail.com', position: 'JD', employee_id: 1234566},
 	],
-	signinIsPending: false,
-	signinError: '',
 	teamIsPending: false,
 	teamError: '',
 	statsIsPending: false,
@@ -163,6 +188,12 @@ const initialHomeState = {
 
 export const setHomeState = (state=initialHomeState, action={}) => {
 	switch(action.type) {
+		case USER_NAME:
+			return { ...state, user_name: action.payload };
+		case USER_ID:
+			return { ...state, user_id: action.payload };
+		case USER_EMAIL:
+			return { ...state, user_email: action.payload };
 		case HOME_DISPLAY:
 			return { ...state, homeDisplay: action.payload };
 		case ADMIN_ROUTE:
@@ -171,10 +202,6 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, stats: action.payload };
 		case TEAM:
 			return { ...state, team: action.payload };
-		case SIGNIN_IS_PENDING: 
-			return { ...state, signinIsPending: action.payload };
-		case SIGNIN_ERROR:
-			return { ...state, signinError: action.payload };
 		case TEAM_IS_PENDING:
 			return { ...state, teamIsPending: action.payload };
 		case TEAM_ERROR: 

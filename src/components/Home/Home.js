@@ -22,7 +22,8 @@ const mapStateToProps = state => {
 		stats: state.setHomeState.stats,
 		team: state.setHomeState.team,
 		isGod: state.setAppState.isGod,
-		evaluate: state.setAppState.evaluate
+		evaluate: state.setAppState.evaluate,
+		userName: state.setHomeState.user_name,
 	};
 };
 
@@ -32,7 +33,6 @@ const mapDispatchToProps = dispatch => {
 		setAdminRoute: 	route => dispatch(setAdminRoute(route)),
 		onRouteChange: 	route => dispatch(setRoute(route)),
 		setEvalRoute: 	route => dispatch(setEvaluateRoute(route))
-
 	};
 };
 
@@ -40,7 +40,7 @@ const mapDispatchToProps = dispatch => {
 class Home extends React.Component {
 
 	componentDidMount() {
-		
+		//load stats and team here
 	}
 
 	//do render logic here
@@ -53,7 +53,7 @@ class Home extends React.Component {
 			adminRoute,
 			onRouteChange,
 			setHomeDisplay,
-			setAdminRoute 
+			setAdminRoute
 		} = this.props;
 		let disp;
 
@@ -82,7 +82,7 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const { isGod, onRouteChange, setHomeDisplay, setAdminRoute, setEvalRoute } = this.props;
+		const { isGod, onRouteChange, setHomeDisplay, setAdminRoute, setEvalRoute, userName } = this.props;
 
 		return (
 			<div>
@@ -92,6 +92,7 @@ class Home extends React.Component {
                   god={isGod}
                   setAdminRoute={setAdminRoute}
                   setEvalRoute={setEvalRoute}
+                  userName={userName}
                  />
 
 				<div 

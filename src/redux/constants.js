@@ -7,6 +7,7 @@ export const IS_GOD 						= 'IS_GOD';
 export const SIGNIN_EMAIL 					= 'SIGNIN_EMAIL';
 export const SIGNIN_PASSWORD 				='SIGNIN_PASSWORD';
 export const ON_SIGNIN_SUBMIT 				= 'ON_SIGNIN_SUBMIT';
+export const LOGIN_FAILED					= 'LOGIN_FAILED';
 
 //Register.js states
 export const REGISTER_EMAIL 				= 'REGISTER_EMAIL';
@@ -14,8 +15,12 @@ export const REGISTER_PASSWORD 				= 'REGISTER_PASSWORD';
 export const REGISTER_NAME 					= 'REGISTER_NAME';
 export const REGISTER_EMPLOYEE_ID 			= 'REGISTER_EMPLOYEE_ID';
 export const ON_REGISTER_SUBMIT 			= 'ON_REGISTER_SUBMIT';
+export const REGISTER_FAILED				= 'REGISTER_FAILED';
 
 //Home.js states
+export const USER_NAME 						= 'USER_NAME';
+export const USER_ID 						= 'USER_ID';
+export const USER_EMAIL 					= 'USER_EMAIL';
 export const HOME_DISPLAY 					= 'HOME_DISPLAY';
 export const ADMIN_ROUTE 					= 'ADMIN_ROUTE';
 export const STATS 							= 'STATS';
@@ -60,7 +65,10 @@ export const SUBMIT_SCHEDULE 				= 'SUBMIT_SCHEDULE';
 //for thunks
 export const SIGNIN_IS_PENDING 				= 'SIGNIN_IS_PENDING';
 export const SIGNIN_ERROR					= 'SIGNIN_ERROR';
+export const REGISTER_IS_PENDING			= 'REGISTER_IS_PENDING';
+export const REGISTER_ERROR					= 'REGISTER_ERROR';
 export const TEAM_IS_PENDING				= 'TEAM_IS_PENDING';
 export const TEAM_ERROR						= 'TEAM_ERROR';
 export const STATS_IS_PENDING				= 'STATS_IS_PENDING';
 export const STATS_ERROR					= 'STATS_ERROR';
+

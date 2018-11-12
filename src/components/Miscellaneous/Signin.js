@@ -36,7 +36,7 @@ class Signin extends React.Component {
 			signInEmail, 
 			signInPassword, 
 			signInSubmit, 
-			onSigninSubmit 
+			onSigninSubmit
 		} = this.props;
 
 		return (
@@ -50,8 +50,6 @@ class Signin extends React.Component {
 			    	value='Sign In' 
 			    	onClick={() => {
 			    		onSigninSubmit(signInSubmit);
-			    		// setRoute('home');
-			    		console.log(signInSubmit);
 			    }} />
 			    <div className="lh-copy mt3">
 			      <a href="#0" className="f6 link dim b black grow db"

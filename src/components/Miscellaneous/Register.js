@@ -3,7 +3,7 @@ import { Fieldset, InputLabel, InputButton, Forms } from '../utilities/Forms.js'
 import { connect } from 'react-redux';
 
 import { 
-	setRoute, onSubmitRegister,
+	onSubmitRegister,
 	setRegisterEmail, 
 	setRegisterPassword, 
 	setRegisterName,
@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => {
 		onPasswordChange: event => dispatch(setRegisterPassword(event.target.value)),
 		onNameChange: event => dispatch(setRegisterName(event.target.value)),
 		onEmployeeIdChange: event => dispatch(setRegisterEmployeeId(event.target.value)),
-		onSubmitRegister: route => dispatch(setRoute(route))
+		onRegisterSubmit: data => dispatch(onSubmitRegister(data))
 	}
 }
 
@@ -34,7 +34,17 @@ class Register extends React.Component {
 
 	render() {
 
-		const { onNameChange, onPasswordChange, onEmailChange, onEmployeeIdChange, onSubmitRegister } = this.props;
+		const {
+			name,
+			id,
+			email,
+			password,
+			onNameChange, 
+			onPasswordChange, 
+			onEmailChange, 
+			onEmployeeIdChange, 
+			onRegisterSubmit 
+		} = this.props;
 
 		return (
 			<Forms>
@@ -44,7 +54,12 @@ class Register extends React.Component {
 			      <InputLabel key='email' label='Email' type='email' name='email-address'func={onEmailChange} />
 			      <InputLabel key='password' label='Password' type='password' name='password'func={onPasswordChange} />
 			    </Fieldset>
-			    <InputButton value='Register' onClick={() => onSubmitRegister ('signin')} />
+			    <InputButton 
+			    	value='Register' 
+			    	onClick={() => {
+				    	onRegisterSubmit ({name, email, password, id});
+				    }} 
+				/>
 			</Forms>
 		);
 	}
