@@ -110,6 +110,7 @@ class Home extends React.Component {
 
 		return (
 			<div>
+				<div className='center' >
 				<Modal //this modal will always show while fetching to server
 		          visible={teamPending || statsPending}
 		          effect={'fadeInUp'}
@@ -117,6 +118,7 @@ class Home extends React.Component {
 		        >
 		          <h1 className='red f4 f3-ns'>LOADING RESOURCES...</h1>
 		        </Modal>
+		        </div>
 				<Navigation 
                   onRouteChange={onRouteChange} 
                   setHomeDisplay={setHomeDisplay}

@@ -65,7 +65,11 @@ import {
 	STATS_IS_PENDING,
 	STATS_ERROR,
 	HOME_MOUNT_IS_PENDING,
-	HOME_MOUNT_ERROR
+	HOME_MOUNT_ERROR,
+	SUBMITNEWS_IS_PENDING,
+	SUBMITNEWS_ERROR,
+	GETNEWS_IS_PENDING,
+	GETNEWS_ERROR
 } from './constants.js'
 
 //Signin.js reducer
@@ -200,6 +204,7 @@ const initialEvaluateState = {
 	evaluateRoute: 'evaluate',
 	evaluateTeamMate: {},
 	questionaire: [
+		//these are hard-coded questionaire...can be adapted to any organization
 		'How do you rate his attendance?',
 		'How do you rate his code effeciency?',
 		'How do you rate his code readability?',
@@ -225,7 +230,10 @@ export const setEvaluateState = (state=initialEvaluateState, action={}) => {
 
 //EvaluatePerson.js reducer
 const initialEvaluatePersonState = {
-	score: {
+	score: { 
+		//these are initial values, 
+		//if user does not toggle the slider and click Submit immediately
+		//these values will be sent to back-end
 		0 : 75,
 		1 : 75,
 		2 : 75,
@@ -310,15 +318,30 @@ export const setNewHireState = (state=initialNewHireState, action={}) => {
 //News.js reducer
 const initialNewsState = {
 	news: '',
-	newsVisibility: false
+	newsVisibility: false,
+	submitNews: '',
+	submitNewsIsPending: false,
+	submitNewsError: '',
+	getNewsIsPending: false,
+	getNewsError: ''
 }
 
 export const setNewsState = (state=initialNewsState, action={}) => {
 	switch(action.type) {
 		case NEWS:
-			return { ...state, news: action.payload }
+			return { ...state, news: action.payload };
 		case NEWS_VISIBILITY:
-			return { ...state, newsVisibility: action.payload}
+			return { ...state, newsVisibility: action.payload};
+		case SUBMITNEWS:
+			return { ...state, submitNews: action.payload };
+		case SUBMITNEWS_IS_PENDING:
+			return { ...state, submitNewsIsPending: action.payload };
+		case SUBMITNEWS_ERROR:
+			return { ...state, submitNewsError: action.payload };
+		case GETNEWS_IS_PENDING:
+			return { ...state, getNewsIsPending: action.payload };
+		case GETNEWS_ERROR:
+			return { ...state, getNewsError: action.payload };
 		default:
 			return state;
 	}

@@ -7,28 +7,30 @@ import ButtonMaker from '../../utilities/ButtonMaker.js'
 import { 
 	setNewsText,
 	setNewsVisible,
-	submitNews
+	onSubmitNews
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
 	return {
 		news: state.setNewsState.news,
 		newsVisibility: state.setNewsState.newsVisibility,
+		submitNews: state.setNewsState.submitNews,
+
 	};
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
 		setNews: value => dispatch(setNewsText(value)),
-		toggleNewsVisibility: visible => dispatch(setNewsVisible(!visible))
-
+		toggleNewsVisibility: visible => dispatch(setNewsVisible(!visible)),
+		onNewsSubmit: news => dispatch(onSubmitNews(news))
 	}
 }
 
 class News extends React.Component {
 
 	render() {
-		const { news, newsVisibility, setNews, toggleNewsVisibility } = this.props;
+		const { submitNews, newsVisibility, setNews, toggleNewsVisibility, onNewsSubmit } = this.props;
 
 		return (
 			<div className='w-80'>
@@ -38,18 +40,18 @@ class News extends React.Component {
 					width={'80%'}
 				>
 					<h2>---CONFIRM DATABASE UDATE---</h2>
-					<h1 className='w-80 center'><span className='red'>INSERTING: </span>{news}</h1>
-					<div className='center flex flex-wrap w-80 justify-between'>
+					<h1 className='w-80 center'><span className='red'>INSERTING: </span>{submitNews}</h1>
+					<div className='center flex flex-wrap w-50'>
 						
 				      	<ButtonMaker 
 				      		text='CONFIRM' 
 				      		onClick={() => {
 				      			toggleNewsVisibility(newsVisibility);
-				      			console.log(news);
+				      			console.log(submitNews);
 				      		}} 
 				      		className='b link f6 f4-ns grow pa3 bg-orange hover-bg-red' 
 				      	/>
-				      	
+				      	<div className='mh5'></div>
 				      	<ButtonMaker 
 				      		text='CANCEL' 
 				      		onClick={() => { 
@@ -68,7 +70,7 @@ class News extends React.Component {
 						type='text'
 						onChange={ (event) => setNews(event.target.value) }
 						placeholder='ENTER NEWS HERE:'
-						value={news}
+						value={submitNews}
 					/>
 				</div>
 				<ButtonMaker 

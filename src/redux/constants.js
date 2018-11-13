@@ -72,4 +72,9 @@ export const TEAM_IS_PENDING				= 'TEAM_IS_PENDING';
 export const TEAM_ERROR						= 'TEAM_ERROR';
 export const STATS_IS_PENDING				= 'STATS_IS_PENDING';
 export const STATS_ERROR					= 'STATS_ERROR';
+export const SUBMITNEWS_IS_PENDING			= 'SUBMITNEWS_IS_PENDING';
+export const SUBMITNEWS_ERROR				= 'SUBMITNEWS_ERROR';
+export const GETNEWS_IS_PENDING				= 'GETNEWS_IS_PENDING';
+export const GETNEWS_ERROR					= 'GETNEWS_ERROR';
+
 

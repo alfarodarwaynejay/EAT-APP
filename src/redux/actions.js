@@ -61,7 +61,11 @@ import {
 	TEAM_IS_PENDING,
 	TEAM_ERROR,
 	STATS_IS_PENDING,
-	STATS_ERROR
+	STATS_ERROR,
+	SUBMITNEWS_IS_PENDING,
+	SUBMITNEWS_ERROR,
+	GETNEWS_IS_PENDING,
+	GETNEWS_ERROR
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -357,7 +361,7 @@ export const submitNewHire = empId => ({
 
 //ACTIONS NEWS.JS
 export const setNewsText = news => ({
-	type: NEWS,
+	type: SUBMITNEWS,
 	payload: news
 });
 
@@ -367,10 +371,9 @@ export const setNewsVisible = visibility => ({
 });
 
 //need to fetch server here--------------------------------------------
-export const submitNews = news => ({
-	type: SUBMITNEWS,
-	payload: news
-});
+export const onSubmitNews = news => dispatch => {
+	return ''
+};
 
 //ACTIONS SCHEDULE.JS
 export const setStart = start => ({
@@ -398,6 +401,10 @@ export const submitSchedule = sched => ({
 	type: SUBMIT_SCHEDULE,
 	payload: { ...sched}
 });
+
+
+
+
 
 
 //HELPER FUNCTIONS
