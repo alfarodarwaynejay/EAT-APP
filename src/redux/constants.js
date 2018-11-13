@@ -21,6 +21,7 @@ export const REGISTER_FAILED				= 'REGISTER_FAILED';
 export const USER_NAME 						= 'USER_NAME';
 export const USER_ID 						= 'USER_ID';
 export const USER_EMAIL 					= 'USER_EMAIL';
+export const USER_POSITION					= 'USER_POSITION';
 export const HOME_DISPLAY 					= 'HOME_DISPLAY';
 export const ADMIN_ROUTE 					= 'ADMIN_ROUTE';
 export const STATS 							= 'STATS';

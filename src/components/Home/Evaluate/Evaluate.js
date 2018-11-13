@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Deck from '../../utilities/Deck.js'
+import Card from '../../utilities/Card.js'
 import EvaluatePerson from './EvaluatePerson';
 import Headline from '../../utilities/Headline.js'
 
@@ -14,6 +15,7 @@ const mapStateToProps = state => {
 	return {
 		team: state.setHomeState.team,
 		evaluateRoute: state.setEvaluateState.evaluateRoute,
+		errorTeam: state.setHomeState.teamError
 	};
 }
 
@@ -37,7 +39,8 @@ class Evaluate extends React.Component {
 		const {
 			evaluateRoute, 
 			evaluateTeamMate, 
-			team, 
+			team,
+			errorTeam, 
 			setEvalTeammate, 
 			setEvalRoute 
 		} = this.props;
@@ -48,16 +51,28 @@ class Evaluate extends React.Component {
 			case 'evaluate':
 				disp = (
 					<div className='dib w-80'>
-						<Headline text='Evaluate your team!' />
-						<div>
-							<Deck 
-								employee={team} 
-								setEvaluateTeamMate={setEvalTeammate}
-								setEvalRoute={setEvalRoute}
-								flag={'evaluation'}
-							/>
-						</div>
-						
+						{ errorTeam ?
+						(
+							<div>
+								<Headline text='No Teammate!' />
+								<Card jsx={<h1 className='f4 f3-ns mv6 near-black'>{errorTeam.toString().replace('Error: ', '')}</h1>} />
+							</div>
+						) 
+						:
+						(
+							<div>
+								<Headline text='Evaluate your team!' />
+								<div>
+									<Deck 
+										employee={team} 
+										setEvaluateTeamMate={setEvalTeammate}
+										setEvalRoute={setEvalRoute}
+										flag={'evaluation'}
+									/>
+								</div>
+							</div>
+						)
+						}
 					</div>
 				);
 				break;

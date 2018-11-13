@@ -18,6 +18,7 @@ import {
 	USER_NAME,
 	USER_ID,
 	USER_EMAIL,
+	USER_POSITION,
 	HOME_DISPLAY,
 	ADMIN_ROUTE,
 	STATS,
@@ -103,13 +104,14 @@ export const onSubmitSignin = signinValue => dispatch => {
 	dispatch({ type: SIGNIN_IS_PENDING, payload: true });
 
 	fetch(`${HOST}/signin`, {
-		method: 'post',
-		headers: { 'Content-Type': 'application/json'},
-		body: JSON.stringify({
-			email: signinValue.email,
-			password: signinValue.password
+			method: 'post',
+			headers: { 'Content-Type' : 'application/json'},
+			body: JSON.stringify({
+				email: signinValue.email,
+				password: signinValue.password
+			})
 		})
-	}).then(response => response.json())
+		.then(response => response.json())
 		.then(data => {
 			if(data.status === 'correct') {
 				//setting user data here:
@@ -164,15 +166,16 @@ export const onSubmitRegister = registerValue => dispatch => {
 	dispatch({ type: REGISTER_IS_PENDING, payload: true });
 
 	fetch(`${HOST}/register`, {
-		method: 'put',
-		headers: { 'Content-Type': 'application/json'},
-		body: JSON.stringify({
-			name: registerValue.name,
-			employee_id: registerValue.id,
-			email: registerValue.email,
-			password: registerValue.password
+			method: 'put',
+			headers: { 'Content-Type' : 'application/json'},
+			body: JSON.stringify({
+				name: registerValue.name,
+				employee_id: registerValue.id,
+				email: registerValue.email,
+				password: registerValue.password
+			})
 		})
-	}).then(response => response.json())
+		.then(response => response.json())
 		.then(data => {
 			if (data === 'success') {
 				//re-route user to login page
@@ -211,9 +214,55 @@ export const setTeam =  team => ({
 	payload: team
 });
 
-export const onHomeMount = () => dispatch => {
-	//------------------------------------------------------------------------
-}
+//need to fetch to server---------------------------------------------------
+export const onHomeMount = user_id => dispatch => {
+	dispatch({ type: TEAM_IS_PENDING, payload: true });
+	dispatch({ type: STATS_IS_PENDING, payload: true });
+
+	//fetching team here:
+	fetch(`${HOST}/team`, {
+			method : 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({ emp_id : user_id })
+		})
+		.then(response => response.json())
+		.then(data => {
+			//must deal with the failed response
+			if (data === 'failed') {
+				throw Error('You have no teammates. Note: if Admin, use your ordinary account');
+			} else {
+				dispatch({ type: TEAM, payload: data });
+				dispatch({ type: TEAM_IS_PENDING, payload: false });	
+			}
+		})
+		.catch(err => {
+			dispatch({ type: TEAM_ERROR, payload: err});
+			dispatch({ type: TEAM_IS_PENDING, payload: false });
+		});
+
+	//fetching stats here:
+	fetch(`${HOST}/stats`, {
+			method : 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({ emp_id : user_id })
+		})
+		.then(response => response.json())
+		.then(data => {
+			dispatch({ type: USER_POSITION, payload: data.position});
+
+			if (data.status === 'success') {
+				dispatch({ type: STATS, payload: calculateStats(data.stats) });
+			} else {
+				throw Error(data.status);
+			}
+
+			dispatch({ type: STATS_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: STATS_ERROR, payload: err});
+			dispatch({ type: STATS_IS_PENDING, payload: false });
+		});
+};
 
 //ACTIONS EVALUATE.JS
 export const setEvaluateRoute = route => ({
@@ -351,7 +400,28 @@ export const submitSchedule = sched => ({
 });
 
 
+//HELPER FUNCTIONS
 
+//calculate the stats from response object
+const calculateStats = (arr) => {
+	//reduce the argument to single array with sums of items of an object 
+	const tempArr = arr.reduce((acc, item) => {
+		for(let [key, value] in Object.entries(item)) {
+			acc[key] += item[key];
+		}
+		return acc;
+
+	   //I could use << '0 '.repeat(Object.keys(arr[item]).length).split(' ') >> but is too cheeky
+	}, [0,0,0,0,0,0,0,0,0]);
+
+	//reduce the temporary array and return an object wrap in an array...because my state was earlier design in array..
+	return [ 
+		tempArr.reduce((acc, item, i) => {
+			acc[i] = item/arr.length;
+			return acc;
+		}, {}) 
+	];
+}
 
 
 

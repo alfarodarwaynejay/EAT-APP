@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Modal from 'react-awesome-modal';
 import DefaultHome from './DefaultHome.js';
 import Evaluate from './Evaluate/Evaluate.js';
 import Statistics from './Statistics/Statistics.js'
@@ -12,7 +13,8 @@ import {
 	setAdminRoute, 
 	setStats,
 	setTeam,
-	setEvaluateRoute
+	setEvaluateRoute,
+	onHomeMount
 } from '../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -24,6 +26,11 @@ const mapStateToProps = state => {
 		isGod: state.setAppState.isGod,
 		evaluate: state.setAppState.evaluate,
 		userName: state.setHomeState.user_name,
+		userID: state.setHomeState.user_id,
+		position: state.setHomeState.user_position,
+		teamPending: state.setHomeState.teamIsPending,
+		statsPending: state.setHomeState.statsIsPending,
+		errorStats: state.setHomeState.statsError
 	};
 };
 
@@ -32,7 +39,8 @@ const mapDispatchToProps = dispatch => {
 		setHomeDisplay: route => dispatch(setHomeDisplay(route)),
 		setAdminRoute: 	route => dispatch(setAdminRoute(route)),
 		onRouteChange: 	route => dispatch(setRoute(route)),
-		setEvalRoute: 	route => dispatch(setEvaluateRoute(route))
+		setEvalRoute: 	route => dispatch(setEvaluateRoute(route)),
+		mountHome: data => dispatch(onHomeMount(data))
 	};
 };
 
@@ -40,8 +48,11 @@ const mapDispatchToProps = dispatch => {
 class Home extends React.Component {
 
 	componentDidMount() {
+		const { mountHome, userID } = this.props
 		//load stats and team here
+		mountHome(userID);
 	}
+
 
 	//do render logic here
 	displayer = () => {
@@ -51,9 +62,13 @@ class Home extends React.Component {
 			stats, 
 			team, 
 			adminRoute,
+			userName,
+			userID,
+			position,
 			onRouteChange,
 			setHomeDisplay,
-			setAdminRoute
+			setAdminRoute,
+			errorStats
 		} = this.props;
 		let disp;
 
@@ -62,7 +77,7 @@ class Home extends React.Component {
 				disp = <DefaultHome evaluate={evaluate} setHomeDisplay={setHomeDisplay}/>;
 				break;
 			case 'statistics':
-				disp = <Statistics stats={stats}/>;
+				disp = <Statistics name={userName} id={userID} position={position} stats={stats} error={errorStats} />;
 				break;
 			case 'evaluateDefault':
 				disp = <Evaluate />;
@@ -82,10 +97,26 @@ class Home extends React.Component {
 	}
 
 	render() {
-		const { isGod, onRouteChange, setHomeDisplay, setAdminRoute, setEvalRoute, userName } = this.props;
+		const { 
+			isGod, 
+			onRouteChange, 
+			setHomeDisplay, 
+			setAdminRoute, 
+			setEvalRoute, 
+			userName,
+			teamPending,
+			statsPending
+		} = this.props;
 
 		return (
 			<div>
+				<Modal //this modal will always show while fetching to server
+		          visible={teamPending || statsPending}
+		          effect={'fadeInUp'}
+		          width={'50%'}
+		        >
+		          <h1 className='red f4 f3-ns'>LOADING RESOURCES...</h1>
+		        </Modal>
 				<Navigation 
                   onRouteChange={onRouteChange} 
                   setHomeDisplay={setHomeDisplay}

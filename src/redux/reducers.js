@@ -20,6 +20,7 @@ import {
 	USER_NAME,
 	USER_ID,
 	USER_EMAIL,
+	USER_POSITION,
 	HOME_DISPLAY,
 	ADMIN_ROUTE,
 	STATS,
@@ -62,7 +63,9 @@ import {
 	TEAM_IS_PENDING,
 	TEAM_ERROR,
 	STATS_IS_PENDING,
-	STATS_ERROR
+	STATS_ERROR,
+	HOME_MOUNT_IS_PENDING,
+	HOME_MOUNT_ERROR
 } from './constants.js'
 
 //Signin.js reducer
@@ -149,41 +152,16 @@ const initialHomeState = {
 	user_name: '',
 	user_id: '',
 	user_email: '',
+	user_position:'',
 	homeDisplay: 'defaultHome',
 	adminRoute: 'adminHome',
 	news: [],
-	stats: [
-	  {
-	    name: 'Ovuvwevwevwe Onyentenyevwe Ugwemubwem Ossas',
-	    employee_id: 12345611,
-	    position: 'Juniour Dev',
-	    attendance: '90%',
-	    code_effeciency: '85%',
-	    code_readability: '85%',
-	    team_player: '100%',
-	    tools_iq: '97%',
-	    resourceful: '101%',
-	    courteous: '97%',
-	    coding_passion: '97%',
-	    hype_beast: '97%'
-	  }
-		],
-	team: [
-	  {name: 'ervin', email: 'ervin@gmail.com', position: 'SD', employee_id: 1234567},
-	  {name: 'monica', email: 'monica@gmail.com', position: 'TL', employee_id: 1234568},
-	  {name: 'ernesto', email: 'ernesto@gmail.com', position: 'SM', employee_id: 1234569},
-	  {name: 'jeane', email: 'jeane@gmail.com', position: 'IA', employee_id: 1234560},
-	  {name: 'lyndon', email: 'aramina@gmail.com', position: 'UX', employee_id: 1234561},
-	  {name: 'mauro', email: 'mauro@gmail.com', position: 'UI', employee_id: 1234562},
-	  {name: 'fillipo', email: 'fillipo@gmail.com', position: 'QA', employee_id: 1234563},
-	  {name: 'goku', email: 'sangoku@gmail.com', position: 'BE', employee_id: 1234564},
-	  {name: 'naruto', email: 'naruto@gmail.com', position: 'PM', employee_id: 1234565},
-	  {name: 'neo anderson', email: 'matrix@gmail.com', position: 'JD', employee_id: 1234566},
-	],
+	stats: [],
+	team: [],
 	teamIsPending: false,
 	teamError: '',
 	statsIsPending: false,
-	statsError:''
+	statsError:'',
 };
 
 export const setHomeState = (state=initialHomeState, action={}) => {
@@ -194,6 +172,8 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, user_id: action.payload };
 		case USER_EMAIL:
 			return { ...state, user_email: action.payload };
+		case USER_POSITION:
+			return { ...state, user_position: action.payload };
 		case HOME_DISPLAY:
 			return { ...state, homeDisplay: action.payload };
 		case ADMIN_ROUTE:
