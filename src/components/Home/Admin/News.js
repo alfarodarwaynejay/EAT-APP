@@ -7,7 +7,10 @@ import ButtonMaker from '../../utilities/ButtonMaker.js'
 import { 
 	setNewsText,
 	setNewsVisible,
-	onSubmitNews
+	onSubmitNews,
+	resetSubmitNews,
+	setHomeDisplay,
+	setAdminRoute
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -15,6 +18,9 @@ const mapStateToProps = state => {
 		news: state.setNewsState.news,
 		newsVisibility: state.setNewsState.newsVisibility,
 		submitNews: state.setNewsState.submitNews,
+		submitSuccess: state.setNewsState.submitNewsSuccess,
+		submitError: state.setNewsState.submitNewsError,
+		submitPending: state.setNewsState.submitIsPending
 
 	};
 }
@@ -23,17 +29,68 @@ const mapDispatchToProps = dispatch => {
 	return {
 		setNews: value => dispatch(setNewsText(value)),
 		toggleNewsVisibility: visible => dispatch(setNewsVisible(!visible)),
-		onNewsSubmit: news => dispatch(onSubmitNews(news))
+		onNewsSubmit: news => dispatch(onSubmitNews(news)),
+		submitNewsReset: () => dispatch(resetSubmitNews()),
+		goHome: route => dispatch(setHomeDisplay(route)),
+		goAdmin: route => dispatch(setAdminRoute(route))
 	}
 }
 
 class News extends React.Component {
 
+	componentWillUnmount() {
+		this.props.submitNewsReset();
+	}
+
 	render() {
-		const { submitNews, newsVisibility, setNews, toggleNewsVisibility, onNewsSubmit } = this.props;
+		const { 
+			submitNews, 
+			newsVisibility, 
+			setNews, 
+			toggleNewsVisibility, 
+			onNewsSubmit,
+			submitPending,
+			submitError,
+			submitSuccess,
+			goHome,
+			goAdmin
+		} = this.props;
 
 		return (
 			<div className='w-80'>
+				<Modal //this modal will always show while fetching to server
+		          visible={submitPending}
+		          effect={'fadeInUp'}
+		          width={'50%'}
+		        >
+		          <h1 className='red f4 f3-ns'>SUBMITTING NEWS TO SERVER...</h1>
+		        </Modal>
+
+		        <Modal //if wrong login this modal will show
+		          visible={!!submitError || !!submitSuccess}
+		          effect={'fadeInUp'}
+		          width={'50%'}
+		        >
+		          <h1 className='red f4 f3-ns'>
+		          	{
+		          		(!!submitError ?
+		          		'SOMETHING WENT WRONG WHILE UPDATING SERVER'
+		          		: 'NEWS UPDATE SUCCESSFUL')
+		          	}
+		          </h1>
+		          
+		              <ButtonMaker 
+		                text='HOME'
+		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-80' 
+		                onClick={() => goHome('defaultHome')} 
+		              />
+		              <ButtonMaker 
+		                text='ADMIN'
+		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-80' 
+		                onClick={() => goAdmin('adminHome')} 
+		              />
+		        </Modal>
+
 				<Modal
 					visible={newsVisibility}
 					effect={'fadeInUp'}
@@ -47,6 +104,7 @@ class News extends React.Component {
 				      		text='CONFIRM' 
 				      		onClick={() => {
 				      			toggleNewsVisibility(newsVisibility);
+				      			onNewsSubmit(submitNews);
 				      			console.log(submitNews);
 				      		}} 
 				      		className='b link f6 f4-ns grow pa3 bg-orange hover-bg-red' 

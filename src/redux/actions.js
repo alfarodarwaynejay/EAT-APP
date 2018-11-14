@@ -63,9 +63,15 @@ import {
 	STATS_IS_PENDING,
 	STATS_ERROR,
 	SUBMITNEWS_IS_PENDING,
+	SUBMITNEWS_SUCCES,
 	SUBMITNEWS_ERROR,
+	NEWSRESET,
 	GETNEWS_IS_PENDING,
-	GETNEWS_ERROR
+	GETNEWS_ERROR,
+	SUBMITSCHEDULE_IS_PENDING,
+	SUBMITSCHEDULE_SUCESS,
+	SUBMITSCHEDULE_ERROR,
+	SUBMITSCHEDULE_RESET
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -371,9 +377,30 @@ export const setNewsVisible = visibility => ({
 });
 
 //need to fetch server here--------------------------------------------
-export const onSubmitNews = news => dispatch => {
-	return ''
+export const onSubmitNews = value => dispatch => {
+	dispatch({ type: SUBMITNEWS_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/news`, {
+		method: 'put',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify({ news: value })
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				dispatch({ type: SUBMITNEWS_SUCCES, payload: data });
+			} else {
+				throw Error('Sending news failed. Please try again');
+			}
+
+		})
+		.catch(err => {
+			dispatch({ type: SUBMITNEWS_IS_PENDING, payload: false });
+			dispatch({ type: SUBMITNEWS_ERROR, payload: err })
+		})
 };
+
+export const resetSubmitNews = () => ({ type: NEWSRESET });
 
 //ACTIONS SCHEDULE.JS
 export const setStart = start => ({
@@ -395,6 +422,8 @@ export const setEndVisibility = visibility => ({
 	type: OPEN_END,
 	payload: visibility
 });
+
+export const resetSubmitSchedule = () => ({ type: SUBMITSCHEDULE_RESET });
 
 //need to fetch server here--------------------------------------------
 export const submitSchedule = sched => ({

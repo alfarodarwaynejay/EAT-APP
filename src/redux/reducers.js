@@ -67,9 +67,15 @@ import {
 	HOME_MOUNT_IS_PENDING,
 	HOME_MOUNT_ERROR,
 	SUBMITNEWS_IS_PENDING,
+	SUBMITNEWS_SUCCES,
 	SUBMITNEWS_ERROR,
+	NEWSRESET,
 	GETNEWS_IS_PENDING,
-	GETNEWS_ERROR
+	GETNEWS_ERROR,
+	SUBMITSCHEDULE_IS_PENDING,
+	SUBMITSCHEDULE_SUCESS,
+	SUBMITSCHEDULE_ERROR,
+	SUBMITSCHEDULE_RESET
 } from './constants.js'
 
 //Signin.js reducer
@@ -321,6 +327,7 @@ const initialNewsState = {
 	newsVisibility: false,
 	submitNews: '',
 	submitNewsIsPending: false,
+	submitNewsSuccess: '',
 	submitNewsError: '',
 	getNewsIsPending: false,
 	getNewsError: ''
@@ -336,12 +343,16 @@ export const setNewsState = (state=initialNewsState, action={}) => {
 			return { ...state, submitNews: action.payload };
 		case SUBMITNEWS_IS_PENDING:
 			return { ...state, submitNewsIsPending: action.payload };
+		case SUBMITNEWS_SUCCES:
+			return { ...state, submitNewsSuccess: action.payload };
 		case SUBMITNEWS_ERROR:
 			return { ...state, submitNewsError: action.payload };
 		case GETNEWS_IS_PENDING:
 			return { ...state, getNewsIsPending: action.payload };
 		case GETNEWS_ERROR:
 			return { ...state, getNewsError: action.payload };
+		case NEWSRESET:
+			return initialNewsState; 
 		default:
 			return state;
 	}
@@ -352,7 +363,10 @@ const initialScheduleState = {
 	startDate: moment(),
 	endDate: moment().add(7, 'days'),
 	openStart: false,
-	openEnd: false
+	openEnd: false,
+	submitScheduleIsPending: false,
+	submitScheduleSuccess: false,
+	submitScheduleError: ''
 }
 
 export const setScheduleState = (state=initialScheduleState, action={}) => {
@@ -365,6 +379,14 @@ export const setScheduleState = (state=initialScheduleState, action={}) => {
 			return { ...state, openStart: action.payload };
 		case OPEN_END:
 			return { ...state, openEnd: action.payload };
+		case SUBMITSCHEDULE_IS_PENDING:
+			return { ...state, submitScheduleIsPending: action.payload };
+		case SUBMITSCHEDULE_SUCESS:
+			return { ...state, submitScheduleSuccess: action.payload };
+		case SUBMITSCHEDULE_ERROR:
+			return { ...state, submitScheduleError: action.payload };
+		case SUBMITSCHEDULE_RESET:
+			return initialScheduleState;
 		default:
 			return state;
 	}

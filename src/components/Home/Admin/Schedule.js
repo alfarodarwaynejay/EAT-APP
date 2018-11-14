@@ -11,7 +11,9 @@ import {
 	setEnd,
 	setStartVisibility,
 	setEndVisibility,
-	submitSchedule
+	submitSchedule,
+	resetSubmitSchedule,
+
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -19,7 +21,9 @@ const mapStateToProps = state => {
 		startDate: state.setScheduleState.startDate,
 		endDate: state.setScheduleState.endDate,
 		openStart: state.setScheduleState.openStart,
-		openEnd: state.setScheduleState.openEnd
+		openEnd: state.setScheduleState.openEnd,
+		schedulePending: state.setScheduleState.submitScheduleIsPending,
+		error: state.setScheduleState.submitScheduleError
 	};
 };
 
