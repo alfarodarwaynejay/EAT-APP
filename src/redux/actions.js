@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import { 
 	ROUTE,
 	EVALUATE,
@@ -71,7 +73,12 @@ import {
 	SUBMITSCHEDULE_IS_PENDING,
 	SUBMITSCHEDULE_SUCESS,
 	SUBMITSCHEDULE_ERROR,
-	SUBMITSCHEDULE_RESET
+	SUBMITSCHEDULE_RESET,
+	EVALUATE_IS_PENDING,
+	EVALUATE_ERROR,
+	NEWS_HOME,
+	NEWS_IS_PENDING,
+	NEWS_ERROR
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -228,6 +235,8 @@ export const setTeam =  team => ({
 export const onHomeMount = user_id => dispatch => {
 	dispatch({ type: TEAM_IS_PENDING, payload: true });
 	dispatch({ type: STATS_IS_PENDING, payload: true });
+	dispatch({ type: EVALUATE_IS_PENDING, payload: true });
+	dispatch({ type: NEWS_IS_PENDING, payload: true });
 
 	//fetching team here:
 	fetch(`${HOST}/team`, {
@@ -271,6 +280,50 @@ export const onHomeMount = user_id => dispatch => {
 		.catch(err => {
 			dispatch({ type: STATS_ERROR, payload: err});
 			dispatch({ type: STATS_IS_PENDING, payload: false });
+		});
+	//fetching evaluate schedule here:
+	fetch(`${HOST}/getschedule`, {
+			method : 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({ get : true })
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'incorrect form submission') {
+				throw Error(data);
+			} else {
+				const today = moment().format('DD-MM-YYYY');
+				if( data.start <= today && today <= data.end ) {
+					dispatch({ type: EVALUATE, payload: true });
+				}
+			}
+
+			dispatch({ type: EVALUATE_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: EVALUATE_ERROR, payload: err});
+			dispatch({ type: EVALUATE_IS_PENDING, payload: false });
+		});
+
+	//fetching news here
+	fetch(`${HOST}/getnews`, {
+			method : 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({ reqNews : true })
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'incorrect form submission') {
+				throw Error(data);
+			} else {
+				dispatch({ type: NEWS_HOME, payload: data });
+			}
+
+			dispatch({ type: NEWS_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: NEWS_ERROR, payload: err});
+			dispatch({ type: NEWS_IS_PENDING, payload: false});
 		});
 };
 
@@ -426,10 +479,30 @@ export const setEndVisibility = visibility => ({
 export const resetSubmitSchedule = () => ({ type: SUBMITSCHEDULE_RESET });
 
 //need to fetch server here--------------------------------------------
-export const submitSchedule = sched => ({
-	type: SUBMIT_SCHEDULE,
-	payload: { ...sched}
-});
+export const onSubmitSchedule = sched => dispatch => {
+	dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/setschedule`, {
+		method: 'put',
+		headers: {'Content-Type' : 'application/json'},
+		body: JSON.stringify(sched)
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				const today = moment().format('DD-MM-YYYY');
+				dispatch({ type: SUBMITSCHEDULE_SUCESS, payload: true });
+				dispatch({ type: EVALUATE, payload: (sched.start <= today && today <= sched.end) });
+			} else {
+				throw Error(data);
+			}
+			dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: SUBMITSCHEDULE_ERROR, payload: err });
+			dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: false });
+		})
+};
 
 
 

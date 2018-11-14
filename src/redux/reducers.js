@@ -75,20 +75,27 @@ import {
 	SUBMITSCHEDULE_IS_PENDING,
 	SUBMITSCHEDULE_SUCESS,
 	SUBMITSCHEDULE_ERROR,
-	SUBMITSCHEDULE_RESET
+	SUBMITSCHEDULE_RESET,
+	EVALUATE_IS_PENDING,
+	EVALUATE_ERROR,
+	NEWS_HOME,
+	NEWS_IS_PENDING,
+	NEWS_ERROR
 } from './constants.js'
 
 //Signin.js reducer
 const initialStateAppJs = {
 	route: 'signin',
-	evaluate: true,
+	evaluate: false,
 	isGod: true,
 	loginFailed: false,
 	signinIsPending: false,
 	signinError: '',
 	registerIsPending: false,
 	registerError: '',
-	registerFailed: false
+	registerFailed: false,
+	evaluateIsPending: false,
+	evaluateError: ''
 }
 
 export const setAppState = (state = initialStateAppJs, action = {}) => {
@@ -97,6 +104,10 @@ export const setAppState = (state = initialStateAppJs, action = {}) => {
 			return { ...state, route: action.payload };
 		case EVALUATE:
 			return { ...state, evaluate: action.payload };
+		case EVALUATE_IS_PENDING:
+			return { ...state, evaluateIsPending: action.payload };
+		case EVALUATE_ERROR:
+			return { ...state, evaluateError: action.payload };
 		case IS_GOD:
 			return { ...state, isGod: action.payload };
 		case LOGIN_FAILED:
@@ -165,7 +176,9 @@ const initialHomeState = {
 	user_position:'',
 	homeDisplay: 'defaultHome',
 	adminRoute: 'adminHome',
-	news: [],
+	newsHome: [],
+	getNewsIsPending: false,
+	getNewsError: '',
 	stats: [],
 	team: [],
 	teamIsPending: false,
@@ -200,6 +213,12 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, statsIsPending: action.payload };
 		case STATS_ERROR:
 			return { ...state, statsError: action.payload };
+		case NEWS_HOME:
+			return { ...state, newsHome: action.payload };
+		case GETNEWS_IS_PENDING:
+			return { ...state, getNewsIsPending: action.payload };
+		case GETNEWS_ERROR:
+			return { ...state, getNewsError: action.payload };
 		default:
 			return state;
 	}
@@ -329,8 +348,6 @@ const initialNewsState = {
 	submitNewsIsPending: false,
 	submitNewsSuccess: '',
 	submitNewsError: '',
-	getNewsIsPending: false,
-	getNewsError: ''
 }
 
 export const setNewsState = (state=initialNewsState, action={}) => {
@@ -347,10 +364,6 @@ export const setNewsState = (state=initialNewsState, action={}) => {
 			return { ...state, submitNewsSuccess: action.payload };
 		case SUBMITNEWS_ERROR:
 			return { ...state, submitNewsError: action.payload };
-		case GETNEWS_IS_PENDING:
-			return { ...state, getNewsIsPending: action.payload };
-		case GETNEWS_ERROR:
-			return { ...state, getNewsError: action.payload };
 		case NEWSRESET:
 			return initialNewsState; 
 		default:

@@ -6,6 +6,8 @@ import Evaluate from './Evaluate/Evaluate.js';
 import Statistics from './Statistics/Statistics.js'
 import AdminPanel from './Admin/AdminPanel.js';
 import Navigation from './Navigation.js';
+import Headline from '../utilities/Headline.js';
+import ButtonMaker from '../utilities/ButtonMaker.js';
 
 import { 
 	setRoute,
@@ -22,6 +24,7 @@ const mapStateToProps = state => {
 		homeDisplay: state.setHomeState.homeDisplay,
 		adminRoute: state.setHomeState.adminRoute,
 		stats: state.setHomeState.stats,
+		newsHome: state.setHomeState.newsHome,
 		team: state.setHomeState.team,
 		isGod: state.setAppState.isGod,
 		evaluate: state.setAppState.evaluate,
@@ -60,7 +63,8 @@ class Home extends React.Component {
 			evaluate, 
 			homeDisplay, 
 			stats, 
-			team, 
+			team,
+			newsHome, 
 			adminRoute,
 			userName,
 			userID,
@@ -68,13 +72,14 @@ class Home extends React.Component {
 			onRouteChange,
 			setHomeDisplay,
 			setAdminRoute,
-			errorStats
+			errorStats,
+			isGod
 		} = this.props;
 		let disp;
 
 		switch(homeDisplay) {
 			case 'defaultHome':
-				disp = <DefaultHome evaluate={evaluate} setHomeDisplay={setHomeDisplay}/>;
+				disp = isGod ? <AdminWelcomePage /> : <DefaultHome evaluate={evaluate} setHomeDisplay={setHomeDisplay} newsList={newsHome}/>;
 				break;
 			case 'statistics':
 				disp = <Statistics name={userName} id={userID} position={position} stats={stats} error={errorStats} />;
@@ -110,38 +115,62 @@ class Home extends React.Component {
 
 		return (
 			<div>
-				<div className='center' >
-				<Modal //this modal will always show while fetching to server
-		          visible={teamPending || statsPending}
-		          effect={'fadeInUp'}
-		          width={'50%'}
-		        >
-		          <h1 className='red f4 f3-ns'>LOADING RESOURCES...</h1>
-		        </Modal>
-		        </div>
-				<Navigation 
-                  onRouteChange={onRouteChange} 
-                  setHomeDisplay={setHomeDisplay}
-                  god={isGod}
-                  setAdminRoute={setAdminRoute}
-                  setEvalRoute={setEvalRoute}
-                  userName={userName}
-                 />
-
-				<div 
-					className='db br4 shadow-5 mb7 pt5 pb5 pr2 pl2 center w-80 flex bg-washed-blue flex-wrap'
-					style={{background:'rgba(228, 241, 254, 0.7)'}}
-				>
-					    	
-				    {
-				    	this.displayer()
-				    }
-				   			 
+				<div>
+					<div className='center' >
+					<Modal //this modal will always show while fetching to server
+			          visible={teamPending || statsPending}
+			          effect={'fadeInUp'}
+			          width={'50%'}
+			        >
+			          <h1 className='red f4 f3-ns'>LOADING RESOURCES...</h1>
+			        </Modal>
+			        </div>
+					<Navigation 
+	                  onRouteChange={onRouteChange} 
+	                  setHomeDisplay={setHomeDisplay}
+	                  god={isGod}
+	                  setAdminRoute={setAdminRoute}
+	                  setEvalRoute={setEvalRoute}
+	                  userName={userName}
+	                />
+					<div 
+						className='db br4 shadow-5 mb7 pt5 pb5 pr2 pl2 center w-80 flex bg-washed-blue flex-wrap'
+						style={{background:'rgba(228, 241, 254, 0.7)'}}
+					>
+						    	
+					    {
+					    	this.displayer()
+					    }
+										   			 
+					</div>
 				</div>
 			</div>
 		);
 	}
 	
+}
+
+const AdminWelcomePage = () => {
+	return (
+		<div>
+			<Headline text='YOU ARE ADMIN' />
+			<h1 className='center f4 f3-ns w-70'>You have lots of work. Please take some break.</h1>
+	      	<div className='center flex-wrap w-70'> 
+	      		<ButtonMaker 
+					style={{width: '500px'}}
+					text='9gag' 
+					onClick={() => window.open('https://www.9gag.com/', '_blank')} 
+					className='f3 f4-ns w-50 bg-orange pa3' 
+				/>
+				<ButtonMaker 
+					style={{width: '500px'}}
+					text='youtube' 
+					onClick={() => window.open('https://www.youtube.com', '_blank')} 
+					className='f3 f4-ns w-50 bg-orange pa3' 
+				/>	
+	      	</div>
+      	</div>
+	);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

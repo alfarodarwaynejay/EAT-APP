@@ -66,7 +66,7 @@ class News extends React.Component {
 		          <h1 className='red f4 f3-ns'>SUBMITTING NEWS TO SERVER...</h1>
 		        </Modal>
 
-		        <Modal //if wrong login this modal will show
+		        <Modal //show after server responded
 		          visible={!!submitError || !!submitSuccess}
 		          effect={'fadeInUp'}
 		          width={'50%'}
@@ -81,12 +81,12 @@ class News extends React.Component {
 		          
 		              <ButtonMaker 
 		                text='HOME'
-		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-80' 
+		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
 		                onClick={() => goHome('defaultHome')} 
 		              />
 		              <ButtonMaker 
 		                text='ADMIN'
-		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-80' 
+		                className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
 		                onClick={() => goAdmin('adminHome')} 
 		              />
 		        </Modal>
