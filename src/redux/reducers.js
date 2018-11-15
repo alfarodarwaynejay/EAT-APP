@@ -39,11 +39,14 @@ import {
 	VISIBILITY3,
 	POSITION,
 	SUBMITVALUE,
-	SUBMITEMPLOYEEUPDATETOSERVER ,
+	SUBMIT_PROMOTE_EMPLOYEE,
+	SUBMIT_DELETE_EMPLOYEE,
+	EMPLOYEE_STATUS_RESET,
 
 	EMPLOYEE_ID,
 	CONFIRM_VISIBILITY,
 	SUBMITNEWHIRE,
+	NEWHIRE_RESET,
 
 	NEWS,
 	NEWS_VISIBILITY,
@@ -80,7 +83,17 @@ import {
 	EVALUATE_ERROR,
 	NEWS_HOME,
 	NEWS_IS_PENDING,
-	NEWS_ERROR
+	NEWS_ERROR,
+	PROMOTE_IS_PENDING,
+	PROMOTE_ERROR,
+	DELETE_IS_PENDING,
+	DELETE_ERROR,
+	NEWHIRE_SUCCESS,
+	NEWHIRE_IS_PENDING,
+	NEWHIRE_ERROR,
+	EMP_LIST_SUCCESS,
+	EMP_LIST_IS_PENDING,
+	EMP_LIST_ERROR
 } from './constants.js'
 
 //Signin.js reducer
@@ -300,25 +313,42 @@ const initialEmployeeStatusState = {
 	visibility1: false,
 	visibility2: false,
 	visibility3: false,
-	updateSuccess: false,//need to update this once request is successful
+	promoteSuccess: false,//need to update this once request is successful
 	position: '',
-	submitValue: {}
+	submitValue: {},
+	promoteIsPending: false,
+	promoteError: '',
+	deleteSuccess: false,
+	deleteIsPending: false,
+	deleteError: '',
 };
 
 export const setEmployeeStatusState = (state=initialEmployeeStatusState, action={}) => {
 	switch(action.type) {
 		case VISIBILITY1:
-			return { ...state, visibility1: action.payload }
+			return { ...state, visibility1: action.payload };
 		case VISIBILITY2:
-			return { ...state, visibility2: action.payload }
+			return { ...state, visibility2: action.payload };
 		case VISIBILITY3:
-			return { ...state, visibility3: action.payload }
-		case SUBMITVALUE:
-			return { ...state, submitValue: action.payload }
-		case SUBMITEMPLOYEEUPDATETOSERVER:
-			return { ...state, updateSuccess: action.payload}
+			return { ...state, visibility3: action.payload };
 		case POSITION:
 			return { ...state, position: action.payload };
+		case SUBMITVALUE:
+			return { ...state, submitValue: action.payload };
+		case SUBMIT_PROMOTE_EMPLOYEE:
+			return { ...state, promoteSuccess: action.payload };
+		case PROMOTE_IS_PENDING:
+			return { ...state, promoteIsPending: action.payload };
+		case PROMOTE_ERROR:
+			return { ...state, promoteError: action.payload };
+		case SUBMIT_DELETE_EMPLOYEE:
+			return { ...state, deleteSuccess: action.payload };
+		case DELETE_IS_PENDING:
+			return { ...state, deleteIsPending: action.payload };
+		case DELETE_ERROR:
+			return { ...state, deleteError: action.payload };
+		case EMPLOYEE_STATUS_RESET:
+			return initialEmployeeStatusState;
 		default:
 			return state;
 	}
@@ -327,7 +357,13 @@ export const setEmployeeStatusState = (state=initialEmployeeStatusState, action=
 //NewHire.js reducer
 const initialNewHireState = {
 	employee_id: '',
-	confirmVisibility: false
+	confirmVisibility: false,
+	newhireSuccess: false,
+	newhireIsPending: false,
+	newhireError: '',
+	empListSuccess: [],
+	empListIsPending: false,
+	empListError: '' 
 
 };
 
@@ -337,6 +373,20 @@ export const setNewHireState = (state=initialNewHireState, action={}) => {
 			return { ...state, employee_id: action.payload };
 		case CONFIRM_VISIBILITY:
 			return { ...state, confirmVisibility: action.payload };
+		case NEWHIRE_SUCCESS:
+			return { ...state, newhireSuccess: action.payload };
+		case NEWHIRE_IS_PENDING:
+			return { ...state, newhireIsPending: action.payload };
+		case NEWHIRE_ERROR:
+			return { ...state, newhireError: action.payload };
+		case EMP_LIST_SUCCESS:
+			return { ...state, empListSuccess: action.payload };
+		case EMP_LIST_IS_PENDING:
+			return { ...state, empListIsPending: action.payload };
+		case EMP_LIST_ERROR:
+			return { ...state, empListError: action.payload };
+		case NEWHIRE_RESET:
+			return { ...state, employee_id: '' };
 		default:
 			return state;
 	}

@@ -44,12 +44,15 @@ export const VISIBILITY2 					= 'VISIBILITY2';
 export const VISIBILITY3 					= 'VISIBILITY3';
 export const POSITION 						= 'POSITION';
 export const SUBMITVALUE 					= 'SUBMITVALUE';
-export const SUBMITEMPLOYEEUPDATETOSERVER 	= 'SUBMITEMPLOYEEUPDATETOSERVER';
+export const SUBMIT_PROMOTE_EMPLOYEE 		= 'SUBMIT_PROMOTE_EMPLOYEE';
+export const SUBMIT_DELETE_EMPLOYEE			= 'SUBMIT_DELETE_EMPLOYEE';
+export const EMPLOYEE_STATUS_RESET			= 'EMPLOYEE_STATUS_RESET';
 
 //NewHire.js state
 export const EMPLOYEE_ID 					= 'EMPLOYEE_ID';
 export const CONFIRM_VISIBILITY 			= 'CONFIRM_VISIBILITY';
 export const SUBMITNEWHIRE 					= 'SUBMITNEWHIRE';
+export const NEWHIRE_RESET 					= 'NEWHIRE_RESET';
 
 //News.js state
 export const NEWS 							= 'NEWS';
@@ -87,5 +90,15 @@ export const EVALUATE_ERROR					= 'EVALUATE_ERROR';
 export const NEWS_HOME						= 'NEWS_HOME';
 export const NEWS_IS_PENDING				= 'NEWS_IS_PENDING';
 export const NEWS_ERROR						= 'NEWS_ERROR';
+export const PROMOTE_IS_PENDING				= 'PROMOTE_IS_PENDING';
+export const PROMOTE_ERROR					= 'PROMOTE_ERROR';
+export const DELETE_IS_PENDING				= 'DELETE_IS_PENDING';
+export const DELETE_ERROR					= 'DELETE_ERROR';
+export const NEWHIRE_SUCCESS				= 'NEWHIRE_SUCCESS';
+export const NEWHIRE_IS_PENDING				= 'NEWHIRE_IS_PENDING';
+export const NEWHIRE_ERROR					= 'NEWHIRE_ERROR';
+export const EMP_LIST_SUCCESS				= 'EMP_LIST_SUCCESS';
+export const EMP_LIST_IS_PENDING 			= 'EMP_LIST_IS_PENDING';
+export const EMP_LIST_ERROR 				= 'EMP_LIST_ERROR';
 
 

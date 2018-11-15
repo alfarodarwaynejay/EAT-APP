@@ -35,7 +35,7 @@ class EvaluatePerson extends React.Component {
 				</div>
 				<div>
 					<Card
-						name={evaluateTeamMate.name} 
+						name={evaluateTeamMate.name}
 						jsx={
 							<div>
 								<h2 className='black f4-l f4-m f4-ns'>Name: {evaluateTeamMate.name}</h2>

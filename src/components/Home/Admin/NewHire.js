@@ -3,17 +3,24 @@ import { connect } from 'react-redux';
 import Modal from 'react-awesome-modal';
 import Headline from '../../utilities/Headline.js'
 import ButtonMaker from '../../utilities/ButtonMaker.js'
+import Card from '../../utilities/Card.js'
 
 import { 
 	setEmployID,
 	setConfirmVis,
-	submitNewHire
+	submitNewHire,
+	newhireReset,
+	setAdminRoute,
+	setHomeDisplay,
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
 	return {
 		employee_id: state.setNewHireState.employee_id,
 		confirmVisibility: state.setNewHireState.confirmVisibility,
+		newhireSuccess: state.setNewHireState.newhireSuccess,
+		newhireError: state.setNewHireState.newhireError,
+		empList: state.setNewHireState.empListSuccess
 	};
 }
 
@@ -21,17 +28,58 @@ const mapDispatchToProps = dispatch => {
 	return {
 		setEmpId: value => dispatch(setEmployID(value)),
 		toggleConfirmVisibility: value => dispatch(setConfirmVis(!value)),
-		onSubmit: value => dispatch(submitNewHire(value))
+		onSubmit: value => dispatch(submitNewHire(value)),
+		resetNewhireState: () => dispatch(newhireReset()),
+		goHome: route => dispatch(setHomeDisplay(route)),
+		goAdmin: route => dispatch(setAdminRoute(route)),
 	};
 }
 
 class NewHire extends React.Component {
+	componentDidMount() {
+		this.props.resetNewhireState();
+	}
 
 	render() {
-		const { employee_id, confirmVisibility, setEmpId, toggleConfirmVisibility } = this.props;
+		const { 
+			employee_id, 
+			confirmVisibility, 
+			setEmpId, 
+			toggleConfirmVisibility,
+			onSubmit,
+			newhireSuccess,
+			newhireError,
+			empList,
+			goAdmin,
+			goHome 
+		} = this.props;
 
 		return (
 			<div className='w-80'>
+				<Modal //show after server responded
+			      visible={!!newhireError || newhireSuccess }
+			      effect={'fadeInUp'}
+			      width={'50%'}
+			    >
+			      <h1 className='red f4 f3-ns'>
+			      	{
+			      		(!!newhireError ?
+			      		'SOMETHING WENT WRONG WHILE UPDATING SERVER'
+			      		: 'SERVER UPDATE SUCCESSFUL')
+			      	}
+			      </h1>
+			      
+			          <ButtonMaker 
+			            text='HOME'
+			            className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
+			            onClick={() => goHome('defaultHome')} 
+			          />
+			          <ButtonMaker 
+			            text='ADMIN'
+			            className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
+			            onClick={() => goAdmin('adminHome')} 
+			          />
+			    </Modal>
 				<Modal
 					visible={confirmVisibility}
 					effect={'fadeInUp'}
@@ -45,9 +93,10 @@ class NewHire extends React.Component {
 				      		text='CONFIRM' 
 				      		onClick={() => {
 					      		toggleConfirmVisibility(confirmVisibility);
-					      		console.log(employee_id);
+					      		onSubmit(employee_id);
 					      	}} 
 					      	className='b f6 f4-ns pa3 bg-orange hover-bg-red link' 
+					      	margin='mv2 mh6'
 					    />
 				      	
 				      	<ButtonMaker 
@@ -57,6 +106,7 @@ class NewHire extends React.Component {
 					      		setEmpId('');
 					      	}} 
 					      	className='b f6 f4-ns pa3 bg-orange hover-bg-red link' 
+					      	margin='mv2 mh6'
 					    />
 					</div>
 				</Modal>
@@ -77,6 +127,19 @@ class NewHire extends React.Component {
 		      		onClick={() => toggleConfirmVisibility(confirmVisibility)} 
 			      	className='f3 f4-ns pv3 ph5 w-50 bg-red w-50' 
 			    />
+			    <div className='w-50 center'>
+			   	{ (!!empList.length &&
+	     	 		<Card 
+		      		news
+		      		jsx={
+		      			<div>
+		      				<h1 className='f4 f3-ns'>Employee numbers:</h1>
+		      				{empList.map((item, i) => <h2 key={i} className='pl3 f4 f3-ns'>{i+1}.) {item.employee_id}</h2>)}		
+		      			</div>
+		      		} 
+		      	/>)
+	      		}
+	      		</div>
 			</div>
 		);
 

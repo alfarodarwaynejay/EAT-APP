@@ -15,7 +15,8 @@ const mapStateToProps = state => {
 	return {
 		team: state.setHomeState.team,
 		evaluateRoute: state.setEvaluateState.evaluateRoute,
-		errorTeam: state.setHomeState.teamError
+		errorTeam: state.setHomeState.teamError,
+		isGod: state.setAppState.isGod
 	};
 }
 
@@ -42,7 +43,8 @@ class Evaluate extends React.Component {
 			team,
 			errorTeam, 
 			setEvalTeammate, 
-			setEvalRoute 
+			setEvalRoute,
+			isGod 
 		} = this.props;
 
 		let disp;
@@ -68,6 +70,7 @@ class Evaluate extends React.Component {
 										setEvaluateTeamMate={setEvalTeammate}
 										setEvalRoute={setEvalRoute}
 										flag={'evaluation'}
+										isGod={isGod}
 									/>
 								</div>
 							</div>

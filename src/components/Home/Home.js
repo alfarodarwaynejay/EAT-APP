@@ -33,7 +33,9 @@ const mapStateToProps = state => {
 		position: state.setHomeState.user_position,
 		teamPending: state.setHomeState.teamIsPending,
 		statsPending: state.setHomeState.statsIsPending,
-		errorStats: state.setHomeState.statsError
+		errorStats: state.setHomeState.statsError,
+		promotePending: state.setEmployeeStatusState.promoteIsPending,
+		newhirePending: state.setEmployeeStatusState.newhireIsPending,
 	};
 };
 
@@ -104,13 +106,16 @@ class Home extends React.Component {
 	render() {
 		const { 
 			isGod, 
+			adminRoute,
 			onRouteChange, 
 			setHomeDisplay, 
 			setAdminRoute, 
 			setEvalRoute, 
 			userName,
 			teamPending,
-			statsPending
+			statsPending,
+			promotePending,
+			newhirePending,
 		} = this.props;
 
 		return (
@@ -118,11 +123,13 @@ class Home extends React.Component {
 				<div>
 					<div className='center' >
 					<Modal //this modal will always show while fetching to server
-			          visible={teamPending || statsPending}
+			          visible={ teamPending || statsPending || promotePending || newhirePending }
 			          effect={'fadeInUp'}
 			          width={'50%'}
 			        >
-			          <h1 className='red f4 f3-ns'>LOADING RESOURCES...</h1>
+			          <h1 className='red f4 f3-ns'>{
+			          	adminRoute === 'adminHome' ? 'LOADING RESOURCES...' : 'UPDATING SERVER...'
+			          }</h1>
 			        </Modal>
 			        </div>
 					<Navigation 

@@ -19,6 +19,7 @@ const mapStateToProps = state => {
 		employeeStatus: state.setAdminPanelState.employeeStatus,
 		team: state.setHomeState.team,
 		adminRoute: state.setHomeState.adminRoute,
+		isGod: state.setAppState.isGod
 	};
 };
 
@@ -37,7 +38,7 @@ const mapDispatchToProps = dispatch => {
 class AdminPanel extends React.Component {
 
 	adminPageRenderer = () => {
-		const { team, adminRoute, employeeStatus, setAdRoute, setHomeDisp, setEmpStats } = this.props;
+		const { team, adminRoute, employeeStatus, setAdRoute, setHomeDisp, setEmpStats, isGod } = this.props;
 		let disp; 
 
 		switch(adminRoute) {
@@ -49,6 +50,7 @@ class AdminPanel extends React.Component {
 							team={team} 
 							setAdminRoute={setAdRoute} 
 							setEmpStats={setEmpStats}
+							isGod={isGod}
 						/>;
 				break;
 			case 'employeeStatus':

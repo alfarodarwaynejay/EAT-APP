@@ -16,6 +16,7 @@ const EmployeeDescript = (props) => {
 				 	{statePosition || position}
 				</span>
 			</h2> 
+			{props.children}
 		</div>
 	);
 }

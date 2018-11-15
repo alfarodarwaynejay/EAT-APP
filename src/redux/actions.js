@@ -39,11 +39,14 @@ import {
 	VISIBILITY3,
 	POSITION,
 	SUBMITVALUE,
-	SUBMITEMPLOYEEUPDATETOSERVER,
+	SUBMIT_PROMOTE_EMPLOYEE,
+	SUBMIT_DELETE_EMPLOYEE,
+	EMPLOYEE_STATUS_RESET,
 
 	EMPLOYEE_ID,
 	CONFIRM_VISIBILITY,
 	SUBMITNEWHIRE,
+	NEWHIRE_RESET,
 
 	NEWS,
 	NEWS_VISIBILITY,
@@ -78,7 +81,17 @@ import {
 	EVALUATE_ERROR,
 	NEWS_HOME,
 	NEWS_IS_PENDING,
-	NEWS_ERROR
+	NEWS_ERROR,
+	PROMOTE_IS_PENDING,
+	PROMOTE_ERROR,
+	DELETE_IS_PENDING,
+	DELETE_ERROR,
+	NEWHIRE_SUCCESS,
+	NEWHIRE_IS_PENDING,
+	NEWHIRE_ERROR,
+	EMP_LIST_SUCCESS,
+	EMP_LIST_IS_PENDING,
+	EMP_LIST_ERROR
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -233,31 +246,14 @@ export const setTeam =  team => ({
 
 //need to fetch to server--------------
 export const onHomeMount = user_id => dispatch => {
-	dispatch({ type: TEAM_IS_PENDING, payload: true });
 	dispatch({ type: STATS_IS_PENDING, payload: true });
 	dispatch({ type: EVALUATE_IS_PENDING, payload: true });
 	dispatch({ type: NEWS_IS_PENDING, payload: true });
 
 	//fetching team here:
-	fetch(`${HOST}/team`, {
-			method : 'post',
-			headers: {'Content-Type' : 'application/json'},
-			body: JSON.stringify({ emp_id : user_id })
-		})
-		.then(response => response.json())
-		.then(data => {
-			//must deal with the failed response
-			if (data === 'failed') {
-				throw Error('You have no teammates. Note: if Admin, use your ordinary account');
-			} else {
-				dispatch({ type: TEAM, payload: data });
-				dispatch({ type: TEAM_IS_PENDING, payload: false });	
-			}
-		})
-		.catch(err => {
-			dispatch({ type: TEAM_ERROR, payload: err});
-			dispatch({ type: TEAM_IS_PENDING, payload: false });
-		});
+	fetchTeam(user_id, dispatch);
+	//fetching employee numbers list
+	fetchEmpList(dispatch);
 
 	//fetching stats here:
 	fetch(`${HOST}/stats`, {
@@ -393,12 +389,63 @@ export const setSubValue = value => ({
 	}
 });
 
-//need to fetch server here--------------------------------------------
+export const setEmployeeStatusReset = () => ({ type: EMPLOYEE_STATUS_RESET });
+
+//need to fetch server here---------
 export const submitPromoteEmployee = value => dispatch => {
-	type: SUBMITEMPLOYEEUPDATETOSERVER,
-	payload: {
-		...value
-	}
+	const {god_id, ...toServer} = value;
+	dispatch({ type: PROMOTE_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/promote`, {
+		method: 'put',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify(toServer)
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				dispatch({ type: SUBMIT_PROMOTE_EMPLOYEE, payload: true });
+			} else {
+				throw Error(`Unable to promote: Server responded with '${data}'`);
+			}
+			dispatch({ type: PROMOTE_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: PROMOTE_ERROR, payload: err });
+			dispatch({ type: PROMOTE_IS_PENDING, payload: false });
+		});
+
+	//re-fetch team
+	fetchTeam(god_id, dispatch);
+};
+
+//need to fetch server here---------
+export const submitDeleteEmployee = value => dispatch => {
+	const { god_id, ...toServer } = value;
+	console.log(toServer);
+	dispatch({ type: DELETE_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/delete`, {
+		method: 'put',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify(toServer)
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				dispatch({ type: SUBMIT_DELETE_EMPLOYEE, payload: true });
+			} else {
+				throw Error(`Unable to delete: Server responded with '${data}'`);
+			}
+			dispatch({ type: DELETE_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: DELETE_ERROR, payload: err });
+			dispatch({ type: DELETE_IS_PENDING, payload: false });
+		});
+
+	//re-fetch team
+	fetchTeam(god_id, dispatch);
 };
 
 //ACTIONS NEWHIRE.JS
@@ -412,11 +459,31 @@ export const setConfirmVis = visibility => ({
 	payload: visibility
 });
 
+export const newhireReset = () => ({ type: NEWHIRE_RESET});
+
 //need to fetch server here--------------------------------------------
-export const submitNewHire = empId => ({
-	type: SUBMITNEWHIRE,
-	payload: empId
-});
+export const submitNewHire = empId => dispatch => {
+	dispatch({ type: NEWHIRE_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/add`, {
+		method: 'put',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify({ emp_id: empId})
+	})
+		.then(response => response.json())
+		.then(data => {
+			if(data === 'success') {
+				dispatch({ type: NEWHIRE_IS_PENDING, payload: false });
+				dispatch({ type: NEWHIRE_SUCCESS, payload: true });
+			} else {
+				throw Error(`Unable to add employee id: Server responded with '${data}'`);
+			}
+		})
+		.catch(err => {
+			dispatch({ type: NEWHIRE_ERROR, payload: err });
+			dispatch({ type: NEWHIRE_IS_PENDING, payload: false})
+		})
+};
 
 //ACTIONS NEWS.JS
 export const setNewsText = news => ({
@@ -511,6 +578,55 @@ export const onSubmitSchedule = sched => dispatch => {
 
 //HELPER FUNCTIONS
 
+
+const fetchTeam = (user_id, dispatch) => {
+	dispatch({ type: TEAM_IS_PENDING, payload: true });
+
+	//fetching team here:
+	fetch(`${HOST}/team`, {
+			method : 'post',
+			headers: {'Content-Type' : 'application/json'},
+			body: JSON.stringify({ emp_id : user_id })
+		})
+		.then(response => response.json())
+		.then(data => {
+			//must deal with the failed response
+			if (data === 'failed') {
+				throw Error('You have no teammates. Note: if Admin, use your ordinary account');
+			} else {
+				dispatch({ type: TEAM, payload: data });
+				dispatch({ type: TEAM_IS_PENDING, payload: false });	
+			}
+		})
+		.catch(err => {
+			dispatch({ type: TEAM_ERROR, payload: err});
+			dispatch({ type: TEAM_IS_PENDING, payload: false });
+		});
+};
+
+const fetchEmpList = dispatch => {
+	console.log('CALLED');
+	dispatch({ type: EMP_LIST_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/getemplist`, {
+		method: 'post',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify({ get : true })
+	})
+		.then(response => response.json())
+		.then(data => {
+			if(data.length !== 0) {
+				dispatch({ type: EMP_LIST_SUCCESS, payload: data });
+			} else {
+				throw Error(`Unable to fetch employees number: Server responded with '${data}'`);
+			}
+		})
+		.catch(err => {
+			dispatch({ type: EMP_LIST_IS_PENDING, payload: false});
+			dispatch({ type: EMP_LIST_ERROR, payload: err });
+		})
+};
+
 //calculate the stats from response object
 const calculateStats = (arr) => {
 	//reduce the argument to single array with sums of items of an object 
@@ -531,10 +647,6 @@ const calculateStats = (arr) => {
 		}, {}) 
 	];
 }
-
-
-
-
 
 
 

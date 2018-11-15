@@ -3,7 +3,7 @@ import Deck from '../../utilities/Deck.js';
 import Headline from '../../utilities/Headline.js'
 import ButtonMaker from '../../utilities/ButtonMaker.js'
 
-const Employees = ({ team, setEmpStats, setAdminRoute}) => {
+const Employees = ({ team, setEmpStats, setAdminRoute, isGod}) => {
 	return (
 		<div className='dib w-90'>
 			<Headline text='Manage Employee' />
@@ -16,6 +16,7 @@ const Employees = ({ team, setEmpStats, setAdminRoute}) => {
 					setEmpStats={setEmpStats}
 					setAdminRoute={setAdminRoute}
 					flag={'employee'}
+					isGod={isGod}
 				/>
 			</div>
 			

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ButtonMaker = ( { text, onClick, className, style, margin }) => {
+const ButtonMaker = ( { text, onClick, className, style, margin, disable }) => {
 	return (
 		<div style={style}>
 			<h1 

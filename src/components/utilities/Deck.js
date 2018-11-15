@@ -10,7 +10,7 @@ class Deck extends React.Component {
 			setEvaluateTeamMate, 
 			flag, 
 			setAdminRoute, 
-			setEmpStats
+			setEmpStats, isGod
 		} = this.props;
 
 		return (
@@ -20,6 +20,7 @@ class Deck extends React.Component {
 					let name = employee[i].name;
 					let emp_id = employee[i].employee_id;
 					let position = employee[i].position;
+					let team = employee[i].team;
 
 					const descript = {
 						name: name, 
@@ -47,8 +48,10 @@ class Deck extends React.Component {
 										<h2 className='black f4-l f4-m f4-ns'>name: {name}</h2>
 										<h2 className='black f4-l f4-m f4-ns'>Employee ID: {emp_id}</h2>
 										<h2 className='black f4-l f4-m f4-ns'>position: {position}</h2>
+										{ !!isGod && <h2 className='black f4-l f4-m f4-ns'>team: {team}</h2>}
 									</div>
 								}
+								grow
 							/>
 						</span>
 					);
