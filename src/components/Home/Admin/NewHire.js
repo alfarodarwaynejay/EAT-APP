@@ -20,7 +20,7 @@ const mapStateToProps = state => {
 		confirmVisibility: state.setNewHireState.confirmVisibility,
 		newhireSuccess: state.setNewHireState.newhireSuccess,
 		newhireError: state.setNewHireState.newhireError,
-		empList: state.setNewHireState.empListSuccess
+		empList: state.setHomeState.empListSuccess
 	};
 }
 
@@ -51,7 +51,8 @@ class NewHire extends React.Component {
 			newhireError,
 			empList,
 			goAdmin,
-			goHome 
+			goHome,
+			resetNewhireState
 		} = this.props;
 
 		return (
@@ -64,7 +65,7 @@ class NewHire extends React.Component {
 			      <h1 className='red f4 f3-ns'>
 			      	{
 			      		(!!newhireError ?
-			      		'SOMETHING WENT WRONG WHILE UPDATING SERVER'
+			      		'UNABLE TO ADD NEW ID'
 			      		: 'SERVER UPDATE SUCCESSFUL')
 			      	}
 			      </h1>
@@ -72,12 +73,23 @@ class NewHire extends React.Component {
 			          <ButtonMaker 
 			            text='HOME'
 			            className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
-			            onClick={() => goHome('defaultHome')} 
+			            onClick={() => {
+			            	goHome('defaultHome')
+			            }} 
 			          />
 			          <ButtonMaker 
 			            text='ADMIN'
 			            className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
-			            onClick={() => goAdmin('adminHome')} 
+			            onClick={() => {
+			            	goAdmin('adminHome')
+			            }} 
+			          />
+			          <ButtonMaker 
+			            text='CANCEL'
+			            className='link f6 f4-ns bg-orange hover-bg-red pa3 w-50' 
+			            onClick={() => {
+			            	resetNewhireState()
+			            }} 
 			          />
 			    </Modal>
 				<Modal
@@ -114,9 +126,9 @@ class NewHire extends React.Component {
 				<div className='db pa2 shadow-5  ma5 br4 bg-green center'>
 					<h1>Adding ID to Database </h1>
 					<input 
-						className='f6 f4-ns b pa3 ma3 ba b--green bg-lightest-blue br3'
+						className='w-80 f6 f4-ns b pa3 ma3 ba b--green bg-lightest-blue br3'
 						type='text'
-						placeholder='Enter employee_id'
+						placeholder='employee_id'
 						value={employee_id}
 						onChange={ (event) => setEmpId(event.target.value) }
 					/>
@@ -133,9 +145,13 @@ class NewHire extends React.Component {
 		      		news
 		      		jsx={
 		      			<div>
-		      				<h1 className='f4 f3-ns'>Employee numbers:</h1>
-		      				{empList.map((item, i) => <h2 key={i} className='pl3 f4 f3-ns'>{i+1}.) {item.employee_id}</h2>)}		
-		      			</div>
+		      				<h2 className='center'>Employee numbers:</h2>
+		      				{empList.map((item, i) => { 
+		      					return (<h3 key={i} className='tl'>
+				      						{(i+1).toString().padStart(4,'\xa0')}.) {item.employee_id}
+				      					</h3>)	
+		      				})}		
+		      			</div>	
 		      		} 
 		      	/>)
 	      		}

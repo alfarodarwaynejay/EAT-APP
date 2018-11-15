@@ -194,6 +194,7 @@ const initialHomeState = {
 	getNewsError: '',
 	stats: [],
 	team: [],
+	empListSuccess: [],
 	teamIsPending: false,
 	teamError: '',
 	statsIsPending: false,
@@ -226,6 +227,8 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, statsIsPending: action.payload };
 		case STATS_ERROR:
 			return { ...state, statsError: action.payload };
+		case EMP_LIST_SUCCESS:
+			return { ...state, empListSuccess: action.payload };
 		case NEWS_HOME:
 			return { ...state, newsHome: action.payload };
 		case GETNEWS_IS_PENDING:
@@ -360,8 +363,7 @@ const initialNewHireState = {
 	confirmVisibility: false,
 	newhireSuccess: false,
 	newhireIsPending: false,
-	newhireError: '',
-	empListSuccess: [],
+	newhireError: '',	
 	empListIsPending: false,
 	empListError: '' 
 
@@ -379,14 +381,12 @@ export const setNewHireState = (state=initialNewHireState, action={}) => {
 			return { ...state, newhireIsPending: action.payload };
 		case NEWHIRE_ERROR:
 			return { ...state, newhireError: action.payload };
-		case EMP_LIST_SUCCESS:
-			return { ...state, empListSuccess: action.payload };
 		case EMP_LIST_IS_PENDING:
 			return { ...state, empListIsPending: action.payload };
 		case EMP_LIST_ERROR:
 			return { ...state, empListError: action.payload };
 		case NEWHIRE_RESET:
-			return { ...state, employee_id: '' };
+			return initialNewHireState;
 		default:
 			return state;
 	}

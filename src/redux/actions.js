@@ -459,7 +459,10 @@ export const setConfirmVis = visibility => ({
 	payload: visibility
 });
 
-export const newhireReset = () => ({ type: NEWHIRE_RESET});
+export const newhireReset = () => dispatch => {
+	dispatch({ type: NEWHIRE_RESET});
+	fetchEmpList(dispatch);
+};
 
 //need to fetch server here--------------------------------------------
 export const submitNewHire = empId => dispatch => {

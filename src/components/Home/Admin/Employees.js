@@ -8,7 +8,7 @@ const Employees = ({ team, setEmpStats, setAdminRoute, isGod}) => {
 		<div className='dib w-90'>
 			<Headline text='Manage Employee' />
 			<Headline text='(Click employee to UPDATE their role or REMOVE them.)' >
-			<ButtonMaker text='New Hire' onClick={() => setAdminRoute('newHire')} className='f4 f3-ns grow pv3 ph5 bg-orange w-80' />
+			<ButtonMaker text='NEW HIRE' onClick={() => setAdminRoute('newHire')} className='f6 f5-ns grow pa2 bg-orange w-50' />
 			</Headline>
 			<div>
 				<Deck 
