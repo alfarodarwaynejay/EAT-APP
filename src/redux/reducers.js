@@ -314,9 +314,11 @@ export const setEmployeeStatusState = (state=initialEmployeeStatusState, action=
 		case VISIBILITY3:
 			return { ...state, visibility3: action.payload }
 		case SUBMITVALUE:
-			return { ...state, submitValue: { ...state.submitValue, ...action.payload } }
+			return { ...state, submitValue: action.payload }
 		case SUBMITEMPLOYEEUPDATETOSERVER:
 			return { ...state, updateSuccess: action.payload}
+		case POSITION:
+			return { ...state, position: action.payload };
 		default:
 			return state;
 	}

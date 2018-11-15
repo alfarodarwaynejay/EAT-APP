@@ -14,7 +14,7 @@ import {
 	setVisibility3,
 	setPosixon,
 	setSubValue,
-	submitEmployeeUpdateToServer
+	submitPromoteEmployee
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
 		toggleModal3: vis => dispatch(setVisibility3(!vis)),
 		setPosition: value => dispatch(setPosixon(value)),
 		setSubmitValue: value => dispatch(setSubValue(value)),
-		submitToServer: value => dispatch(submitEmployeeUpdateToServer(value)) 
+		submitToServer: value => dispatch(submitPromoteEmployee(value)) 
 	};
 };
 
@@ -156,14 +156,18 @@ class EmployeeStatus extends React.Component {
 					/>
 				</div>
 				
-				<div className='flex flex-wrap pa3 ma3 br4 center' >
+				<div className='flex flex-wrap pa3 ma3 br4 center dib justify-between w-70' >
 			      	<ButtonMaker 
-			      		text='PROMOTE' 
+			      		text='PROMOTE'
+			      		style={{width: '250px'}}
+
 			      		onClick={() => toggleModal1(visibility1)} 
-			      		className='f4 f3-ns grow pv3 ph5 bg-orange' 
+			      		className='f4 f3-ns grow pv3 bg-orange' 
 			      	/>
 			      	<ButtonMaker 
-			      		text={visibility3 || visibility2 ? 'CANCEL': 'DELETE'} 
+			      		text={visibility3 || visibility2 ? 'CANCEL': 'DELETE'}
+			      		style={{width: '250px'}} 
+
 			      		onClick={() => {
 			      			//need to pass this logic else when clicking CANCEL modal2 will show up
 			      			toggleModal2((!visibility2 && !visibility3) ? visibility2: true);
@@ -172,17 +176,21 @@ class EmployeeStatus extends React.Component {
 			      			//will clear submitValue data when canceled
 			      			setSubmitValue({});
 			      		}} 
-			      		className='f4 f3-ns grow pv3 ph5 bg-orange' 
+			      		className='f4 f3-ns grow pv3 bg-orange' 
 			      	/>
-			      	<ButtonMaker 
+				</div>
+				<div className='center'>
+					<ButtonMaker 
 			      		text='SUBMIT' 
+			      		style={{width: '600px'}}
 			      		onClick={() => {
 			      			//submitToServer() & change the route when clicked
 			      			console.log(submitValue);
 			      		}} 
-			      		className='f4 f3-ns grow pv3 ph5 bg-red' 
+			      		className='f4 f3-ns grow pv3 ph5 bg-red w-50'
+			      		margin='mh5 mv3' 
 			      	/>
-				</div>
+		      	</div>
 			</div>
 
 		);

@@ -152,21 +152,21 @@ class Home extends React.Component {
 
 const AdminWelcomePage = () => {
 	return (
-		<div>
+		<div className='w-80'>
 			<Headline text='YOU ARE ADMIN' />
-			<h1 className='center f4 f3-ns w-70'>You have lots of work. Please take some break.</h1>
-	      	<div className='center flex-wrap w-70'> 
+			<h1 className='center f5 f4-ns w-90'>You have lots of work. Please take some break.</h1>
+	      	<div className='center flex-wrap'> 
 	      		<ButtonMaker 
-					style={{width: '500px'}}
+					style={{width: '600px'}}
 					text='9gag' 
 					onClick={() => window.open('https://www.9gag.com/', '_blank')} 
-					className='f3 f4-ns w-50 bg-orange pa3' 
+					className='f4 f3-ns w-50 bg-orange pa3 w-50' 
 				/>
 				<ButtonMaker 
-					style={{width: '500px'}}
+					style={{width: '600px'}}
 					text='youtube' 
 					onClick={() => window.open('https://www.youtube.com', '_blank')} 
-					className='f3 f4-ns w-50 bg-orange pa3' 
+					className='f4 f3-ns w-50 bg-orange pa3 w-50' 
 				/>	
 	      	</div>
       	</div>

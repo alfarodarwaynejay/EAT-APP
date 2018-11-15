@@ -115,7 +115,7 @@ export const setLoginFailed = bool => ({
 	payload: bool
 })
 
-//need to fetch to server-----------------------------------------------------
+//need to fetch to server------------
 export const onSubmitSignin = signinValue => dispatch => {
 
 	dispatch({ type: SIGNIN_IS_PENDING, payload: true });
@@ -178,7 +178,7 @@ export const setRegisterFailed = bool => ({
 	payload: bool
 });
 
-//need to fetch to server---------------------------------------------------
+//need to fetch to server------------
 export const onSubmitRegister = registerValue => dispatch => {
 	dispatch({ type: REGISTER_IS_PENDING, payload: true });
 
@@ -231,7 +231,7 @@ export const setTeam =  team => ({
 	payload: team
 });
 
-//need to fetch to server---------------------------------------------------
+//need to fetch to server--------------
 export const onHomeMount = user_id => dispatch => {
 	dispatch({ type: TEAM_IS_PENDING, payload: true });
 	dispatch({ type: STATS_IS_PENDING, payload: true });
@@ -394,12 +394,12 @@ export const setSubValue = value => ({
 });
 
 //need to fetch server here--------------------------------------------
-export const submitEmployeeUpdateToServer = value => ({
+export const submitPromoteEmployee = value => dispatch => {
 	type: SUBMITEMPLOYEEUPDATETOSERVER,
 	payload: {
 		...value
 	}
-});
+};
 
 //ACTIONS NEWHIRE.JS
 export const setEmployID = value => ({
@@ -429,7 +429,7 @@ export const setNewsVisible = visibility => ({
 	payload: visibility
 });
 
-//need to fetch server here--------------------------------------------
+//need to fetch server here-------------
 export const onSubmitNews = value => dispatch => {
 	dispatch({ type: SUBMITNEWS_IS_PENDING, payload: true });
 
@@ -478,7 +478,7 @@ export const setEndVisibility = visibility => ({
 
 export const resetSubmitSchedule = () => ({ type: SUBMITSCHEDULE_RESET });
 
-//need to fetch server here--------------------------------------------
+//need to fetch server here---------------
 export const onSubmitSchedule = sched => dispatch => {
 	dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: true });
 
@@ -523,7 +523,7 @@ const calculateStats = (arr) => {
 	   //I could use << '0 '.repeat(Object.keys(arr[item]).length).split(' ') >> but is too cheeky
 	}, [0,0,0,0,0,0,0,0,0]);
 
-	//reduce the temporary array and return an object wrap in an array...because my state was earlier design in array..
+	//reduce the temporary array and return an object wrap in an array(because my state was earlier design in array)..
 	return [ 
 		tempArr.reduce((acc, item, i) => {
 			acc[i] = item/arr.length;
