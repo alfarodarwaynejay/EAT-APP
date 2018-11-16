@@ -123,7 +123,7 @@ class Home extends React.Component {
 				<div>
 					<div className='center' >
 					<Modal //this modal will always show while fetching to server
-			          visible={ teamPending || statsPending || promotePending || newhirePending }
+			          visible={ statsPending || promotePending || newhirePending }
 			          effect={'fadeInUp'}
 			          width={'50%'}
 			        >

@@ -7,7 +7,7 @@ import Headline from '../../utilities/Headline.js'
 
 import { 
 	setEvaluateRoute,
-	setEvaluateTeammate
+	setEvaluateTeammate,
 } from '../../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -16,7 +16,8 @@ const mapStateToProps = state => {
 		team: state.setHomeState.team,
 		evaluateRoute: state.setEvaluateState.evaluateRoute,
 		errorTeam: state.setHomeState.teamError,
-		isGod: state.setAppState.isGod
+		isGod: state.setAppState.isGod,
+		user_id: state.setHomeState.user_id
 	};
 }
 
@@ -27,7 +28,7 @@ const mapDispatchToProps = dispatch => {
 			name: person.name,
           	employee_id: person.employee_id,
          	position: person.position
-		}))
+		})),
 	}
 
 }
@@ -35,7 +36,6 @@ const mapDispatchToProps = dispatch => {
 
 
 class Evaluate extends React.Component {
-
 	renderEvaluate = () => {
 		const {
 			evaluateRoute, 

@@ -34,6 +34,9 @@ export const EVALUATE_QUESTIONAIRE 			= 'EVALUATE_QUESTIONAIRE';
 
 //EvaluatePerson.js states
 export const SCORE 							= 'SCORE';
+export const EVALUATE_P_SUCCESS				= 'EVALUATE_P_SUCCESS';
+export const EVALUATE_P_IS_PENDING			= 'EVALUATE_P_IS_PENDING';
+export const EVALUATE_P_ERROR				= 'EVALUATE_P_ERROR';
 
 //AdminPanel.js states
 export const EMPLOYEE 						= 'EMPLOYEE';
@@ -100,5 +103,6 @@ export const NEWHIRE_ERROR					= 'NEWHIRE_ERROR';
 export const EMP_LIST_SUCCESS				= 'EMP_LIST_SUCCESS';
 export const EMP_LIST_IS_PENDING 			= 'EMP_LIST_IS_PENDING';
 export const EMP_LIST_ERROR 				= 'EMP_LIST_ERROR';
+export const EVALUATE_P_RESET				= 'EVALUATE_P_RESET';
 
 

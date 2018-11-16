@@ -31,6 +31,9 @@ import {
 	EVALUATE_QUESTIONAIRE,
 
 	SCORE,
+	EVALUATE_P_SUCCESS,
+	EVALUATE_P_IS_PENDING,
+	EVALUATE_P_ERROR,
 
 	EMPLOYEE,
 
@@ -93,7 +96,8 @@ import {
 	NEWHIRE_ERROR,
 	EMP_LIST_SUCCESS,
 	EMP_LIST_IS_PENDING,
-	EMP_LIST_ERROR
+	EMP_LIST_ERROR,
+	EVALUATE_P_RESET
 } from './constants.js'
 
 //Signin.js reducer
@@ -271,10 +275,13 @@ export const setEvaluateState = (state=initialEvaluateState, action={}) => {
 
 //EvaluatePerson.js reducer
 const initialEvaluatePersonState = {
+	evaluatePSuccess: false,
+	evaluatePIsPending: false,
+	evaluatePError: '',
+	//these are initial values, 
+	//if user does not toggle the slider and click Submit immediately
+	//these values will be sent to back-end
 	score: { 
-		//these are initial values, 
-		//if user does not toggle the slider and click Submit immediately
-		//these values will be sent to back-end
 		0 : 75,
 		1 : 75,
 		2 : 75,
@@ -289,8 +296,16 @@ const initialEvaluatePersonState = {
 
 export const setEvaluatePersonState = (state=initialEvaluatePersonState, action={}) => {
 	switch(action.type) {
+		case EVALUATE_P_SUCCESS:
+			return { ...state, evaluatePSuccess: action.payload };
+		case EVALUATE_P_IS_PENDING:
+			return { ...state, evaluatePIsPending: action.payload };
+		case EVALUATE_P_ERROR:
+			return { ...state, evaluatePError: action.payload };
 		case SCORE:
 			return { ...state, score: { ...state.score, ...action.payload } };
+		case EVALUATE_P_RESET:
+			return initialEvaluatePersonState;
 		default:
 			return state;
 	}

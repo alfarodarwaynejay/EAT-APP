@@ -7,7 +7,8 @@ import {
 	setRegisterEmail, 
 	setRegisterPassword, 
 	setRegisterName,
-	setRegisterEmployeeId 
+	setRegisterEmployeeId,
+	setRoute 
 } from '../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -26,7 +27,8 @@ const mapDispatchToProps = dispatch => {
 		onPasswordChange: event => dispatch(setRegisterPassword(event.target.value)),
 		onNameChange: event => dispatch(setRegisterName(event.target.value)),
 		onEmployeeIdChange: event => dispatch(setRegisterEmployeeId(event.target.value)),
-		onRegisterSubmit: data => dispatch(onSubmitRegister(data))
+		onRegisterSubmit: data => dispatch(onSubmitRegister(data)),
+		setRoute: route => dispatch(setRoute(route))
 	}
 }
 
@@ -43,7 +45,8 @@ class Register extends React.Component {
 			onPasswordChange, 
 			onEmailChange, 
 			onEmployeeIdChange, 
-			onRegisterSubmit 
+			onRegisterSubmit,
+			setRoute 
 		} = this.props;
 
 		return (
@@ -60,6 +63,10 @@ class Register extends React.Component {
 				    	onRegisterSubmit ({name, email, password, id});
 				    }} 
 				/>
+				<div className="lh-copy mt3">
+			      <a href="#0" className="f6 link dim b black grow db"
+			      	onClick={()=> setRoute('signin')}>{'<<'} Back to Sign In</a>
+			    </div>
 			</Forms>
 		);
 	}

@@ -31,6 +31,9 @@ import {
 	EVALUATE_QUESTIONAIRE,
 
 	SCORE,
+	EVALUATE_P_SUCCESS,
+	EVALUATE_P_IS_PENDING,
+	EVALUATE_P_ERROR,
 
 	EMPLOYEE,
 
@@ -91,7 +94,8 @@ import {
 	NEWHIRE_ERROR,
 	EMP_LIST_SUCCESS,
 	EMP_LIST_IS_PENDING,
-	EMP_LIST_ERROR
+	EMP_LIST_ERROR,
+	EVALUATE_P_RESET
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -251,7 +255,7 @@ export const onHomeMount = user_id => dispatch => {
 	dispatch({ type: NEWS_IS_PENDING, payload: true });
 
 	//fetching team here:
-	fetchTeam(user_id, dispatch);
+	dispatch(fetchTeam(user_id));
 	//fetching employee numbers list
 	fetchEmpList(dispatch);
 
@@ -344,11 +348,42 @@ export const toggleScore = score => ({
 	payload: { ...score }
 });
 
-//need to fetch to server---------------------------------------------------
-export const onSubmitEvaluatePerson = value => ({
-	type: ON_REGISTER_SUBMIT,
-	payload: value
+export const togglePSuccess = bool => ({ 
+	type: EVALUATE_P_SUCCESS, 
+	payload: bool
 });
+
+export const evaluatePReset = () => ({ type: EVALUATE_P_RESET });
+
+//need to fetch to server---------------------------------------------------
+export const onSubmitEvalPerson = value => dispatch => {
+	const { evaluator } = value;
+	dispatch({ type: EVALUATE_P_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/evaluate`, {
+		method: 'put',
+		headers: {'Content-Type' : 'application/json'},
+		body: JSON.stringify(value)
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data !== 'success') {
+				throw Error(`Unable to evaluate teammate: Server Responded with ${data}`)
+			}
+
+			setTimeout(() => {
+				dispatch({ type: EVALUATE_P_IS_PENDING, payload: false });
+				dispatch({ type: EVALUATE_P_SUCCESS, payload: true });
+			}, 3000);
+		})
+		.catch(err => {
+			dispatch({ type: EVALUATE_ERROR, payload: err });
+			dispatch({ type: EVALUATE_P_IS_PENDING, payload: false });
+		})
+
+	//re-fetch team
+	//fetchTeam(evaluator, dispatch)
+};
 
 
 //ACTIONS ADMINPANEL.JS
@@ -445,7 +480,7 @@ export const submitDeleteEmployee = value => dispatch => {
 		});
 
 	//re-fetch team
-	fetchTeam(god_id, dispatch);
+	dispatch(fetchTeam(god_id));
 };
 
 //ACTIONS NEWHIRE.JS
@@ -464,7 +499,7 @@ export const newhireReset = () => dispatch => {
 	fetchEmpList(dispatch);
 };
 
-//need to fetch server here--------------------------------------------
+//need to fetch server here---------------
 export const submitNewHire = empId => dispatch => {
 	dispatch({ type: NEWHIRE_IS_PENDING, payload: true });
 
@@ -582,7 +617,7 @@ export const onSubmitSchedule = sched => dispatch => {
 //HELPER FUNCTIONS
 
 
-const fetchTeam = (user_id, dispatch) => {
+export const fetchTeam = (user_id) => (dispatch) => {
 	dispatch({ type: TEAM_IS_PENDING, payload: true });
 
 	//fetching team here:

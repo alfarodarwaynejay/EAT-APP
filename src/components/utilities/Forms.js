@@ -38,7 +38,7 @@ export const Fieldset = (props) => {
 export const Forms = (props) => {
 	return (
 		<div className="br4 center flex flex-wrap ma5">
-			<Tilt className='Tilt br4 shadow-1' options={{ max : 15 }} style={{background: 'none'}}>
+			<Tilt className='Tilt br4 shadow-1' options={{ max : 5 }} style={{background: 'none'}}>
 				<main className="pa4 black-80 Tilt-inner">
 					<div className="measure">
 						{props.children}    
