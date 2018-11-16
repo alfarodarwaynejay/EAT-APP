@@ -54,6 +54,7 @@ import {
 	NEWS,
 	NEWS_VISIBILITY,
 	SUBMITNEWS,
+	NEWS_FRONT_PAGE,
 
 	START_DATE,
 	END_DATE,
@@ -247,6 +248,11 @@ export const setTeam =  team => ({
 	type: TEAM,
 	payload: team
 });
+
+export const toggleNewsFrontPage = bool => ({
+	type: NEWS_FRONT_PAGE,
+	payload: bool
+})
 
 //need to fetch to server--------------
 export const onHomeMount = user_id => dispatch => {

@@ -54,6 +54,7 @@ import {
 	NEWS,
 	NEWS_VISIBILITY,
 	SUBMITNEWS,
+	NEWS_FRONT_PAGE,
 
 	START_DATE,
 	END_DATE,
@@ -203,6 +204,7 @@ const initialHomeState = {
 	teamError: '',
 	statsIsPending: false,
 	statsError:'',
+	newsFrontPage: false
 };
 
 export const setHomeState = (state=initialHomeState, action={}) => {
@@ -239,6 +241,8 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, getNewsIsPending: action.payload };
 		case GETNEWS_ERROR:
 			return { ...state, getNewsError: action.payload };
+		case NEWS_FRONT_PAGE:
+			return { ...state, newsFrontPage: action.payload };
 		default:
 			return state;
 	}

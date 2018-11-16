@@ -16,7 +16,8 @@ import {
 	setStats,
 	setTeam,
 	setEvaluateRoute,
-	onHomeMount
+	onHomeMount,
+	toggleNewsFrontPage
 } from '../../redux/actions.js';
 
 const mapStateToProps = state => {
@@ -25,6 +26,7 @@ const mapStateToProps = state => {
 		adminRoute: state.setHomeState.adminRoute,
 		stats: state.setHomeState.stats,
 		newsHome: state.setHomeState.newsHome,
+		newsVisible: state.setHomeState.newsFrontPage,
 		team: state.setHomeState.team,
 		isGod: state.setAppState.isGod,
 		evaluate: state.setAppState.evaluate,
@@ -45,7 +47,8 @@ const mapDispatchToProps = dispatch => {
 		setAdminRoute: 	route => dispatch(setAdminRoute(route)),
 		onRouteChange: 	route => dispatch(setRoute(route)),
 		setEvalRoute: 	route => dispatch(setEvaluateRoute(route)),
-		mountHome: data => dispatch(onHomeMount(data))
+		mountHome: data => dispatch(onHomeMount(data)),
+		togNewsFP: bool => dispatch(toggleNewsFrontPage(!bool))
 	};
 };
 
@@ -75,16 +78,32 @@ class Home extends React.Component {
 			setHomeDisplay,
 			setAdminRoute,
 			errorStats,
-			isGod
+			isGod,
+			newsVisible,
+			togNewsFP
 		} = this.props;
 		let disp;
 
 		switch(homeDisplay) {
 			case 'defaultHome':
-				disp = isGod ? <AdminWelcomePage /> : <DefaultHome evaluate={evaluate} setHomeDisplay={setHomeDisplay} newsList={newsHome}/>;
+				disp = isGod ? 
+					<AdminWelcomePage /> 
+					: <DefaultHome 
+						evaluate={evaluate} 
+						setHomeDisplay={setHomeDisplay} 
+						newsList={newsHome} 
+						newsVisible={newsVisible}
+						toggleNews={togNewsFP}
+					  />;
 				break;
 			case 'statistics':
-				disp = <Statistics name={userName} id={userID} position={position} stats={stats} error={errorStats} />;
+				disp = <Statistics 
+							name={userName} 
+							id={userID} 
+							position={position} 
+							stats={stats} 
+							error={errorStats} 
+						/>;
 				break;
 			case 'evaluateDefault':
 				disp = <Evaluate />;
@@ -93,7 +112,12 @@ class Home extends React.Component {
 				disp = (<h1 className='f1'>Nothing Yet!</h1>);
 				break;
 			case 'god':
-				disp = <AdminPanel team={team} adminRoute={adminRoute} setAdminRoute={setAdminRoute} setHomeDisplay={setHomeDisplay} />;
+				disp = <AdminPanel 
+							team={team} 
+							adminRoute={adminRoute} 
+							setAdminRoute={setAdminRoute} 
+							setHomeDisplay={setHomeDisplay}
+						/>;
 				break;
 			default:
 				disp = (<h1 className='f1'>SOMETHING WENT WRONG. SORRY.</h1>);

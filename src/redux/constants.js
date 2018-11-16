@@ -61,6 +61,7 @@ export const NEWHIRE_RESET 					= 'NEWHIRE_RESET';
 export const NEWS 							= 'NEWS';
 export const NEWS_VISIBILITY 				= 'NEWS_VISIBILITY';
 export const SUBMITNEWS 					= 'SUBMITNEWS';
+export const NEWS_FRONT_PAGE				= 'NEWS_FRONT_PAGE';
 
 //Schedule.js state
 export const START_DATE 					= 'START_DATE';
