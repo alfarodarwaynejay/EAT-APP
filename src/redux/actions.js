@@ -62,6 +62,9 @@ import {
 	OPEN_END,
 	SUBMIT_SCHEDULE,
 
+	IMAGE_SRC,
+	CAM_VISIBILITY,
+
 	//for thunks
 	SIGNIN_IS_PENDING,
 	SIGNIN_ERROR,
@@ -96,7 +99,11 @@ import {
 	EMP_LIST_SUCCESS,
 	EMP_LIST_IS_PENDING,
 	EMP_LIST_ERROR,
-	EVALUATE_P_RESET
+	EVALUATE_P_RESET,
+	PROFILE_SUCCESS,
+	PROFILE_IS_PENDING,
+	PROFILE_ERROR,
+	PROFILE_RESET
 } from './constants.js'
 
 const HOST = 'http://localhost:3000';
@@ -614,6 +621,20 @@ export const onSubmitSchedule = sched => dispatch => {
 			dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: false });
 		})
 };
+
+
+//Profile.js actions
+export const setImageSrc = src => ({ 
+	type: IMAGE_SRC, 
+	payload: src
+});
+
+export const toggleCamVisibility = bool => ({
+	type: CAM_VISIBILITY,
+	payload: bool
+});
+
+export const profileReset = () => ({ type: PROFILE_RESET });
 
 
 

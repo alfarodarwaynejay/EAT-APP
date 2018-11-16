@@ -70,6 +70,13 @@ export const OPEN_START 					= 'OPEN_START';
 export const OPEN_END 						= 'OPEN_END';
 export const SUBMIT_SCHEDULE 				= 'SUBMIT_SCHEDULE';
 
+//Profile.js state
+export const IMAGE_SRC						= 'IMAGE_SRC';
+export const CAM_VISIBILITY					= 'CAM_VISIBILITY';
+export const PROFILE_SUCCESS				= 'PROFILE_SUCCESS';
+export const PROFILE_IS_PENDING				= 'PROFILE_IS_PENDING';
+export const PROFILE_ERROR					= 'PROFILE_ERROR';
+
 //for thunks
 export const SIGNIN_IS_PENDING 				= 'SIGNIN_IS_PENDING';
 export const SIGNIN_ERROR					= 'SIGNIN_ERROR';
@@ -105,5 +112,5 @@ export const EMP_LIST_SUCCESS				= 'EMP_LIST_SUCCESS';
 export const EMP_LIST_IS_PENDING 			= 'EMP_LIST_IS_PENDING';
 export const EMP_LIST_ERROR 				= 'EMP_LIST_ERROR';
 export const EVALUATE_P_RESET				= 'EVALUATE_P_RESET';
-
+export const PROFILE_RESET					= 'PROFILE_RESET';
 

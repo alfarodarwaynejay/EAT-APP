@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-awesome-modal';
 import DefaultHome from './DefaultHome.js';
+import Profile from './Profile.js';
 import Evaluate from './Evaluate/Evaluate.js';
 import Statistics from './Statistics/Statistics.js'
 import AdminPanel from './Admin/AdminPanel.js';
@@ -109,7 +110,7 @@ class Home extends React.Component {
 				disp = <Evaluate />;
 				break;
 			case 'profile':
-				disp = (<h1 className='f1'>Nothing Yet!</h1>);
+				disp = <Profile />;
 				break;
 			case 'god':
 				disp = <AdminPanel 
@@ -120,7 +121,7 @@ class Home extends React.Component {
 						/>;
 				break;
 			default:
-				disp = (<h1 className='f1'>SOMETHING WENT WRONG. SORRY.</h1>);
+				disp = <h1 className='f1'>SOMETHING WENT WRONG. SORRY.</h1>;
 
 		}
 

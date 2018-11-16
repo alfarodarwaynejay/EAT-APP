@@ -62,6 +62,9 @@ import {
 	OPEN_END,
 	SUBMIT_SCHEDULE,
 
+	IMAGE_SRC,
+	CAM_VISIBILITY,
+
 	//for thunks
 	SIGNIN_IS_PENDING,
 	SIGNIN_ERROR,
@@ -98,7 +101,11 @@ import {
 	EMP_LIST_SUCCESS,
 	EMP_LIST_IS_PENDING,
 	EMP_LIST_ERROR,
-	EVALUATE_P_RESET
+	EVALUATE_P_RESET,
+	PROFILE_SUCCESS,
+	PROFILE_IS_PENDING,
+	PROFILE_ERROR,
+	PROFILE_RESET
 } from './constants.js'
 
 //Signin.js reducer
@@ -471,6 +478,33 @@ export const setScheduleState = (state=initialScheduleState, action={}) => {
 			return { ...state, submitScheduleError: action.payload };
 		case SUBMITSCHEDULE_RESET:
 			return initialScheduleState;
+		default:
+			return state;
+	}
+}
+
+const initialProfileState = {
+	imgSrc: '',
+	camVisible: false,
+	profileSuccess: false,
+	profileIsPending: false,
+	profileError: ''
+}
+
+export const setProfileState = (state=initialProfileState, action={}) => {
+	switch(action.type) {
+		case IMAGE_SRC:
+			return { ...state, imgSrc: action.payload };
+		case CAM_VISIBILITY:
+			return { ...state, camVisible: action.payload };
+		case PROFILE_SUCCESS:
+			return { ...state, profileSuccess: action.payload };
+		case PROMOTE_IS_PENDING:
+			return { ...state, profileIsPending: action.payload };
+		case PROFILE_ERROR:
+			return { ...state, profileError: action.payload };
+		case PROFILE_RESET:
+			return initialProfileState;
 		default:
 			return state;
 	}
