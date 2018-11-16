@@ -1,35 +1,55 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Webcam from 'react-webcam';
 import Modal from 'react-awesome-modal';
 import Headline from '../utilities/Headline.js'
 import ButtonMaker from '../utilities/ButtonMaker.js';
 import Card from '../utilities/Card.js';
 
+import { 
+	setImageSrc,
+	toggleCamVisibility,
+	profileReset,
+	setProfilePix
+} from '../../redux/actions.js';
 
+const mapStateToProps = state => {
+	return {
+		user_id: state.setHomeState.user_id,
+		imgSrc: state.setProfileState.imageSrc,
+		camVisible: state.setProfileState.camVisible,
+		
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		setImgSrc: src => dispatch(setImageSrc(src)),
+		camVisibility: bool => dispatch(toggleCamVisibility(!bool)),
+		sendProfile: value => dispatch(setProfilePix(value)),
+		resetProdile: () => dispatch(profileReset())
+	};
+};
 
 class Profile extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			imageSrc: '',
-			camVisible: false
-			
-		}
+	componentDidMount() {
+		//this.props.resetProfile()
 	}
 
 	setRef = webcam => {
 		this.webcam = webcam;
 	}
 
-	capture = () => {
-		this.setState({ imageSrc: this.webcam.getScreenshot()})
-	}
-
-	toggleCamVisibility = () => {
-		this.setState({ camVisible: !this.state.camVisible });
-	}
-
 	render() {
+		const { 
+			imgSrc,
+			camVisible,
+			user_id,
+			setImgSrc,
+			camVisibility,
+			sendProfile
+		} = this.props;
+
 		return (
 			<div>
 				<Headline text='Set Profile Photo' />
@@ -38,7 +58,7 @@ class Profile extends React.Component {
 						jsx={
 							<div className='center dib w-80'>
 								<Modal
-							      visible={this.state.camVisible}
+							      visible={camVisible}
 							      effect={'fadeInUp'}
 							      width={'50%'}
 							    >
@@ -59,8 +79,8 @@ class Profile extends React.Component {
 									      	style={{width: '250px'}}
 									      	className='f6 f5-ns grow pv3 bg-orange' 
 									      	onClick={() => {
-									      		this.capture();
-									      		this.toggleCamVisibility();
+									      		setImgSrc(this.webcam.getScreenshot());
+									      		camVisibility(camVisible);
 									      	}} 
 									    />
 								    </div>
@@ -68,7 +88,7 @@ class Profile extends React.Component {
 
 								<img 
 									className='br5 shadow-5 w-90' 
-									src={this.state.imageSrc || 'https://via.placeholder.com/250'} 
+									src={imgSrc || 'https://via.placeholder.com/250'} 
 									alt='captured'
 									width='250'
 									height='250'
@@ -84,14 +104,18 @@ class Profile extends React.Component {
 		      		<ButtonMaker 
 						style={{width: '450px'}}
 						text='TAKE PHOTO' 
-						onClick={() => this.toggleCamVisibility()} 
+						onClick={() => camVisibility(camVisible)} 
 						className='f5 f4-ns w-50 bg-orange pa3' 
 					/>	
 		      	
 					<ButtonMaker 
 						style={{width: '450px'}}
 						text='SAVE PHOTO' 
-						onClick={() => {}} 
+						onClick={() => {
+							let value = { user_id: user_id, img_src: imgSrc };
+							sendProfile(value);
+							console.log(value);
+						}} 
 						className='f5 f4-ns w-50 bg-orange pa3' 
 					/>	
 		      	</div>
@@ -102,7 +126,7 @@ class Profile extends React.Component {
 
 
 
-export default Profile;
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 
 

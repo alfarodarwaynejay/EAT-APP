@@ -21,7 +21,8 @@ import {
 	setEmployeeStatusState,
 	setNewHireState,
 	setNewsState,
-	setScheduleState 
+	setScheduleState,
+	setProfileState 
 } from './redux/reducers.js'
 
 const rootReducer = combineReducers({ 
@@ -35,7 +36,8 @@ const rootReducer = combineReducers({
 	setEmployeeStatusState,
 	setNewHireState,
 	setNewsState,
-	setScheduleState 
+	setScheduleState,
+	setProfileState 
 });
 
 const logger = createLogger();

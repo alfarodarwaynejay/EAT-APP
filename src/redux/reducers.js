@@ -64,6 +64,7 @@ import {
 
 	IMAGE_SRC,
 	CAM_VISIBILITY,
+	PROFILE_SRC,
 
 	//for thunks
 	SIGNIN_IS_PENDING,
@@ -199,6 +200,7 @@ const initialHomeState = {
 	user_id: '',
 	user_email: '',
 	user_position:'',
+	profile_src: '',
 	homeDisplay: 'defaultHome',
 	adminRoute: 'adminHome',
 	newsHome: [],
@@ -224,6 +226,8 @@ export const setHomeState = (state=initialHomeState, action={}) => {
 			return { ...state, user_email: action.payload };
 		case USER_POSITION:
 			return { ...state, user_position: action.payload };
+		case PROFILE_SRC:
+			return { ...state, profile_src: action.payload };
 		case HOME_DISPLAY:
 			return { ...state, homeDisplay: action.payload };
 		case ADMIN_ROUTE:
@@ -484,7 +488,7 @@ export const setScheduleState = (state=initialScheduleState, action={}) => {
 }
 
 const initialProfileState = {
-	imgSrc: '',
+	imageSrc: '',
 	camVisible: false,
 	profileSuccess: false,
 	profileIsPending: false,
@@ -494,7 +498,7 @@ const initialProfileState = {
 export const setProfileState = (state=initialProfileState, action={}) => {
 	switch(action.type) {
 		case IMAGE_SRC:
-			return { ...state, imgSrc: action.payload };
+			return { ...state, imageSrc: action.payload };
 		case CAM_VISIBILITY:
 			return { ...state, camVisible: action.payload };
 		case PROFILE_SUCCESS:

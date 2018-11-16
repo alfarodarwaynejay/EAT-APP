@@ -73,6 +73,7 @@ export const SUBMIT_SCHEDULE 				= 'SUBMIT_SCHEDULE';
 //Profile.js state
 export const IMAGE_SRC						= 'IMAGE_SRC';
 export const CAM_VISIBILITY					= 'CAM_VISIBILITY';
+export const PROFILE_SRC 					= 'PROFILE_SRC';
 export const PROFILE_SUCCESS				= 'PROFILE_SUCCESS';
 export const PROFILE_IS_PENDING				= 'PROFILE_IS_PENDING';
 export const PROFILE_ERROR					= 'PROFILE_ERROR';

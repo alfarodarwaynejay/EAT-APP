@@ -21,6 +21,7 @@ class Deck extends React.Component {
 					let emp_id = employee[i].employee_id;
 					let position = employee[i].position;
 					let team = employee[i].team;
+					let profile = employee[i].profile;
 
 					const descript = {
 						name: name, 
@@ -43,6 +44,7 @@ class Deck extends React.Component {
 						>
 							<Card 
 								name={name}
+								img={profile}
 								jsx={
 									<div>
 										<h2 className='black f4-l f4-m f4-ns'>name: {name}</h2>

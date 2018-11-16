@@ -64,6 +64,7 @@ import {
 
 	IMAGE_SRC,
 	CAM_VISIBILITY,
+	PROFILE_SRC,
 
 	//for thunks
 	SIGNIN_IS_PENDING,
@@ -636,8 +637,28 @@ export const toggleCamVisibility = bool => ({
 
 export const profileReset = () => ({ type: PROFILE_RESET });
 
+export const setProfilePix = value => dispatch => {
+	dispatch({ type: PROFILE_IS_PENDING, payload: true });
 
+	fetch(`${HOST}/profile`, {
+		method: 'put',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify(value)
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data === 'success') {
+				dispatch({ type: PROFILE_SUCCESS, payload: true });
+			} else {
+				throw Error(`Unable to delete: Server responded with '${data}'`);
+			}	
 
+		})
+		.catch(err => {
+			dispatch({ type: PROFILE_IS_PENDING, payload: false });
+			dispatch({ type: PROMOTE_ERROR, payload: err });
+		})
+}
 
 
 
