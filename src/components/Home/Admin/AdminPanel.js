@@ -6,6 +6,7 @@ import EmployeeStatus from './EmployeeStatus.js'
 import Schedule from './Schedule.js';
 import NewHire from './NewHire.js'
 import News from './News.js';
+import EmpStats from './EmpStats.js';
 import Success from '../../utilities/Success.js';
 
 import { 
@@ -43,7 +44,7 @@ class AdminPanel extends React.Component {
 
 		switch(adminRoute) {
 			case 'adminHome':
-				disp = <DefaultAdminHome setAdminRoute={setAdRoute} setHomeDisplay={setHomeDisp}/>;
+				disp = <DefaultAdminHome setAdminRoute={setAdRoute} />;
 				break;
 			case 'employees':
 				disp = <Employees 
@@ -65,8 +66,12 @@ class AdminPanel extends React.Component {
 			case 'news':
 				disp = <News />;
 				break;
+			case 'stats':
+				disp = <EmpStats />;
+				break;
 			case 'success':
 				disp = <Success setAdminRoute={setAdRoute} setHomeDisplay={setHomeDisp}/>
+				break;
 			default:
 				disp = <h1>Something went wrong! Oh no Aaaaaah!</h1>
 		}

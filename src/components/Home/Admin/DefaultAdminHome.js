@@ -1,7 +1,7 @@
 import React from 'react';
 import ButtonMaker from '../../utilities/ButtonMaker.js'
 
-const DefaultAdminHome = ({ setAdminRoute, setHomeDisplay }) => {
+const DefaultAdminHome = ({ setAdminRoute }) => {
 
 	return (
 		<div className='w-80'>
@@ -32,8 +32,8 @@ const DefaultAdminHome = ({ setAdminRoute, setHomeDisplay }) => {
 		      		/>
 		      		<ButtonMaker 
 		      			style={{width: '250px'}}
-		      			text='Evaluate' 
-		      			onClick={() => setHomeDisplay('evaluateDefault')} 
+		      			text='Statistics' 
+		      			onClick={() => setAdminRoute('stats')} 
 		      			className='f5 f3-ns grow pv3 ph5 bg-orange w-70' 
 		      		/>
 		      	</div>

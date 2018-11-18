@@ -1,4 +1,5 @@
 //App.js states
+export const LOG_OUT 						= 'LOG_OUT';
 export const ROUTE 							= 'ROUTE';
 export const EVALUATE 						= 'EVALUATE';
 export const IS_GOD 						= 'IS_GOD';
@@ -75,8 +76,16 @@ export const IMAGE_SRC						= 'IMAGE_SRC';
 export const CAM_VISIBILITY					= 'CAM_VISIBILITY';
 export const PROFILE_SRC 					= 'PROFILE_SRC';
 export const PROFILE_SUCCESS				= 'PROFILE_SUCCESS';
+export const TOGGLE_SUCCESS					= 'TOGGLE_SUCCESS';
 export const PROFILE_IS_PENDING				= 'PROFILE_IS_PENDING';
 export const PROFILE_ERROR					= 'PROFILE_ERROR';
+
+//EMpStats.js state
+export const EMP_STAT_LIST					= 'EMP_STAT_LIST';
+export const EMP_STAT_IS_PENDING			= 'EMP_STAT_IS_PENDING';
+export const EMP_STAT_ERROR					= 'EMP_STAT_ERROR';
+export const EMP_STAT_SHOW					= 'EMP_STAT_SHOW';
+export const EMP_STAT_ORDER					= 'EMP_STAT_ORDER';
 
 //for thunks
 export const SIGNIN_IS_PENDING 				= 'SIGNIN_IS_PENDING';

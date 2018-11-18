@@ -18,12 +18,14 @@ import {
 	setTeam,
 	setEvaluateRoute,
 	onHomeMount,
-	toggleNewsFrontPage
+	toggleNewsFrontPage,
+	resetStore
 } from '../../redux/actions.js';
 
 const mapStateToProps = state => {
 	return {
 		homeDisplay: state.setHomeState.homeDisplay,
+		imgSrc: state.setHomeState.profile_src,
 		adminRoute: state.setHomeState.adminRoute,
 		stats: state.setHomeState.stats,
 		newsHome: state.setHomeState.newsHome,
@@ -39,6 +41,7 @@ const mapStateToProps = state => {
 		errorStats: state.setHomeState.statsError,
 		promotePending: state.setEmployeeStatusState.promoteIsPending,
 		newhirePending: state.setEmployeeStatusState.newhireIsPending,
+
 	};
 };
 
@@ -49,7 +52,8 @@ const mapDispatchToProps = dispatch => {
 		onRouteChange: 	route => dispatch(setRoute(route)),
 		setEvalRoute: 	route => dispatch(setEvaluateRoute(route)),
 		mountHome: data => dispatch(onHomeMount(data)),
-		togNewsFP: bool => dispatch(toggleNewsFrontPage(!bool))
+		togNewsFP: bool => dispatch(toggleNewsFrontPage(!bool)),
+		logout: () => dispatch(resetStore())
 	};
 };
 
@@ -81,7 +85,8 @@ class Home extends React.Component {
 			errorStats,
 			isGod,
 			newsVisible,
-			togNewsFP
+			togNewsFP, 
+			imgSrc
 		} = this.props;
 		let disp;
 
@@ -104,6 +109,7 @@ class Home extends React.Component {
 							position={position} 
 							stats={stats} 
 							error={errorStats} 
+							imgSrc={imgSrc}
 						/>;
 				break;
 			case 'evaluateDefault':
@@ -130,6 +136,7 @@ class Home extends React.Component {
 
 	render() {
 		const { 
+			logout,
 			isGod, 
 			adminRoute,
 			onRouteChange, 
@@ -164,6 +171,7 @@ class Home extends React.Component {
 	                  setAdminRoute={setAdminRoute}
 	                  setEvalRoute={setEvalRoute}
 	                  userName={userName}
+	                  logout={logout}
 	                />
 					<div 
 						className='db br4 shadow-5 mb7 pt5 pb5 pr2 pl2 center w-80 flex bg-washed-blue flex-wrap'

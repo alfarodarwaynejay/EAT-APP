@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import { 
+	LOG_OUT,
 	ROUTE,
 	EVALUATE,
 	IS_GOD,
@@ -65,6 +66,13 @@ import {
 	IMAGE_SRC,
 	CAM_VISIBILITY,
 	PROFILE_SRC,
+	TOGGLE_SUCCESS,
+
+	EMP_STAT_LIST,
+	EMP_STAT_IS_PENDING,
+	EMP_STAT_ERROR,
+	EMP_STAT_SHOW,
+	EMP_STAT_ORDER,
 
 	//for thunks
 	SIGNIN_IS_PENDING,
@@ -109,6 +117,9 @@ import {
 
 const HOST = 'http://localhost:3000';
 
+//reset store
+export const resetStore = () => ({ type: LOG_OUT });
+
 //ACTIONS APP.JS
 export const setRoute = route => ({
 	type: ROUTE,
@@ -141,7 +152,215 @@ export const setLoginFailed = bool => ({
 	payload: bool
 })
 
-//need to fetch to server------------
+//ACTIONS REGISTER.JS
+export const setRegisterEmail = email => ({
+	type: REGISTER_EMAIL,
+	payload: email
+});
+
+export const setRegisterPassword = password => ({
+	type: REGISTER_PASSWORD,
+	payload: password
+});
+
+export const setRegisterName = name => ({
+	type: REGISTER_NAME,
+	payload: name
+});
+
+export const setRegisterEmployeeId = id => ({
+	type: REGISTER_EMPLOYEE_ID,
+	payload: id
+});
+
+export const setRegisterFailed = bool => ({
+	type: REGISTER_FAILED,
+	payload: bool
+});
+
+//ACTIONS HOME.JS
+export const setHomeDisplay = route => ({ 
+	type: HOME_DISPLAY,
+	payload: route
+});
+
+export const setAdminRoute = route => ({ 
+	type: ADMIN_ROUTE,
+	payload: route
+});
+
+export const setStats = stats => ({ 
+	type: STATS,
+	payload: stats
+});
+
+export const setTeam =  team => ({
+	type: TEAM,
+	payload: team
+});
+
+export const toggleNewsFrontPage = bool => ({
+	type: NEWS_FRONT_PAGE,
+	payload: bool
+});
+
+//ACTIONS EVALUATE.JS
+export const setEvaluateRoute = route => ({
+	type: EVALUATE_ROUTE,
+	payload: route
+});
+
+export const setEvaluateTeammate = person => ({
+	type: EVALUATE_TEAMMATE,
+	payload: {
+		name: person.name,
+	    employee_id: person.employee_id,
+	    position: person.position
+	}
+});
+
+//ACTIONS EVALUATEPERSON.JS
+export const toggleScore = score => ({
+	type: SCORE,
+	payload: { ...score }
+});
+
+export const togglePSuccess = bool => ({ 
+	type: EVALUATE_P_SUCCESS, 
+	payload: bool
+});
+
+export const evaluatePReset = () => ({ type: EVALUATE_P_RESET });
+
+
+//ACTIONS ADMINPANEL.JS
+export const setEmployeeStatus = person => ({
+	type: EMPLOYEE,
+	payload: {
+		name: person.name,
+	    employee_id: person.employee_id,
+	    position: person.position
+	}
+});
+
+//ACTIONS EMPLOYEESTATUS.JS
+export const setVisibility1 = visibility => ({
+	type: VISIBILITY1,
+	payload: visibility
+});
+
+export const setVisibility2 = visibility => ({
+	type: VISIBILITY2,
+	payload: visibility
+});
+
+export const setVisibility3 = visibility => ({
+	type: VISIBILITY3,
+	payload: visibility
+});
+
+export const setPosixon = pos => ({
+	type: POSITION,
+	payload: pos
+});
+
+export const setSubValue = value => ({
+	type: SUBMITVALUE,
+	payload: {
+		...value
+	}
+});
+
+export const setEmployeeStatusReset = () => ({ type: EMPLOYEE_STATUS_RESET });
+
+//ACTIONS NEWHIRE.JS
+export const setEmployID = value => ({
+	type:EMPLOYEE_ID,
+	payload: value
+});
+
+export const setConfirmVis = visibility => ({
+	type: CONFIRM_VISIBILITY,
+	payload: visibility
+});
+
+export const newhireReset = () => dispatch => {
+	dispatch({ type: NEWHIRE_RESET});
+	fetchEmpList(dispatch);
+};
+
+//ACTIONS NEWS.JS
+export const setNewsText = news => ({
+	type: SUBMITNEWS,
+	payload: news
+});
+
+export const setNewsVisible = visibility => ({
+	type: NEWS_VISIBILITY,
+	payload: visibility
+});
+
+export const resetSubmitNews = () => ({ type: NEWSRESET });
+
+//ACTIONS SCHEDULE.JS
+export const setStart = start => ({
+	type: START_DATE,
+	payload: start
+});
+
+export const setEnd = end => ({
+	type: END_DATE,
+	payload: end
+});
+
+export const setStartVisibility = visibility => ({
+	type: OPEN_START,
+	payload: visibility
+});
+
+export const setEndVisibility = visibility => ({
+	type: OPEN_END,
+	payload: visibility
+});
+
+export const resetSubmitSchedule = () => ({ type: SUBMITSCHEDULE_RESET });
+
+//Profile.js actions
+export const setImageSrc = src => ({ 
+	type: IMAGE_SRC, 
+	payload: src
+});
+
+export const toggleCamVisibility = bool => ({
+	type: CAM_VISIBILITY,
+	payload: bool
+});
+
+export const toggleSuccess = bool => ({ type: TOGGLE_SUCCESS, payload: bool });
+
+export const profileReset = () => ({ type: PROFILE_RESET });
+
+//EmpList.js actions
+export const toggleShowEmpList = bool => ({
+	type: EMP_STAT_SHOW,
+	payload: bool
+});
+
+export const setEmpStatList = list => ({
+	type: EMP_STAT_LIST,
+	payload: list
+});
+
+export const setEmpStatOrder = value => ({
+	type: EMP_STAT_ORDER,
+	payload: value
+});
+
+//---------------------------------------------------------------
+//FUNCTIONS THAT USES THUNK
+//---------------------------------------------------------------
+
+//need to fetch to server to verify signin
 export const onSubmitSignin = signinValue => dispatch => {
 
 	dispatch({ type: SIGNIN_IS_PENDING, payload: true });
@@ -178,33 +397,7 @@ export const onSubmitSignin = signinValue => dispatch => {
 	 	});
 };
 
-//ACTIONS REGISTER.JS
-export const setRegisterEmail = email => ({
-	type: REGISTER_EMAIL,
-	payload: email
-});
-
-export const setRegisterPassword = password => ({
-	type: REGISTER_PASSWORD,
-	payload: password
-});
-
-export const setRegisterName = name => ({
-	type: REGISTER_NAME,
-	payload: name
-});
-
-export const setRegisterEmployeeId = id => ({
-	type: REGISTER_EMPLOYEE_ID,
-	payload: id
-});
-
-export const setRegisterFailed = bool => ({
-	type: REGISTER_FAILED,
-	payload: bool
-});
-
-//need to fetch to server------------
+//need to fetch to server to add user info to database
 export const onSubmitRegister = registerValue => dispatch => {
 	dispatch({ type: REGISTER_IS_PENDING, payload: true });
 
@@ -236,33 +429,7 @@ export const onSubmitRegister = registerValue => dispatch => {
 		});
 };
 
-//ACTIONS HOME.JS
-export const setHomeDisplay = route => ({ 
-	type: HOME_DISPLAY,
-	payload: route
-});
-
-export const setAdminRoute = route => ({ 
-	type: ADMIN_ROUTE,
-	payload: route
-});
-
-export const setStats = stats => ({ 
-	type: STATS,
-	payload: stats
-});
-
-export const setTeam =  team => ({
-	type: TEAM,
-	payload: team
-});
-
-export const toggleNewsFrontPage = bool => ({
-	type: NEWS_FRONT_PAGE,
-	payload: bool
-})
-
-//need to fetch to server--------------
+//need to fetch to server to initialize Home.js' states
 export const onHomeMount = user_id => dispatch => {
 	dispatch({ type: STATS_IS_PENDING, payload: true });
 	dispatch({ type: EVALUATE_IS_PENDING, payload: true });
@@ -284,7 +451,7 @@ export const onHomeMount = user_id => dispatch => {
 			dispatch({ type: USER_POSITION, payload: data.position});
 
 			if (data.status === 'success') {
-				dispatch({ type: STATS, payload: calculateStats(data.stats) });
+				dispatch({ type: STATS, payload: [calculateStats(data.stats)] });
 			} else {
 				throw Error(data.status);
 			}
@@ -341,35 +508,7 @@ export const onHomeMount = user_id => dispatch => {
 		});
 };
 
-//ACTIONS EVALUATE.JS
-export const setEvaluateRoute = route => ({
-	type: EVALUATE_ROUTE,
-	payload: route
-});
-
-export const setEvaluateTeammate = person => ({
-	type: EVALUATE_TEAMMATE,
-	payload: {
-		name: person.name,
-	    employee_id: person.employee_id,
-	    position: person.position
-	}
-});
-
-//ACTIONS EVALUATEPERSON.JS
-export const toggleScore = score => ({
-	type: SCORE,
-	payload: { ...score }
-});
-
-export const togglePSuccess = bool => ({ 
-	type: EVALUATE_P_SUCCESS, 
-	payload: bool
-});
-
-export const evaluatePReset = () => ({ type: EVALUATE_P_RESET });
-
-//need to fetch to server---------------------------------------------------
+//need to fetch to server to update person's evaluation
 export const onSubmitEvalPerson = value => dispatch => {
 	const { evaluator } = value;
 	dispatch({ type: EVALUATE_P_IS_PENDING, payload: true });
@@ -399,48 +538,7 @@ export const onSubmitEvalPerson = value => dispatch => {
 	//fetchTeam(evaluator, dispatch)
 };
 
-
-//ACTIONS ADMINPANEL.JS
-export const setEmployeeStatus = person => ({
-	type: EMPLOYEE,
-	payload: {
-		name: person.name,
-	    employee_id: person.employee_id,
-	    position: person.position
-	}
-});
-
-//ACTIONS EMPLOYEESTATUS.JS
-export const setVisibility1 = visibility => ({
-	type: VISIBILITY1,
-	payload: visibility
-});
-
-export const setVisibility2 = visibility => ({
-	type: VISIBILITY2,
-	payload: visibility
-});
-
-export const setVisibility3 = visibility => ({
-	type: VISIBILITY3,
-	payload: visibility
-});
-
-export const setPosixon = pos => ({
-	type: POSITION,
-	payload: pos
-});
-
-export const setSubValue = value => ({
-	type: SUBMITVALUE,
-	payload: {
-		...value
-	}
-});
-
-export const setEmployeeStatusReset = () => ({ type: EMPLOYEE_STATUS_RESET });
-
-//need to fetch server here---------
+//need to fetch server and update employee position
 export const submitPromoteEmployee = value => dispatch => {
 	const {god_id, ...toServer} = value;
 	dispatch({ type: PROMOTE_IS_PENDING, payload: true });
@@ -468,7 +566,7 @@ export const submitPromoteEmployee = value => dispatch => {
 	fetchTeam(god_id, dispatch);
 };
 
-//need to fetch server here---------
+//need to fetch server and delete employee from database
 export const submitDeleteEmployee = value => dispatch => {
 	const { god_id, ...toServer } = value;
 	console.log(toServer);
@@ -497,23 +595,7 @@ export const submitDeleteEmployee = value => dispatch => {
 	dispatch(fetchTeam(god_id));
 };
 
-//ACTIONS NEWHIRE.JS
-export const setEmployID = value => ({
-	type:EMPLOYEE_ID,
-	payload: value
-});
-
-export const setConfirmVis = visibility => ({
-	type: CONFIRM_VISIBILITY,
-	payload: visibility
-});
-
-export const newhireReset = () => dispatch => {
-	dispatch({ type: NEWHIRE_RESET});
-	fetchEmpList(dispatch);
-};
-
-//need to fetch server here---------------
+//need to fetch server and submit new hire employee id
 export const submitNewHire = empId => dispatch => {
 	dispatch({ type: NEWHIRE_IS_PENDING, payload: true });
 
@@ -537,18 +619,7 @@ export const submitNewHire = empId => dispatch => {
 		})
 };
 
-//ACTIONS NEWS.JS
-export const setNewsText = news => ({
-	type: SUBMITNEWS,
-	payload: news
-});
-
-export const setNewsVisible = visibility => ({
-	type: NEWS_VISIBILITY,
-	payload: visibility
-});
-
-//need to fetch server here-------------
+//need to fetch server and update news list
 export const onSubmitNews = value => dispatch => {
 	dispatch({ type: SUBMITNEWS_IS_PENDING, payload: true });
 
@@ -572,32 +643,7 @@ export const onSubmitNews = value => dispatch => {
 		})
 };
 
-export const resetSubmitNews = () => ({ type: NEWSRESET });
-
-//ACTIONS SCHEDULE.JS
-export const setStart = start => ({
-	type: START_DATE,
-	payload: start
-});
-
-export const setEnd = end => ({
-	type: END_DATE,
-	payload: end
-});
-
-export const setStartVisibility = visibility => ({
-	type: OPEN_START,
-	payload: visibility
-});
-
-export const setEndVisibility = visibility => ({
-	type: OPEN_END,
-	payload: visibility
-});
-
-export const resetSubmitSchedule = () => ({ type: SUBMITSCHEDULE_RESET });
-
-//need to fetch server here---------------
+//need to fetch server and set evaluation schedule
 export const onSubmitSchedule = sched => dispatch => {
 	dispatch({ type: SUBMITSCHEDULE_IS_PENDING, payload: true });
 
@@ -623,20 +669,7 @@ export const onSubmitSchedule = sched => dispatch => {
 		})
 };
 
-
-//Profile.js actions
-export const setImageSrc = src => ({ 
-	type: IMAGE_SRC, 
-	payload: src
-});
-
-export const toggleCamVisibility = bool => ({
-	type: CAM_VISIBILITY,
-	payload: bool
-});
-
-export const profileReset = () => ({ type: PROFILE_RESET });
-
+//need to fetch server and set profile fix
 export const setProfilePix = value => dispatch => {
 	dispatch({ type: PROFILE_IS_PENDING, payload: true });
 
@@ -652,18 +685,68 @@ export const setProfilePix = value => dispatch => {
 			} else {
 				throw Error(`Unable to delete: Server responded with '${data}'`);
 			}	
-
+			dispatch({ type: PROFILE_IS_PENDING, payload: false });
 		})
 		.catch(err => {
 			dispatch({ type: PROFILE_IS_PENDING, payload: false });
-			dispatch({ type: PROMOTE_ERROR, payload: err });
+			dispatch({ type: PROFILE_ERROR, payload: err });
+		})
+};
+
+export const fetchEmpStat = () => dispatch => {
+	dispatch({ type: EMP_STAT_IS_PENDING, payload: true });
+
+	fetch(`${HOST}/empstats`, {
+		method: 'post',
+		headers: { 'Content-Type' : 'application/json'},
+		body: JSON.stringify({ get: true })
+	})
+		.then(response => response.json())
+		.then(data => {
+			if (data.status === 'success') {
+				//
+				const employee_list = data.list.map( item => {
+					let { _id, name, position, stats, profile, team } = item;
+					let overall;
+
+					let list_values = {
+						name, 
+						position,
+						team,
+						profile,
+						employee_id: _id,
+					}
+
+					if (stats.length === 0) {
+						overall = 0
+					} else {
+						let statsAverage = calculateStats(stats);
+						console.log(statsAverage);
+
+						//need to convert statsAverage to an array and pass it to calculateOverAll;
+						overall = calculateOverAll(Object.keys(statsAverage).map( item => statsAverage[item]));
+					}
+
+					return { ...list_values, overall }
+
+				})
+
+				dispatch({ type: EMP_STAT_LIST, payload: employee_list });
+
+			} else {
+				throw Error(`Unable to fetch statistics: Server responded with '${data}'`);
+			}	
+			dispatch({ type: EMP_STAT_IS_PENDING, payload: false });
+		})
+		.catch(err => {
+			dispatch({ type: EMP_STAT_IS_PENDING, payload: false });
+			dispatch({ type: EMP_STAT_ERROR, payload: err });
 		})
 }
 
-
-
+//---------------------------------------------------------------
 //HELPER FUNCTIONS
-
+//---------------------------------------------------------------
 
 export const fetchTeam = (user_id) => (dispatch) => {
 	dispatch({ type: TEAM_IS_PENDING, payload: true });
@@ -680,6 +763,9 @@ export const fetchTeam = (user_id) => (dispatch) => {
 			if (data === 'failed') {
 				throw Error('You have no teammates. Note: if Admin, use your ordinary account');
 			} else {
+				const src = data.filter(item => item.employee_id === user_id);
+
+				dispatch({ type: PROFILE_SRC, payload: src[0].profile})
 				dispatch({ type: TEAM, payload: data });
 				dispatch({ type: TEAM_IS_PENDING, payload: false });	
 			}
@@ -722,16 +808,19 @@ const calculateStats = (arr) => {
 		}
 		return acc;
 
-	   //I could use << '0 '.repeat(Object.keys(arr[item]).length).split(' ') >> but is too cheeky
+	   //I could use << '0 '.repeat(Object.keys(arr[0]).length).split(' ') >> but it's too cheeky
 	}, [0,0,0,0,0,0,0,0,0]);
 
 	//reduce the temporary array and return an object wrap in an array(because my state was earlier design in array)..
-	return [ 
-		tempArr.reduce((acc, item, i) => {
-			acc[i] = item/arr.length;
-			return acc;
-		}, {}) 
-	];
+	return tempArr.reduce((acc, item, i) => {
+		acc[i] = item/arr.length;
+		return acc;
+	}, {});
+};
+
+//calucalte the overall average of employee
+const calculateOverAll = arr => {
+	return arr.reduce( (a , b) => { return a + b }) / arr.length
 }
 
 

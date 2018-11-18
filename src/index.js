@@ -22,10 +22,11 @@ import {
 	setNewHireState,
 	setNewsState,
 	setScheduleState,
-	setProfileState 
+	setProfileState, 
+	setEmpStatState
 } from './redux/reducers.js'
 
-const rootReducer = combineReducers({ 
+const appReducer = combineReducers({ 
 	setAppState, 
 	setSigninState,
 	setRegisterState,
@@ -37,11 +38,45 @@ const rootReducer = combineReducers({
 	setNewHireState,
 	setNewsState,
 	setScheduleState,
-	setProfileState 
+	setProfileState,
+	setEmpStatState
 });
 
+const rootReducer = (state, action) => {
+	if (action.type === 'LOG_OUT' ) {
+		state = undefined;
+	}
+
+	return appReducer(state, action);
+}
+
+const loadState = () => {
+	try {
+		const serializedState = localStorage.getItem('reduxState');
+		if (serializedState === null) return undefined;
+		return JSON.parse(serializedState);
+	} catch (err) {
+		console.log(err);
+		return undefined;
+	} 
+}
+
+const saveState = (store) => {
+	try {
+		const serializedState = JSON.stringify(store.getState());
+		localStorage.setItem('reduxState', serializedState);
+	} catch (err) {
+		console.log(err);
+	}
+}
+
 const logger = createLogger();
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
+
+const persistedState = loadState();
+const store = createStore(rootReducer, persistedState, applyMiddleware(thunkMiddleware, logger));
+store.subscribe(() => { saveState(store); });
+//console.log(store);
+
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -49,3 +84,7 @@ ReactDOM.render(
 	</Provider>
 	, document.getElementById('root')
 );
+
+
+
+

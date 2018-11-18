@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEvalRoute, userName }) => {
+const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEvalRoute, logout, userName }) => {
 
 	return (
 		<div className='flex center mt5 justify-between w-70 black link pointer'>
@@ -46,8 +46,7 @@ const Navigation = ({ onRouteChange, god, setHomeDisplay, setAdminRoute, setEval
 					<span
 						className='underline dim'
 		      			onClick={() => {
-		      				onRouteChange('signin');
-		      				setHomeDisplay('defaultHome');
+		      				logout();
 		      				}
 		      			}
 		      		>

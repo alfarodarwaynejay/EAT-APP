@@ -28,25 +28,36 @@ const DefaultHome = ({ evaluate, setHomeDisplay, newsList, newsVisible, toggleNe
 					className='f3 f4-ns w-50 bg-orange pa3' 
 				/>	
 	      	</div>
-	      	{ (!!newsList.length &&
-	      		<Card 
-		      		news
-		      		jsx={
-		      			<div>
-		      				<div className='flex flex-wrap'>
-		      				<h1 className='tl f4 f3-ns w-50'>News:</h1>
-		      				<h1 
-		      					className='tr f4 f3-ns w-50 blue dim link pointer'
-		      					onClick={()=> toggleNews(newsVisible)}
-		      				>
-		      					{newsVisible ? 'HIDE' : 'SHOW'}
-		      				</h1>
-		      				</div>
-		      				{ newsVisible && (newsList.map((item, i) => <h2 key={i} className='tl pl3 f4 f3-ns'>{i+1}.) {item}</h2>))}		
-		      			</div>
-		      		} 
-		      	/>)
-	      	}
+	      	<div className='w-70 center'>
+		      	{ (!!newsList.length &&
+		      		<Card 
+			      		news
+			      		jsx={
+			      			<div>
+			      				<div className='flex flex-wrap'>
+				      				<h1 className='tl f4 f3-ns w-50'>News:</h1>
+				      				<h1 
+				      					className='tr f4 f3-ns w-50 blue dim link pointer'
+				      					onClick={()=> toggleNews(newsVisible)}
+				      				>
+				      					{newsVisible ? 'HIDE' : 'SHOW'}
+				      				</h1>
+			      				</div>
+			      				{ newsVisible && (newsList.map((item, i) => <h2 key={i} className='tl pl3 f4 f3-ns'>{i+1}.) {item}</h2>))}		
+		      					{newsVisible && <div className='flex flex-wrap'>
+				      				<h1 className='tl f4 f3-ns w-50'></h1>
+				      				<h1 
+				      					className='tr f4 f3-ns w-50 blue dim link pointer'
+				      					onClick={()=> toggleNews(newsVisible)}
+				      				>
+				      					{newsVisible ? 'HIDE' : 'SHOW'}
+				      				</h1>
+			      				</div>}
+			      			</div>
+			      		} 
+			      	/>)
+		      	}
+	      	</div>
       	</div>	
 	);
 }

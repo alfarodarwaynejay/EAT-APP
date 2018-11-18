@@ -1,6 +1,7 @@
 import moment from 'moment';
 
 import { 
+	LOG_OUT,
 	ROUTE,
 	EVALUATE,
 	IS_GOD,
@@ -65,6 +66,13 @@ import {
 	IMAGE_SRC,
 	CAM_VISIBILITY,
 	PROFILE_SRC,
+	TOGGLE_SUCCESS,
+
+	EMP_STAT_LIST,
+	EMP_STAT_IS_PENDING,
+	EMP_STAT_ERROR,
+	EMP_STAT_SHOW,
+	EMP_STAT_ORDER,
 
 	//for thunks
 	SIGNIN_IS_PENDING,
@@ -503,16 +511,62 @@ export const setProfileState = (state=initialProfileState, action={}) => {
 			return { ...state, camVisible: action.payload };
 		case PROFILE_SUCCESS:
 			return { ...state, profileSuccess: action.payload };
-		case PROMOTE_IS_PENDING:
+		case PROFILE_IS_PENDING:
 			return { ...state, profileIsPending: action.payload };
 		case PROFILE_ERROR:
 			return { ...state, profileError: action.payload };
+		case TOGGLE_SUCCESS: 
+			return { ...state, profileSuccess: action.payload };
 		case PROFILE_RESET:
 			return initialProfileState;
 		default:
 			return state;
 	}
 }
+
+const initialEmpStatState = {
+	empStatList: [],
+	empStatIsPending: false,
+	empStatShow: false,
+	empStatError: '',
+	empStatListOrder: 'ASCENDING'
+}
+
+export const setEmpStatState = ( state=initialEmpStatState, action={}) => {
+	switch(action.type) {
+		case EMP_STAT_LIST:
+			return { ...state, empStatList: action.payload };
+		case EMP_STAT_IS_PENDING:
+			return { ...state, empStatIsPending: action.payload };
+		case EMP_STAT_SHOW:
+			return { ...state, empStatShow: action.payload };
+		case EMP_STAT_ERROR:
+			return { ...state, empStatError: action.payload };
+		case EMP_STAT_ORDER:
+			return { ...state, empStatListOrder: action.payload };
+		default:
+			return state;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,10 +8,8 @@ const Card = ({ name, img, jsx, news, grow, emplist}) => {
 				${news? 'bg-light-red w-90 ma4 ph4 pv3' : 'bg-green w-80 ma2 pa3'} 
 				${grow ? 'grow pointer' : ''} bw2 shadow-5 tc dib br4`}
 			>
-			{ !!img ?
-			  <img alt='profile_photo' src={img} />	
-			: (name && <img alt='robots' src={`https://robohash.org/${name}?100x100`} />)
-			}
+			<img alt='robots' className='br4 mv4' src={img || `https://robohash.org/${name}?100x100`} />
+			
 			{jsx}
 		</div>
 	);

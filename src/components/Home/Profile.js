@@ -10,15 +10,19 @@ import {
 	setImageSrc,
 	toggleCamVisibility,
 	profileReset,
-	setProfilePix
+	setProfilePix,
+	toggleSuccess
 } from '../../redux/actions.js';
 
 const mapStateToProps = state => {
 	return {
+		profile: state.setHomeState.profile_src,
 		user_id: state.setHomeState.user_id,
 		imgSrc: state.setProfileState.imageSrc,
 		camVisible: state.setProfileState.camVisible,
-		
+		successProf: state.setProfileState.profileSuccess,
+		pendProf: state.setProfileState.profileIsPending,
+		errorProf: state.setProfileState.profileError,
 	};
 };
 
@@ -27,13 +31,14 @@ const mapDispatchToProps = dispatch => {
 		setImgSrc: src => dispatch(setImageSrc(src)),
 		camVisibility: bool => dispatch(toggleCamVisibility(!bool)),
 		sendProfile: value => dispatch(setProfilePix(value)),
-		resetProdile: () => dispatch(profileReset())
+		resetProfile: () => dispatch(profileReset()),
+		togSuccess: bool => dispatch(toggleSuccess(!bool))
 	};
 };
 
 class Profile extends React.Component {
 	componentDidMount() {
-		//this.props.resetProfile()
+		this.props.resetProfile()
 	}
 
 	setRef = webcam => {
@@ -42,21 +47,50 @@ class Profile extends React.Component {
 
 	render() {
 		const { 
+			profile,
 			imgSrc,
 			camVisible,
 			user_id,
 			setImgSrc,
 			camVisibility,
-			sendProfile
+			sendProfile,
+			successProf,
+			pendProf,
+			errorProf,
+			togSuccess
 		} = this.props;
 
 		return (
-			<div>
-				<Headline text='Set Profile Photo' />
-				<div className='center w-70'>
+			<div className='w-90'>
+				<Modal //this modal will always show while fetching to server
+		          visible={pendProf}
+		          effect={'fadeInUp'}
+		          width={'50%'}
+		        >
+		       		<h1 className='red f4 f3-ns'>UPDATING SERVER...</h1>  
+		        </Modal>
+		        <Modal //this modal will always show while fetching to server
+		          visible={successProf}
+		          effect={'fadeInUp'}
+		          width={'50%'}
+		        >
+		        	<div className='center dib'>
+			       		<h1 className='red f4 f3-ns'>UPLOAD SUCCESS!</h1> 
+			       		<ButtonMaker 
+					     	text='OK'
+					      	style={{width: '250px'}}
+					      	className='f6 f5-ns grow pv3 bg-orange' 
+					      	onClick={() => {
+					      		togSuccess(successProf);
+					      	}} 
+					    /> 
+					</div>
+		        </Modal>
+				<Headline text='Set Profile Photo'/>
+				<div className='center'>
 					<Card 
 						jsx={
-							<div className='center dib w-80'>
+							<div className='center dib'>
 								<Modal
 							      visible={camVisible}
 							      effect={'fadeInUp'}
@@ -87,8 +121,8 @@ class Profile extends React.Component {
 							    </Modal>
 
 								<img 
-									className='br5 shadow-5 w-90' 
-									src={imgSrc || 'https://via.placeholder.com/250'} 
+									className='br5 shadow-5 w-90 br4' 
+									src={imgSrc || profile || 'https://via.placeholder.com/250'} 
 									alt='captured'
 									width='250'
 									height='250'
@@ -99,7 +133,7 @@ class Profile extends React.Component {
 					/>
 				</div>
 
-				<div className='center flex-wrap w-70 pv3'>
+				<div className='center flex-wrap pv3'>
 	      		
 		      		<ButtonMaker 
 						style={{width: '450px'}}
@@ -120,7 +154,7 @@ class Profile extends React.Component {
 					/>	
 		      	</div>
 			</div>
-		)
+		);
 	}
 }
 
