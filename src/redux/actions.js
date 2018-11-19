@@ -115,7 +115,7 @@ import {
 	PROFILE_RESET
 } from './constants.js'
 
-const HOST = 'http://localhost:3000';
+const HOST = 'https://eat-app-backend.herokuapp.com';
 
 //reset store
 export const resetStore = () => ({ type: LOG_OUT });
