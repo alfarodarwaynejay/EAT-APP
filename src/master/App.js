@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => {
 const particleOptions = {
   particles: {
     number: {
-      value: 50,
+      value: 90,
       density: {
         enable: true,
         value_area: 800

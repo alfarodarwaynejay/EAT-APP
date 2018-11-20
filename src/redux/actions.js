@@ -115,7 +115,10 @@ import {
 	PROFILE_RESET
 } from './constants.js'
 
-const HOST = 'https://eat-app-backend.herokuapp.com';
+//heroku server
+const HOST =  'https://eat-app-backend.herokuapp.com'; // 
+//local server
+// const HOST = 'http://localhost:3000';
 
 //reset store
 export const resetStore = () => ({ type: LOG_OUT });
@@ -497,7 +500,7 @@ export const onHomeMount = user_id => dispatch => {
 			if (data === 'incorrect form submission') {
 				throw Error(data);
 			} else {
-				dispatch({ type: NEWS_HOME, payload: data });
+				dispatch({ type: NEWS_HOME, payload: data.reverse() });
 			}
 
 			dispatch({ type: NEWS_IS_PENDING, payload: false });
